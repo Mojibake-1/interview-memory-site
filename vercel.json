@@ -1,0 +1,44 @@
+{
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/roadmap",
+      "destination": "/roadmap.html"
+    },
+    {
+      "source": "/lecture0",
+      "destination": "/lecture0.html"
+    },
+    {
+      "source": "/lecture1",
+      "destination": "/lecture1.html"
+    },
+    {
+      "source": "/lecture2",
+      "destination": "/lecture2.html"
+    },
+    {
+      "source": "/lecture3",
+      "destination": "/lecture3.html"
+    },
+    {
+      "source": "/lecture4",
+      "destination": "/lecture4.html"
+    },
+    {
+      "source": "/lecture5",
+      "destination": "/lecture5.html"
+    },
+    {
+      "source": "/lecture6",
+      "destination": "/lecture6.html"
+    },
+    {
+      "source": "/api/cards",
+      "destination": "/data/cards.json"
+    }
+  ]
+}
