@@ -22,3 +22,4 @@ yarn-error.log*
 
 # local backups
 _backup_js_node/
+.vercel
