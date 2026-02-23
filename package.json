@@ -1,0 +1,19 @@
+{
+  "name": "interview-memory-site",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interview concept memory site — TypeScript frontend + Go backend",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "start": "npm run build && go build -o interview_site main.go && ./interview_site",
+    "serve": "./interview_site"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.2.0"
+  }
+}

@@ -1,0 +1,331 @@
+{
+  "deckId": "cs50p-lecture1",
+  "title": "CS50P Lecture 1: Conditionals",
+  "subtitle": "按课堂顺序拆解的条件语句记忆卡片（共 19 节）",
+  "updatedAt": "2026-02-19",
+  "cards": [
+    {
+      "id": "l1-01",
+      "order": 1,
+      "section": "条件语句的核心概念",
+      "sectionEn": "The Core of Conditionals",
+      "core": "条件语句让程序根据真假结果选择不同路径执行，不再只是固定直线流程。",
+      "question": "为什么说条件语句赋予程序“决策”能力？没有条件语句时执行流会怎样？",
+      "quote": "Conditionals let you ask questions and choose this line or that line, like taking forks in the road.",
+      "quoteTime": "00:30",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=30",
+      "expandedAnswer": "所谓“决策”，本质是让程序在运行时根据输入或状态做分支选择。没有条件语句，程序只能线性从上到下执行，同一份输入和不同输入都走同一条路，无法对外部变化做响应。条件语句把程序从“脚本播放”升级为“根据上下文反应”的系统。",
+      "keyPoints": [
+        "条件语句 = 运行时分支选择",
+        "没有分支就只有线性执行",
+        "分支能力是程序智能行为的基础"
+      ]
+    },
+    {
+      "id": "l1-02",
+      "order": 2,
+      "section": "比较运算符与赋值的区别",
+      "sectionEn": "Comparison vs Assignment",
+      "core": "`=` 在 Python 中是赋值，`==` 才是相等比较；二者语义完全不同。",
+      "question": "为什么语言要用 `==` 表示相等？混用 `=` 和 `==` 会造成什么错误？",
+      "quote": "Single `=` is assignment; equality checks use `==` in Python and many other languages.",
+      "quoteTime": "01:35",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=95",
+      "expandedAnswer": "编程语言把“把值放进变量”与“判断两边是否相等”故意分成两种操作，避免歧义。`=` 是命令式动作，`==` 是布尔判断。若概念混淆，会在写条件时产生逻辑错误，代码看似在比较，实际却在做赋值（在某些语言中尤其危险）。",
+      "keyPoints": [
+        "`=` 是写入动作",
+        "`==` 是真假判断",
+        "区分两者能避免条件逻辑错误"
+      ]
+    },
+    {
+      "id": "l1-03",
+      "order": 3,
+      "section": "if 语句与布尔表达式",
+      "sectionEn": "if and Boolean Expressions",
+      "core": "`if` 后接布尔表达式，结果为真才执行缩进代码块。",
+      "question": "Python 中 `if` 后代码必须缩进，这在语法层面意味着什么？",
+      "quote": "Indentation tells Python that a line belongs to the `if` and runs only when the condition is true.",
+      "quoteTime": "05:04",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=304",
+      "expandedAnswer": "Python 用缩进直接表示代码结构，而不是靠花括号。缩进不仅是风格，而是语法。它让“哪段代码受条件控制”一眼可见，强制代码结构和视觉结构一致。这样做提升可读性，但也要求你对层级关系保持严格一致。",
+      "keyPoints": [
+        "缩进是 Python 的语法信号",
+        "代码块从属关系由缩进定义",
+        "结构可视化提升可读性"
+      ]
+    },
+    {
+      "id": "l1-04",
+      "order": 4,
+      "section": "控制流的可视化",
+      "sectionEn": "Flowcharts and Control Flow",
+      "core": "流程图能把条件分支可视化，帮助识别重复判断与低效路径。",
+      "question": "如何通过流程图结构判断代码存在无用判断？",
+      "quote": "If you are always asking multiple questions regardless of path, some later checks may be unnecessary.",
+      "quoteTime": "09:36",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=576",
+      "expandedAnswer": "当流程图里出现“不同路径最后都回到重复菱形判断”时，常意味着程序在做已知结果的重复提问。优化思路是把条件组织成互斥链或提前返回，让每次判断都产生新信息。流程图的价值是把隐藏在代码里的冗余显式暴露。",
+      "keyPoints": [
+        "重复菱形往往提示冗余判断",
+        "每个分支都应提供新信息",
+        "流程图是优化控制流的诊断工具"
+      ]
+    },
+    {
+      "id": "l1-05",
+      "order": 5,
+      "section": "互斥条件与 elif 的引入",
+      "sectionEn": "Mutual Exclusivity with elif",
+      "core": "`elif` 把多个条件串成互斥链，一旦命中一个分支，后续条件不再检查。",
+      "question": "`if-if-if` 与 `if-elif-elif` 在互斥场景下本质区别是什么？",
+      "quote": "With `elif`, you keep asking only if no prior condition has already been true.",
+      "quoteTime": "10:35",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=635",
+      "expandedAnswer": "多个独立 `if` 会把每个条件都计算一遍，即使前面已经确定答案。`if/elif` 表达的是“同一问题下的候选答案”，命中后立即短路退出，减少无效比较。它不仅更高效，也更准确地表达“这些条件互斥”的业务语义。",
+      "keyPoints": [
+        "独立 if 会重复判断",
+        "elif 链具有短路特性",
+        "互斥语义应使用互斥结构表达"
+      ]
+    },
+    {
+      "id": "l1-06",
+      "order": 6,
+      "section": "else 的逻辑必然性",
+      "sectionEn": "Logical Necessity of else",
+      "core": "当前置条件已排除所有其他可能时，`else` 代表唯一剩余情况。",
+      "question": "比较 `x` 与 `y` 时，为什么检查完 `<` 和 `>` 后再写 `==` 常常是多余的？",
+      "quote": "If the first two comparisons are false, equality is the only remaining truth, so no third question is needed.",
+      "quoteTime": "15:48",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=948",
+      "expandedAnswer": "对于两个实数关系，`<`、`>`、`==` 三者构成完备划分。当前两个条件为假时，第三个结论逻辑上必然成立。用 `else` 体现的是“利用已知信息避免重复提问”的思维，也体现了程序员应尽量减少不必要计算和噪声分支。",
+      "keyPoints": [
+        "互斥且完备时可用 else 收口",
+        "else 表示剩余全集",
+        "减少多余提问是良好逻辑设计"
+      ]
+    },
+    {
+      "id": "l1-07",
+      "order": 7,
+      "section": "or 关键字与逻辑组合",
+      "sectionEn": "Combining Conditions with or",
+      "core": "`or` 把多个“任一满足即可”的条件合并为一个判断，减少重复代码。",
+      "question": "把多个条件用 `or` 合并，对控制流图有什么简化作用？",
+      "quote": "We do not need extra boxes and arrows; we can reuse lines of code.",
+      "quoteTime": "20:58",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1258",
+      "expandedAnswer": "当多个条件对应同一处理动作时，用 `or` 把路径汇合，控制流从“多分支重复终点”变成“一个统一入口”。这降低了重复和维护成本。后续如果处理动作变化，只改一处代码，避免多处同步修改导致不一致。",
+      "keyPoints": [
+        "or 表示并集条件",
+        "同动作分支应合并",
+        "减少重复提高可维护性"
+      ]
+    },
+    {
+      "id": "l1-08",
+      "order": 8,
+      "section": "不等于运算符的妙用",
+      "sectionEn": "Using != to Simplify Logic",
+      "core": "当你只关心“是否不同”时，用 `!=` 往往比拆成多个比较更直接。",
+      "question": "哪些场景下 `!=` 比 `==` 或大小比较更能简化逻辑？",
+      "quote": "If all you care about is 'not equal', ask exactly that.",
+      "quoteTime": "22:14",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1334",
+      "expandedAnswer": "常见场景是异常值过滤、权限拒绝、状态差异检测。与其先判断多个方向（大于/小于），不如直接表达目标条件“不同即处理”。这是一种“围绕需求最小表达”的写法：只编码你真正关心的信息。",
+      "keyPoints": [
+        "表达式应贴合真实需求",
+        "`!=` 适合差异检测与排除逻辑",
+        "减少分支可降低复杂度"
+      ]
+    },
+    {
+      "id": "l1-09",
+      "order": 9,
+      "section": "Python 的缩进强制性",
+      "sectionEn": "Indentation as a Language Rule",
+      "core": "Python 把缩进作为强制语法，代码不按层级缩进会报错或逻辑错位。",
+      "question": "相比 `{}` 语言，Python 强制缩进的设计意图是什么？不缩进会怎样？",
+      "quote": "Python enforces indentation; without it, your code simply will not work.",
+      "quoteTime": "24:29",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1469",
+      "expandedAnswer": "强制缩进把“可读性要求”升级为“编译要求”，减少“格式漂亮但结构混乱”的情况。好处是团队代码风格更统一，结构错误更早暴露。若缩进错误，最直接后果是语法错误；更隐蔽的是逻辑块错位导致行为与预期不同。",
+      "keyPoints": [
+        "缩进即结构",
+        "统一风格降低协作成本",
+        "缩进错误可能导致语法或逻辑问题"
+      ]
+    },
+    {
+      "id": "l1-10",
+      "order": 10,
+      "section": "and 关键字与范围判定",
+      "sectionEn": "Range Checks with and",
+      "core": "`and` 要求所有子条件同时成立，常用于判断值是否落在某一区间。",
+      "question": "为什么说 `and` 比 `or` 更严格？",
+      "quote": "For grade A, score must satisfy both lower and upper bounds.",
+      "quoteTime": "26:42",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1602",
+      "expandedAnswer": "`and` 对应逻辑交集，任一条件不满足就整体为假，所以筛选更窄、更严格；`or` 对应并集，只要命中一个就为真。范围判断本质是“同时满足下界和上界”，因此 `and` 是自然选择。",
+      "keyPoints": [
+        "and = 交集",
+        "or = 并集",
+        "区间条件天然适合 and"
+      ]
+    },
+    {
+      "id": "l1-11",
+      "order": 11,
+      "section": "Python 链式比较",
+      "sectionEn": "Chained Comparisons",
+      "core": "Python 支持 `90 <= score <= 100` 这种链式写法，语义与数学表达一致。",
+      "question": "链式比较底层等价于什么？优势只是少打字吗？",
+      "quote": "You can write comparisons in Python much like on paper, and it is cleaner to read.",
+      "quoteTime": "30:08",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1808",
+      "expandedAnswer": "它等价于 `90 <= score and score <= 100`。核心优势不是省字符，而是减少重复变量、降低视觉噪声，让人更快理解区间语义。对代码审查和后期维护来说，可读性收益远大于“写得短”。",
+      "keyPoints": [
+        "语义等价于 and 组合",
+        "代码更接近数学语言",
+        "主要收益是可读性与认知效率"
+      ]
+    },
+    {
+      "id": "l1-12",
+      "order": 12,
+      "section": "利用执行顺序简化逻辑",
+      "sectionEn": "Using Evaluation Order",
+      "core": "在 `if/elif` 链中，后续条件可依赖前面已被排除的事实，从而省略冗余边界。",
+      "question": "为什么按 `>= 90`、`>= 80` 写时，不必再写 `< 90`？",
+      "quote": "If execution reaches `>= 80`, you already know `>= 90` was false.",
+      "quoteTime": "31:45",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=1905",
+      "expandedAnswer": "`elif` 的含义是“仅当前面都不成立时才检查这里”。所以到第二个条件时，前提事实已经自动成立：前一个高阈值不满足。这个“隐式前提”来自控制流顺序本身，合理利用能减少重复条件并让代码更干净。",
+      "keyPoints": [
+        "elif 自带前置否定信息",
+        "顺序本身就是逻辑约束",
+        "利用执行上下文可消除冗余判断"
+      ]
+    },
+    {
+      "id": "l1-13",
+      "order": 13,
+      "section": "取模运算符",
+      "sectionEn": "Modulo Operator",
+      "core": "`%` 返回除法余数，常用于整除判断、奇偶检测和周期性规则计算。",
+      "question": "除了奇偶判断，取模在计算机科学里还有哪些常见用途？",
+      "quote": "Modulo computes the remainder when dividing one number by another.",
+      "quoteTime": "35:00",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=2100",
+      "expandedAnswer": "`%` 常用于循环索引回绕（如轮播、环形队列）、分片路由（按 `id % N` 分桶）、定期触发（每隔 k 次执行一次）、以及哈希表中的桶定位。共同点是把无限数轴映射到有限范围，处理“周期性”和“离散分组”问题。",
+      "keyPoints": [
+        "取模是处理周期问题的核心工具",
+        "常用于回绕索引与分桶",
+        "本质是把大范围映射到有限集合"
+      ]
+    },
+    {
+      "id": "l1-14",
+      "order": 14,
+      "section": "封装逻辑到函数",
+      "sectionEn": "Boolean Functions",
+      "core": "把布尔判断封装为 `is_even(n)` 可提高复用性，让主流程更像自然语言。",
+      "question": "为什么要把 `n % 2 == 0` 封装进函数？这对 `main` 可读性有什么价值？",
+      "quote": "Defining your own boolean function lets you reuse logic and use that function itself as a condition.",
+      "quoteTime": "41:50",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=2510",
+      "expandedAnswer": "函数命名可以把“实现细节”提升为“业务意图”。`if is_even(x):` 比 `if x % 2 == 0:` 更像领域语言。封装后如果规则变化（如扩展到某种特殊偶数定义），只改函数内部即可，调用方不用动。",
+      "keyPoints": [
+        "命名函数提升表达层级",
+        "封装带来复用和集中维护",
+        "主流程更聚焦业务逻辑"
+      ]
+    },
+    {
+      "id": "l1-15",
+      "order": 15,
+      "section": "Pythonic 写法：条件表达式",
+      "sectionEn": "Conditional Expressions",
+      "core": "Python 可用 `A if condition else B` 把简单 `if/else` 压成单行表达式。",
+      "question": "这种单行写法何时是好实践，何时会伤害可读性？",
+      "quote": "Python can collapse simple if/else into one elegant line that reads like English.",
+      "quoteTime": "45:05",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=2705",
+      "expandedAnswer": "当分支逻辑很短、两侧返回值简单时，条件表达式很清晰；当嵌套多层或包含复杂调用时，单行会让阅读成本飙升。判断标准不是“能不能写成一行”，而是“团队最快读懂且不易误改”。",
+      "keyPoints": [
+        "简单分支适合单行表达",
+        "复杂逻辑应回到多行结构",
+        "可读性优先于炫技巧"
+      ]
+    },
+    {
+      "id": "l1-16",
+      "order": 16,
+      "section": "直接返回布尔表达式",
+      "sectionEn": "Return Boolean Expressions Directly",
+      "core": "若表达式本身就是 `True/False`，直接 `return` 表达式即可，无需再套 `if`。",
+      "question": "为什么 `return n % 2 == 0` 比 `if ... return True` 更专业？",
+      "quote": "If your expression already evaluates to true/false, return it directly instead of asking again.",
+      "quoteTime": "46:40",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=2800",
+      "expandedAnswer": "`if expr: return True else: return False` 在语义上只是重复了 `expr` 的结果。直接返回表达式更短、更清晰、分支更少，也减少将来改错风险。这体现的是“消除冗余控制流”的工程习惯。",
+      "keyPoints": [
+        "布尔表达式可直接返回",
+        "减少冗余分支更简洁",
+        "简洁写法通常更不易出错"
+      ]
+    },
+    {
+      "id": "l1-17",
+      "order": 17,
+      "section": "Match 语句",
+      "sectionEn": "match Statement",
+      "core": "`match/case` 让多值匹配更紧凑，减少重复比较表达式。",
+      "question": "相比长串 `if-elif-else`，`match` 在结构上有哪些优势？",
+      "quote": "`match` is similar in spirit and can express the same ideas more compactly.",
+      "quoteTime": "51:33",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=3093",
+      "expandedAnswer": "`if/elif` 往往重复写同一个变量比较；`match` 把“被匹配对象”放在顶部一次声明，下面按 `case` 列举模式，结构更像查表。它让分支列表更规整，便于补全分支、审查漏项，也为后续模式匹配能力留出空间。",
+      "keyPoints": [
+        "match 减少重复比较代码",
+        "case 列表结构更清晰",
+        "适合值枚举型分支场景"
+      ]
+    },
+    {
+      "id": "l1-18",
+      "order": 18,
+      "section": "Match 中的通配符",
+      "sectionEn": "Wildcard Case `_`",
+      "core": "`case _:` 是默认兜底分支，处理未被前面 case 捕获的所有情况。",
+      "question": "`case _:` 等价于 `if` 结构中的什么？为什么应尽量保留它？",
+      "quote": "Use underscore as the catch-all for any case not yet handled.",
+      "quoteTime": "53:26",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=3206",
+      "expandedAnswer": "它等价于 `else`。兜底分支能防止程序在未知输入下静默失败，至少给出默认提示、日志或保护行为。在真实系统里，未覆盖分支往往是线上 bug 来源，`case _` 是防御式编程的重要一环。",
+      "keyPoints": [
+        "`case _` = 默认分支",
+        "可处理未预期输入",
+        "兜底逻辑提升健壮性"
+      ]
+    },
+    {
+      "id": "l1-19",
+      "order": 19,
+      "section": "Match 中的多重匹配",
+      "sectionEn": "Multiple Values with `|`",
+      "core": "在同一 `case` 中用 `|` 匹配多个值，可把同处理逻辑的输入合并。",
+      "question": "`case A | B` 解决了传统 switch/if 写法的哪些痛点？",
+      "quote": "A single vertical bar lets you express 'this or that' more concisely in match.",
+      "quoteTime": "54:21",
+      "quoteUrl": "http://www.youtube.com/watch?v=_b6NgY_pMdw&t=3261",
+      "expandedAnswer": "它避免了为相同行为重复写多个分支，也避免某些语言里依赖 `fallthrough` 带来的可读性和安全问题。把同类输入合并在一个 `case`，意图更清楚，维护时也不容易漏改。",
+      "keyPoints": [
+        "`|` 合并同逻辑多输入",
+        "减少重复与潜在 fallthrough 风险",
+        "代码意图更集中、更易维护"
+      ]
+    }
+  ]
+}

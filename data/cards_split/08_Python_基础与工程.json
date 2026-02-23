@@ -1,0 +1,312 @@
+[
+  {
+    "id": "py_variable_binding",
+    "term": "变量与名称绑定",
+    "category": "Python 基础与工程",
+    "core": "Python 变量保存的是“对象引用”而不是独立值副本，理解绑定关系是排查可变对象 bug 的起点。",
+    "boundary": "把赋值理解成“复制一份新对象”会在列表、字典场景下踩共享引用坑。",
+    "signal": "当你改了 A 变量却发现 B 也变了，通常是同一对象被多个名字绑定。",
+    "action": "用 `id(obj)` 验证是否同对象；需要副本时显式使用 `copy()` 或 `deepcopy()`。",
+    "aliases": []
+  },
+  {
+    "id": "py_dynamic_typing",
+    "term": "动态类型",
+    "category": "Python 基础与工程",
+    "core": "动态类型意味着类型检查发生在运行期，开发速度快，但错误暴露更依赖测试覆盖。",
+    "boundary": "把“动态”理解成“可以随意混类型”会让函数契约变得不可预测。",
+    "signal": "函数在某些输入正常、某些输入崩溃时，往往是类型约束没有写清。",
+    "action": "关键函数加类型注解并在入口做 `isinstance` 校验；配合 mypy/pytest 兜底。",
+    "aliases": []
+  },
+  {
+    "id": "py_type_hints",
+    "term": "类型提示 Type Hints",
+    "category": "Python 基础与工程",
+    "core": "类型提示提升可读性和可维护性，让 IDE 与静态检查工具提前发现不匹配调用。",
+    "boundary": "注解写了却从不校验，等于把文档当装饰品。",
+    "signal": "代码规模扩大、多人协作或函数参数复杂时，type hints 会明显降低沟通成本。",
+    "action": "从公共接口开始补注解，CI 加 `mypy` 检查；对复杂返回值优先用 `TypedDict` 或 dataclass。",
+    "aliases": []
+  },
+  {
+    "id": "py_int_float_str",
+    "term": "int/float/str 基本类型",
+    "category": "Python 基础与工程",
+    "core": "`int/float/str` 的差异不只在存储类型，还影响比较、序列化和精度行为。",
+    "boundary": "把金额等精确数值用 float 处理，容易出现累计误差。",
+    "signal": "涉及用户输入解析、金额计算、接口序列化时，基础类型选择会直接影响正确性。",
+    "action": "外部输入先做显式转换和异常捕获；金额优先 `Decimal`，展示层再转字符串。",
+    "aliases": []
+  },
+  {
+    "id": "py_bool_truthy",
+    "term": "Truthy/Falsy",
+    "category": "Python 基础与工程",
+    "core": "Truthy/Falsy 规则决定对象在条件判断中的行为，能写出简洁代码，也容易引发隐式判断误解。",
+    "boundary": "把“空字符串、0、None”混为同一语义，会让业务分支错误触发。",
+    "signal": "条件判断看似正确但出现漏判时，先确认对象的布尔语义。",
+    "action": "对关键分支用显式判断：`is None`、`== 0`、`len(x)==0`，避免过度依赖隐式 truthy。",
+    "aliases": []
+  },
+  {
+    "id": "py_list_basics",
+    "term": "列表 List 基础",
+    "category": "Python 基础与工程",
+    "core": "List 是有序可变序列，适合频繁追加和按位置访问，但中间插入删除成本较高。",
+    "boundary": "把 list 当集合去重会造成性能和语义双重问题。",
+    "signal": "数据规模增长后出现处理变慢，需要回看列表操作模式是否匹配。",
+    "action": "追加用 `append/extend`，查重或成员判断频繁时改用 `set` 或 `dict`。",
+    "aliases": []
+  },
+  {
+    "id": "py_dict_basics",
+    "term": "字典 Dict 基础",
+    "category": "Python 基础与工程",
+    "core": "Dict 通过键快速定位值，适合配置、索引和聚合场景，是 Python 最常用的数据骨架。",
+    "boundary": "直接索引不存在键会抛 `KeyError`，线上常见于脏数据输入。",
+    "signal": "解析 API 响应或按 id 聚合数据时，dict 往往是第一选择。",
+    "action": "读取用 `get` 提供默认值；嵌套字典先判空再取值，必要时封装安全读取函数。",
+    "aliases": []
+  },
+  {
+    "id": "py_tuple_set",
+    "term": "元组与集合",
+    "category": "Python 基础与工程",
+    "core": "Tuple 强调不可变结构，Set 强调无序去重，两者都用于表达“边界明确”的数据语义。",
+    "boundary": "依赖 set 的顺序会得到不稳定结果，测试容易偶发失败。",
+    "signal": "需要唯一值集合或作为字典键的不可变结构时，应在 tuple/set 间明确选择。",
+    "action": "去重用 `set(data)`，需要稳定顺序就先排序；固定记录结构用 tuple 或 dataclass。",
+    "aliases": []
+  },
+  {
+    "id": "py_list_comprehension",
+    "term": "列表推导式",
+    "category": "Python 基础与工程",
+    "core": "列表推导式适合中小规模数据转换，把“遍历+过滤+映射”压缩为可读表达式。",
+    "boundary": "在推导式里塞多层复杂逻辑会牺牲可维护性。",
+    "signal": "当你写出 4 行以内的简单循环转换时，推导式通常更清晰。",
+    "action": "规则是“单层循环 + 可读条件”；超过这个复杂度就改回普通 for 循环并加注释。",
+    "aliases": []
+  },
+  {
+    "id": "py_dict_comprehension",
+    "term": "字典推导式",
+    "category": "Python 基础与工程",
+    "core": "字典推导式用于快速构建索引映射，常见于字段投影、反查表和统计结果组装。",
+    "boundary": "键冲突时后值覆盖前值，若无意识会造成数据静默丢失。",
+    "signal": "从列表生成 id->对象 的索引结构时，dict 推导式效率和可读性都很高。",
+    "action": "先确认键唯一性；不唯一场景改用 `defaultdict(list)` 做聚合。",
+    "aliases": []
+  },
+  {
+    "id": "py_generator_yield",
+    "term": "生成器与 yield",
+    "category": "Python 基础与工程",
+    "core": "生成器通过惰性计算按需产出数据，能把大数据处理从“吃内存”改为“走流式”。",
+    "boundary": "把一次性可迭代对象重复消费会得到空结果，这是生成器常见陷阱。",
+    "signal": "处理日志、文件或分页接口时，数据量大到不适合一次全载入时应优先考虑 generator。",
+    "action": "函数中使用 `yield` 逐条返回；必要时用 `itertools.tee` 或先 `list()` 固化避免二次消费问题。",
+    "aliases": []
+  },
+  {
+    "id": "py_if_elif_else",
+    "term": "if/elif/else 条件语句",
+    "category": "Python 基础与工程",
+    "core": "条件分支的关键不是语法，而是把业务规则写成互斥且可读的判定顺序。",
+    "boundary": "分支条件重叠会让结果依赖代码顺序，后续维护非常脆弱。",
+    "signal": "规则越来越多时，if 链会迅速膨胀，需要重构成映射表或策略模式。",
+    "action": "先写“最特殊到最一般”的顺序；每个分支补单测，防止新增规则破坏既有逻辑。",
+    "aliases": []
+  },
+  {
+    "id": "py_for_loop",
+    "term": "for 循环与可迭代对象",
+    "category": "Python 基础与工程",
+    "core": "for 循环基于迭代协议，天然适合遍历集合并逐步累计结果。",
+    "boundary": "手动管理索引容易越界或漏元素，除非确有必要不必写 C 风格循环。",
+    "signal": "需要按元素处理、统计或转换数据时，for 循环最直观。",
+    "action": "优先用 `for item in data`；需要索引时用 `enumerate(data)`，避免手写计数器。",
+    "aliases": []
+  },
+  {
+    "id": "py_while_loop",
+    "term": "while 循环与哨兵模式",
+    "category": "Python 基础与工程",
+    "core": "while 适合“条件驱动直到满足退出”的场景，如重试、轮询和状态机推进。",
+    "boundary": "忘记更新退出条件会造成死循环，生产环境风险很高。",
+    "signal": "当循环次数不可预知且由外部状态决定时，while 比 for 更贴切。",
+    "action": "设置明确哨兵条件和最大迭代次数；重试循环里记录当前次数和最后错误。",
+    "aliases": []
+  },
+  {
+    "id": "py_function_def",
+    "term": "函数定义与调用",
+    "category": "Python 基础与工程",
+    "core": "函数定义的价值是抽象重复逻辑并明确输入输出契约，不只是“把代码包起来”。",
+    "boundary": "函数职责过多会导致测试困难和复用失败。",
+    "signal": "同一段逻辑出现两次以上时，就应考虑提取函数。",
+    "action": "函数名写业务动词，参数控制在可读范围内；返回值结构固定并写 docstring。",
+    "aliases": []
+  },
+  {
+    "id": "py_args_kwargs",
+    "term": "*args 与 **kwargs",
+    "category": "Python 基础与工程",
+    "core": "`*args/**kwargs` 让函数支持可变参数，适合封装中间层透传和扩展接口。",
+    "boundary": "滥用可变参数会掩盖真实接口契约，调用方难以发现拼写错误。",
+    "signal": "你在写装饰器、代理函数或 SDK 封装时，经常需要透传未知参数。",
+    "action": "对外公开函数尽量显式参数；仅在桥接层使用 `*args/**kwargs` 并补参数校验。",
+    "aliases": []
+  },
+  {
+    "id": "py_lambda",
+    "term": "lambda 匿名函数",
+    "category": "Python 基础与工程",
+    "core": "lambda 适合短小、一次性的函数表达，常用于排序键和简单映射。",
+    "boundary": "把复杂逻辑塞进 lambda 会降低可读性，也不便调试。",
+    "signal": "当函数只用一次且逻辑一眼可读时，lambda 能减少样板代码。",
+    "action": "限定为单表达式；超过一行语义时改成 `def` 并命名。",
+    "aliases": []
+  },
+  {
+    "id": "py_scope_legb",
+    "term": "LEGB 作用域",
+    "category": "Python 基础与工程",
+    "core": "LEGB 规则定义变量解析顺序（Local/Enclosing/Global/Builtins），决定你读到的到底是哪个名字。",
+    "boundary": "在函数里误改全局变量会制造隐蔽副作用。",
+    "signal": "遇到“变量值和预期不一致”时，先按 LEGB 路径定位名称来源。",
+    "action": "避免同名遮蔽；需要修改外层变量时显式使用 `nonlocal` 或 `global` 并写注释。",
+    "aliases": []
+  },
+  {
+    "id": "py_exception_try",
+    "term": "异常处理 try/except/finally",
+    "category": "Python 基础与工程",
+    "core": "异常处理把“非正常路径”显式化，关键在于分类处理和资源收尾，而不是吞掉错误。",
+    "boundary": "裸 `except` 会掩盖真实问题，导致故障长期潜伏。",
+    "signal": "涉及 IO、网络、外部依赖的代码必须先设计异常路径。",
+    "action": "只捕获明确异常类型；在 `finally` 做清理，并在日志中记录上下文参数。",
+    "aliases": []
+  },
+  {
+    "id": "py_raise_custom",
+    "term": "自定义异常与 raise",
+    "category": "Python 基础与工程",
+    "core": "自定义异常用于表达业务语义错误，让调用方能按错误类型做差异化处理。",
+    "boundary": "到处抛 `Exception` 会让上层无法判断是参数错、状态错还是系统错。",
+    "signal": "当业务规则复杂且需要明确失败原因时，应定义领域异常。",
+    "action": "定义 `class BizError(Exception)`；异常信息包含关键字段，调用层按类型捕获并映射返回码。",
+    "aliases": []
+  },
+  {
+    "id": "py_with_context",
+    "term": "with 上下文管理器",
+    "category": "Python 基础与工程",
+    "core": "with 上下文管理器把资源获取和释放绑定到作用域，避免异常分支遗漏清理。",
+    "boundary": "手动 open/close 一旦中途抛错，资源可能泄漏。",
+    "signal": "文件、数据库连接、锁、临时目录等需要成对管理资源时，优先使用 with。",
+    "action": "对支持上下文协议的对象统一改为 `with ... as ...`；自定义资源实现 `__enter__/__exit__`。",
+    "aliases": []
+  },
+  {
+    "id": "py_file_io",
+    "term": "文件读写 open/read/write",
+    "category": "Python 基础与工程",
+    "core": "文件读写要同时考虑编码、模式和错误处理，才能保证跨平台和大文件场景稳定。",
+    "boundary": "省略编码参数在不同系统上可能出现乱码或解码失败。",
+    "signal": "处理日志、配置或导入导出文件时，I/O 细节会直接决定结果正确性。",
+    "action": "文本文件统一 `encoding=\"utf-8\"`；大文件用分块读取，写入后立即 flush/close。",
+    "aliases": []
+  },
+  {
+    "id": "py_pathlib",
+    "term": "pathlib 路径操作",
+    "category": "Python 基础与工程",
+    "core": "pathlib 以对象方式操作路径，提升跨平台兼容性和代码可读性。",
+    "boundary": "手拼路径分隔符在不同操作系统上易出错。",
+    "signal": "项目涉及大量文件路径拼接、遍历、存在性判断时，pathlib 比 `os.path` 更直观。",
+    "action": "用 `Path` 处理路径、`glob` 搜索文件、`mkdir(parents=True, exist_ok=True)` 创建目录。",
+    "aliases": []
+  },
+  {
+    "id": "py_module_import",
+    "term": "模块与 import 机制",
+    "category": "Python 基础与工程",
+    "core": "import 机制决定命名空间和依赖加载顺序，合理模块化是工程代码可扩展的前提。",
+    "boundary": "循环导入通常来自边界不清，后期会引发启动错误和隐式副作用。",
+    "signal": "项目从脚本增长为包结构时，必须重构模块边界和导入路径。",
+    "action": "公共类型放独立模块；入口文件避免反向依赖业务层，必要时用延迟导入解循环。",
+    "aliases": []
+  },
+  {
+    "id": "py_virtualenv",
+    "term": "虚拟环境 venv",
+    "category": "Python 基础与工程",
+    "core": "虚拟环境用于隔离项目依赖，避免不同项目互相污染 Python 包版本。",
+    "boundary": "直接使用系统 Python 安装包，常导致“在我机器能跑”问题。",
+    "signal": "同机多项目开发或线上问题复现时，虚拟环境是基本盘。",
+    "action": "执行 `python3 -m venv .venv` 并激活；把解释器路径固定到项目级配置。",
+    "aliases": []
+  },
+  {
+    "id": "py_pip_requirements",
+    "term": "pip 与 requirements.txt",
+    "category": "Python 基础与工程",
+    "core": "requirements.txt 固化依赖版本，让团队和 CI 安装结果可复现。",
+    "boundary": "只写无版本依赖会导致时间推移后环境漂移。",
+    "signal": "部署失败、测试偶发失败且与依赖升级相关时，要先审查依赖锁定策略。",
+    "action": "开发稳定后执行 `pip freeze > requirements.txt`；变更依赖时同步更新并在 CI 复验。",
+    "aliases": []
+  },
+  {
+    "id": "py_class_basics",
+    "term": "类与实例基础",
+    "category": "Python 基础与工程",
+    "core": "类把状态与行为封装在一起，适合表达有生命周期和不变量的业务对象。",
+    "boundary": "为简单数据流程强行上类会增加样板代码。",
+    "signal": "当多个函数反复传递同一组字段且存在方法语义时，类模型更合适。",
+    "action": "先定义最小字段和核心方法；把校验放在 `__init__` 或工厂方法里。",
+    "aliases": []
+  },
+  {
+    "id": "py_dunder_methods",
+    "term": "魔术方法 __init__/__str__/__repr__",
+    "category": "Python 基础与工程",
+    "core": "魔术方法定义对象在语言协议中的行为，如构造、打印、比较、迭代。",
+    "boundary": "只实现 `__str__` 不实现 `__repr__`，调试日志可读性会下降。",
+    "signal": "对象需要在日志、交互式调试或容器操作中表现一致时，要补齐关键 dunder。",
+    "action": "至少实现 `__repr__` 用于调试；涉及排序或哈希时再实现 `__eq__`、`__hash__`。",
+    "aliases": []
+  },
+  {
+    "id": "py_dataclass",
+    "term": "dataclass 数据类",
+    "category": "Python 基础与工程",
+    "core": "dataclass 适合“以数据为中心”的对象，自动生成构造和比较逻辑，减少模板代码。",
+    "boundary": "可变默认值处理不当会造成实例间共享状态。",
+    "signal": "当类主要用于承载字段而非复杂行为时，dataclass 能提升开发效率。",
+    "action": "使用 `field(default_factory=list)` 处理可变字段；必要时设置 `frozen=True` 强化不可变性。",
+    "aliases": []
+  },
+  {
+    "id": "py_string_methods",
+    "term": "字符串常用方法",
+    "category": "Python 基础与工程",
+    "core": "字符串方法是文本清洗基础设施，直接影响日志解析、输入校验和数据标准化质量。",
+    "boundary": "链式调用过多且无中间变量，会让调试定位困难。",
+    "signal": "处理用户输入、文件内容或网页文本时，字符串规范化是第一步。",
+    "action": "常用顺序：`strip -> normalize case -> replace -> split/join`，每步保留单测样例。",
+    "aliases": []
+  },
+  {
+    "id": "py_regex_basics",
+    "term": "正则表达式基础 re",
+    "category": "Python 基础与工程",
+    "core": "正则用于模式匹配和提取，擅长半结构化文本处理，但需要控制复杂度。",
+    "boundary": "用一个超长正则解决所有问题，后期几乎不可维护。",
+    "signal": "当字符串规则稳定且重复出现时，可用正则替代手写切片逻辑。",
+    "action": "从最小可读模式开始，使用命名分组并配 `re.compile`；关键模式附测试样例。",
+    "aliases": []
+  }
+]

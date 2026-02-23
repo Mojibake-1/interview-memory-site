@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CS50P Lecture 6 记忆卡片</title>
+  <meta name="description" content="把 CS50P Lecture 6 File I/O 的核心知识拆成可翻转记忆卡，并记录掌握进度。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./lecture0.css">
+</head>
+
+<body data-deck-file="/data/lecture6-cards.json" data-storage-key="cs50p_lecture6_progress_v1">
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="cover">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <a class="back-link" href="/">返回主页</a>
+      <div style="display: flex; gap: 12px;">
+        <a class="back-link" href="/lecture5">⬅ 上一课</a>
+      </div>
+    </div>
+    <p class="kicker">CS50P MEMORY LAB</p>
+    <h1>CS50P L6 (File I/O)</h1>
+    <p class="lead">一份专为导入 Obsidian 设计的 CS50P 第 6 讲（File I/O）复习笔记，内容涵盖了视频中的 16 个小节。</p>
+
+    <div class="cover-meta">
+      <article class="meta-card">
+        <span>卡片总数</span>
+        <strong id="statTotal">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>已掌握</span>
+        <strong id="statMastered">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>已复习次数</span>
+        <strong id="statReviews">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>数据更新时间</span>
+        <strong id="statUpdated">-</strong>
+      </article>
+    </div>
+  </header>
+
+  <main class="shell">
+    <div class="intro-video-container"
+      style="max-width: 1000px; margin: 0 auto 40px auto; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border);">
+      <video width="100%" controls style="display: block;">
+        <source src="./assets/l6.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <aside class="deck-nav panel">
+      <div class="deck-head">
+        <h2 id="deckTitle">卡组</h2>
+        <p id="deckSubtitle" class="muted">-</p>
+      </div>
+      <div id="deckList" class="deck-list"></div>
+    </aside>
+
+    <section class="study panel">
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <button id="prevBtn" type="button">上一张</button>
+          <button id="nextBtn" type="button">下一张</button>
+          <button id="randomBtn" type="button" class="ghost">随机</button>
+        </div>
+        <div class="toolbar-group">
+          <span id="positionLabel" class="position">-</span>
+          <button id="toggleBtn" type="button" class="primary">显示答案</button>
+        </div>
+      </div>
+
+      <article id="flashcard" class="flashcard">
+        <section id="cardFront" class="face front"></section>
+        <section id="cardBack" class="face back"></section>
+      </article>
+
+      <div class="grade-row" role="group" aria-label="掌握度评分">
+        <button type="button" data-grade="again" class="grade-btn again">不会</button>
+        <button type="button" data-grade="hard" class="grade-btn hard">模糊</button>
+        <button type="button" data-grade="good" class="grade-btn good">会了</button>
+      </div>
+
+      <p class="hint">建议流程：先口述 20-30 秒再翻面。快捷键：`空格` 翻面，`←/→` 切换，`1/2/3` 打分。</p>
+    </section>
+  </main>
+
+  <script type="module" src="./src/lecture-deck.ts"></script>
+</body>
+
+</html>

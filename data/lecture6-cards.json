@@ -1,0 +1,264 @@
+{
+    "deckId": "cs50p-lecture6",
+    "title": "CS50P L6",
+    "subtitle": "按视频逻辑整理的记忆卡片（共 16 节）",
+    "updatedAt": "2026-02-22",
+    "cards": [
+        {
+            "id": "l6-01",
+            "order": 1,
+            "section": "Introduction",
+            "sectionEn": "Introduction",
+            "core": "介绍本周课程的主题：文件输入与输出（File I/O）。回顾了以往的程序在数据存储方面的局限性，引出持久化存储的需求。",
+            "question": "迄今为止我们编写的程序在数据存储方面存在什么致命缺陷？",
+            "quote": "因为变量通常将数据临时保存在计算机的内存中，一旦程序退出，数据都会彻底丢失。",
+            "quoteTime": "00:44",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=44",
+            "expandedAnswer": "因为变量通常将数据临时保存在计算机的内存中，一旦程序退出，任何你键入的内容或程序内部生成的数据都会彻底丢失。文件 I/O 允许我们摆脱这种限制，将数据长期保存。",
+            "keyPoints": [
+                "变量仅使用运行内存空间不具有持久存储属性",
+                "程序周期一旦销毁任何信息都即时消失流亡"
+            ]
+        },
+        {
+            "id": "l6-02",
+            "order": 2,
+            "section": "File I/O",
+            "sectionEn": "File I/O",
+            "core": "阐述文件 I/O 在编程语境下的确切定义。它是程序与计算机硬盘等外部存储器进行交互的桥梁，使信息不再依赖易失性的内存。",
+            "question": "编程语境下的“文件 I/O (Input/Output)”的核心使命是什么？",
+            "quote": "文件 I/O 的核心目的是编写能够从文件中读取（加载）信息，或者保存信息的代码，实现持久化存储。",
+            "quoteTime": "00:54",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=54",
+            "expandedAnswer": "文件 I/O 的核心目的是编写能够从文件中读取（加载）信息，或者向文件写入（保存）信息的代码，从而使得数据在本地 Mac、PC 或云端服务器上实现持久化存储。",
+            "keyPoints": [
+                "完成代码读（加载）或写（存储）的操作实现外部物理长效持久交互与留存",
+                "将数字数据写入计算机和本地硬盘避免易失"
+            ]
+        },
+        {
+            "id": "l6-03",
+            "order": 3,
+            "section": "lists",
+            "sectionEn": "lists",
+            "core": "复习使用列表（List）来累积用户输入的数据，并在打印前对其进行排序（`sorted`）。然而由于列表依然驻留在内存中，程序结束时数据依旧会被销毁。",
+            "question": "既然列表（lists）可以用来存储多个数据片段，为什么在处理真正需要长期保留的用户数据时，它依然是一个失败的方案？",
+            "quote": "列表是存储在计算机的内存（Memory）中的变量结构。程序结束其内容仍然凭空消失。",
+            "quoteTime": "01:35",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=95",
+            "expandedAnswer": "列表是存储在计算机的内存（Memory）中的变量结构。因此，即使你可以在程序运行期间通过列表累积大量有价值的数据（如用户连续输入的多个名字），一旦程序结束，列表的生命周期终结，里面的内容仍然会凭空消失。",
+            "keyPoints": [
+                "因为它是纯粹依赖于 RAM 的短期数据临时状态存储",
+                "在 Python 程序断开运行后数据仍然会被马上清除销毁"
+            ]
+        },
+        {
+            "id": "l6-04",
+            "order": 4,
+            "section": "open",
+            "sectionEn": "open",
+            "core": "学习使用 Python 内置的 `open()` 函数以代码的方式“打开”文件，并演示了写入模式 `\"w\"` 和追加模式 `\"a\"` 的区别，以及使用 `.write()` 方法手动保存数据。",
+            "question": "当我们使用 `open(filename, \"w\")` 模式多次运行程序来记录多个不同的新用户名字时，会发生什么严重的问题？应当如何修复？",
+            "quote": "使用 `\"w\"` 模式具有破坏性。最后一次写入会覆盖（clobber）之前所有的记录。",
+            "quoteTime": "09:42",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=582",
+            "expandedAnswer": "使用 `\"w\"` (write) 模式具有破坏性。每次使用 `\"w\"` 打开文件时，不仅会创建文件，还会“清空并重新创建”文件原有内容。这意味着最后一次写入会覆盖（clobber）之前所有的记录。修复方案是使用 `\"a\"` (append) 模式，它会安全地将新内容追加到文件的末尾。",
+            "keyPoints": [
+                "`\"w\"`会破坏性地抹杀清空原先的数据，从而引起只保留被最新行覆盖的结果",
+                "采用追加写入方法 `\"a\"` (append) 进行修复"
+            ]
+        },
+        {
+            "id": "l6-05",
+            "order": 5,
+            "section": "with",
+            "sectionEn": "with",
+            "core": "介绍更加“Pythonic”的文件操作语法：使用 `with` 语句打开文件。同时演示了如何通过迭代器读取文件的每一行，并使用 `.rstrip()` 清除末尾附带的换行符。",
+            "question": "在 Python 中处理文件时，为什么推荐使用 `with` 上下文管理器而不是手动调用 `file.close()`？",
+            "quote": "程序员很容易忘记手动调用 `close()`。`with` 会在其块后自动帮你安全关闭。",
+            "quoteTime": "14:14",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=854",
+            "expandedAnswer": "在编写代码时，程序员很容易忘记手动调用 `close()`，这可能会导致文件损坏、未保存或意外删除等问题。使用 `with` 关键字可以指定一个上下文环境（缩进代码块），在该代码块执行完毕后，Python 会自动帮你安全地关闭文件，从而避免人为疏忽。",
+            "keyPoints": [
+                "防范因为人类容易遗忘执行或者意外使得 `close()` 出错",
+                "使缩进上下文退出时候自动实现文件关闭进行防护性清理释放"
+            ]
+        },
+        {
+            "id": "l6-06",
+            "order": 6,
+            "section": "sorted",
+            "sectionEn": "sorted",
+            "core": "讲解如何对读取自文件的内容进行排序。需要先将文件内容完全加载到列表内存中，才能使用 `sorted()` 函数进行升序或降序（`reverse=True`）排列。",
+            "question": "如果我们希望按字母顺序输出文件中的每一行，为什么不能在 `for line in file:` 循环中一边读取文件一边进行排序打印？",
+            "quote": "必须退后一步，先读取文件中的所有行并将它们加载到内存中，然后再通过 `sorted()` 函数对整个集合进行统筹排序。",
+            "quoteTime": "21:26",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=1286",
+            "expandedAnswer": "在遍历文件的每一行并立即打印时，排序已经来不及了。逻辑上讲，你必须退后一步，先读取文件中的**所有**行并将它们加载到内存中（例如追加到一个列表变量里），然后再通过 `sorted()` 函数对整个集合进行统筹排序并打印输出。",
+            "keyPoints": [
+                "迭代输出单行是在排序机制的前置动作发生的且不能后撤统筹",
+                "全集信息在进入统筹阶段前并不明确也未知"
+            ]
+        },
+        {
+            "id": "l6-07",
+            "order": 7,
+            "section": "Comma-Separated Values",
+            "sectionEn": "CSV",
+            "core": "引入 CSV (逗号分隔值) 文件格式，用于存储二维关联数据（如姓名和学院）。讲解了如何使用字符串的 `.split(\",\")` 方法配合多变量解包（Unpacking）来解析数据。",
+            "question": "当我们从 CSV 文件中读取到一行如 \"Hermione,Gryffindor\" 的完整字符串时，如何优雅地将它分别提取为姓名和学院两个独立的变量？",
+            "quote": "可以使用字符串的 `.split(\",\")` 方法。结合 Python 的变量解包特性，你可以直接写成 `name, house = line.rstrip().split(\",\")`。",
+            "quoteTime": "38:58",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=2338",
+            "expandedAnswer": "可以使用字符串的 `.split(\",\")` 方法。这会寻找逗号并将字符串拆分成左部和右部组成的列表。结合 Python 的变量解包（Unpacking）特性，你可以直接写成 `name, house = line.rstrip().split(\",\")`，这样一行代码就能安全地将分割后的两个值同时赋给对应的两个变量，大大增强了代码的可读性。",
+            "keyPoints": [
+                "使用 `,` 当做隔离器来分割字符串成元素列表清单",
+                "使用变量拆解或者多变量平级分拆的方法（Unpacking）"
+            ]
+        },
+        {
+            "id": "l6-08",
+            "order": 8,
+            "section": "Sort Keys",
+            "sectionEn": "Sort Keys",
+            "core": "当把数据存储为字典构成的列表时（List of dictionaries），常规的 `sorted()` 无法直接对字典进行排序。需要向其提供一个函数作为 `key` 参数，明确指出按照字典的哪一个键进行排序。",
+            "question": "为什么不能直接对包含多个学生字典（包含 name 和 house 键）的列表直接调用 `sorted()`？Python 的 `sorted()` 是如何利用自定义函数来解决这个问题的？",
+            "quote": "因为列表里的元素是字典，Python 的作者并不知道你未来想根据字典里的哪一个字段来进行排序。",
+            "quoteTime": "48:25",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=2905",
+            "expandedAnswer": "因为列表里的元素是字典，Python 的作者并不知道你未来想根据字典里的哪一个字段（是姓名还是学院）来排序。为了解决这个问题，`sorted()` 提供了一个名为 `key` 的命名参数。你可以向它传递一个辅助函数（例如专门用来返回姓名的 `get_name` 函数），`sorted()` 会在每个字典上静默调用该函数，并使用该函数的返回值作为字母表排序的确切依据。",
+            "keyPoints": [
+                "列表下涵盖的元素并不具备唯一的对比指向或锚点（存在不同的名和院可以作对比属性）",
+                "通过命名赋值（字典函数）的返回变量从而建立强制排布序列规则"
+            ]
+        },
+        {
+            "id": "l6-09",
+            "order": 9,
+            "section": "Lambda Functions",
+            "sectionEn": "Lambda",
+            "core": "为了精简代码，当给 `sorted()` 传递的 `key` 函数仅使用一次且逻辑简单时，可以使用 `lambda` 匿名函数替代正式的 `def` 函数声明。",
+            "question": "当给 `key` 传递的提取排序依据的函数极其简单（如仅仅返回字典里的某个键值）且绝不会在别处复用时，怎样编写代码能避免命名污染并使代码更紧凑？",
+            "quote": "关键字 `lambda` 告诉 Python 接下来是一个没有名字的函数，它接收参数 `student` 并直接返回 `student[\"name\"]`。",
+            "quoteTime": "54:21",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=3261",
+            "expandedAnswer": "你可以使用 Lambda 函数（匿名函数）。比如写成 `key=lambda student: student[\"name\"]`。关键字 `lambda` 告诉 Python 接下来是一个没有名字的函数，它接收参数 `student` 并直接返回 `student[\"name\"]`。通过这种方法，你不需要在代码的其它地方浪费数行去专门定义一个毫无复用价值的函数。",
+            "keyPoints": [
+                "引入采用 Lambda 函数这种一次性并能立刻执行无名的声明方法",
+                "使得不需要额外为了一个很小的函数命名在程序中乱放且浪费数行的占有版面"
+            ]
+        },
+        {
+            "id": "l6-10",
+            "order": 10,
+            "section": "csv Library",
+            "sectionEn": "csv Library",
+            "core": "指出使用原生 `.split(\",\")` 解析 CSV 文件的致命缺陷：当数据本身（如真实地址）包含逗号时，切割逻辑会崩溃。由此引出调用 Python 官方内置的 `csv` 库。",
+            "question": "当我们单纯依靠 `.split(\",\")` 来读取 CSV 时，一旦学生的住址数据是 \"Number Four, Privet Drive\" 这样的带逗号字符串，程序会引发何种崩溃（ValueError）？为什么？",
+            "quote": "这会引发“需要解包的值太多（too many values to unpack）”错误。",
+            "quoteTime": "59:44",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=3584",
+            "expandedAnswer": "这会引发“需要解包的值太多（too many values to unpack）”错误。因为 `.split(\",\")` 会死板地将那个作为文本一部分的标点逗号也当成分隔符。原本只期待两列数据的代码，被强制拆分成了三部分，导致左侧仅有两个变量名用于接收，最终破坏了变量解包逻辑并抛出异常。这正是使用成熟的第三方或内置库避免重复造轮子的原因。",
+            "keyPoints": [
+                "`split` 是绝对物理分割从而打断了原始词汇里面的内部标点的文本包裹",
+                "引发因为分割产物的块头超过赋值变量的坑位抛出的变量解包失败错误异常"
+            ]
+        },
+        {
+            "id": "l6-11",
+            "order": 11,
+            "section": "csv.reader",
+            "sectionEn": "csv.reader",
+            "core": "演示如何导入和使用 `csv.reader()` 迭代器来遍历 CSV 文件的每一行。它会智能地处理包含在引号中的逗号等极端情况，直接返回正确拆分后的列表。",
+            "question": "在处理实际场景中的 CSV 文件时，为什么不应该自己手写基于字符串的解析逻辑，而是应该始终优先考虑 `csv.reader` 这样的专业库模块？",
+            "quote": "因为站在巨人的肩膀上编程更靠谱。`csv.reader` 函数的生平目标就是为你读取 CSV 并弄清楚所有的边缘情况（Corner cases）。",
+            "quoteTime": "01:02:45",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=3765",
+            "expandedAnswer": "因为站在巨人的肩膀上编程更靠谱。`csv.reader` 函数的生平目标就是为你读取 CSV 并弄清楚所有的边缘情况（Corner cases），比如逗号该作为分隔符还是文本本身、引号应该如何处理。它将直接返回给你正确分割后的列表，把程序员从琐碎复杂的字符串边界处理中解脱出来。",
+            "keyPoints": [
+                "自动防范了逗号引号或边缘字符可能破坏或解体数据的问题",
+                "我们从琐碎繁琐地修补并推敲错误数据的劳动里释放脱身"
+            ]
+        },
+        {
+            "id": "l6-12",
+            "order": 12,
+            "section": "csv.DictReader",
+            "sectionEn": "csv.DictReader",
+            "core": "进阶使用 `csv.DictReader`，它通过读取 CSV 文件的首行作为列名，将每一行数据直接以字典的形式返回，极大提高了代码抵抗“数据列顺序变动”的防御能力。",
+            "question": "相比于只返回列表的 `csv.reader`，使用 `csv.DictReader` 能够为我们提供哪种极其重要的“防御性编程”优势？",
+            "quote": "即使将来有人修改了文件把列的位置互换了，由于代码是通过键的名称提取数据，你的程序仍然能完美运行。",
+            "quoteTime": "01:11:13",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=4273",
+            "expandedAnswer": "`csv.DictReader` 会根据文件的第一行（表头）智能推断列名，并将后续每一行视为包含这些键的字典。其巨大优势在于，即使将来有人在 Excel 中修改了文件、把“姓名”列和“住址”列的左右位置互换了，只要表头还在，由于你的代码是通过键的名称（如 `row[\"name\"]`）提取数据，你的程序仍然能完美运行而不会崩溃。",
+            "keyPoints": [
+                "摆脱了数组数字硬编码导致读取时左右依赖索引发生错误变动的窘态",
+                "即便更改列信息和顺序（只要抬头键还在）程序运行都不会出现错位和闪退崩溃"
+            ]
+        },
+        {
+            "id": "l6-13",
+            "order": 13,
+            "section": "csv.writer",
+            "sectionEn": "csv.writer",
+            "core": "学习使用 `csv.writer` 对象和它的 `.writerow()` 方法，将包含新记录的列表以安全、规范的方式（如对包含逗号的字符串自动添加引号）追加写入 CSV 文件中。",
+            "question": "在向 CSV 文件追加用户输入的新数据时，如果用户恶意或无意输入了带有逗号的数据，`csv.writer` 是如何自动处理并防止文件结构损坏的？",
+            "quote": "库文件会照顾好这一切。`csv` 库不仅会将该行写入文件，还会自动对那些包含逗号的英文字符串进行引号包裹（Quoting）。",
+            "quoteTime": "01:15:32",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=4532",
+            "expandedAnswer": "库文件会照顾好这一切。当你调用 `writer.writerow()` 并传入带有逗号的字符串列表时，`csv` 库不仅会将该行写入文件，还会自动对那些包含逗号的英文字符串进行引号包裹（Quoting）。这就保证了以后再通过读取器加载该文件时，这个逗号不会被错误地当作列分隔符。",
+            "keyPoints": [
+                "对所有逗号标点类的内容它自动采用了双层套接或包围式的字符串包裹隔离保护",
+                "写入的结果确保反向或双向下能继续安全加载而不会触发误伤错误和错误分割"
+            ]
+        },
+        {
+            "id": "l6-14",
+            "order": 14,
+            "section": "csv.DictWriter",
+            "sectionEn": "csv.DictWriter",
+            "core": "与读取器对应，`csv.DictWriter` 允许我们以字典（键值对）的形式把数据写入文件，但必须在初始化时通过 `fieldnames` 参数显式定义写入时的列顺序。",
+            "question": "为什么在使用 `csv.DictWriter` 进行初始化的时候，必须强制向其传递第二个参数 `fieldnames`（包含列名的列表）？",
+            "quote": "在使用 `DictWriter` 时，以字典的形式传入数据（键值对没有严格顺序），传递 `fieldnames` 是告诉到底按照哪种确切从左向右的顺序来摆放序列化。",
+            "quoteTime": "01:17:25",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=4645",
+            "expandedAnswer": "在使用 `csv.writer` 时，你是以列表形式按顺序传递值，顺序天然确定。但在使用 `DictWriter` 时，你是以字典的形式传入数据（字典里的键值对在概念上是没有严格顺序的）。传递 `fieldnames` 是向底层库提供一个明确的提示，告诉它在将字典序列化为文本写入文件时，应当按照哪种确切的“从左到右”的列顺序来排布数据。",
+            "keyPoints": [
+                "用来声明序列化的正确输出列向标的顺次",
+                "填补键值字典本身是散乱无法保障顺序的特征造成的模糊"
+            ]
+        },
+        {
+            "id": "l6-15",
+            "order": 15,
+            "section": "Images, PIL library",
+            "sectionEn": "Images, PIL library",
+            "core": "展示文件 I/O 能力并不局限于文本。通过调用第三方库 Pillow (`PIL`)，读取二进制的图片文件（GIF 静态帧），并利用代码将它们拼接导出为动态的动画 GIF 文件。",
+            "question": "仅仅掌握了读取 `txt` 和 `csv` 这样的结构化文本，我们就真正学透了文件 I/O 吗？如何通过代码来读写图像、音频等更为复杂的文件格式？",
+            "quote": "文件 I/O 远不止处理纯文本。借助 Python 丰富的生态系统，你可以对二进制文件进行类似的流式的操作。",
+            "quoteTime": "01:23:26",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=5006",
+            "expandedAnswer": "文件 I/O 远不止处理纯文本。借助 Python 丰富的生态系统（例如用于处理图像的 Pillow 库），你可以对二进制文件（由纯粹的 0 和 1 组成的文件，用于表示非文本数据）进行类似的操作。例如，我们使用 `Image.open` 加载多个静态帧的二进制信息，并将其重新保存组合为一个可以播放和循环的动画 GIF。",
+            "keyPoints": [
+                "掌握可以像操纵文字一样操控底层存储的媒体（声音或者图形照片等）纯二进制文件的操作流和方法",
+                "通过第三方开源大库去完成繁杂的渲染解析及构建"
+            ]
+        },
+        {
+            "id": "l6-16",
+            "order": 16,
+            "section": "Conclusion",
+            "sectionEn": "Conclusion",
+            "core": "总结本次讲座。回顾了本周的核心是掌握从外部存储载入数据到内存、以及从内存向外部设备持久化输出数据的底层原语，这是实现程序真正生产力的重要一步。",
+            "question": "熟练掌握文件读写（File I/O）的基本原语之后，我们的编程能力相比之前跨越了哪道分水岭？",
+            "quote": "我们终于摆脱了“只有程序运行，数据才存在”的困境。",
+            "quoteTime": "01:31:53",
+            "quoteUrl": "http://www.youtube.com/watch?v=KD-Yoel6EVQ&t=5513",
+            "expandedAnswer": "我们终于摆脱了“只有程序运行，数据才存在”的困境。借助这些底层原语和库的帮助，我们可以操控非文本的二进制文件，深挖音频或视频操作领域，从而真正实现数据在不同的计算机存储系统、乃至用户之间的高效与长久的流转共享。",
+            "keyPoints": [
+                "使得你的代码从此获得物理存储及与外联保存的长效持久交流特质",
+                "不再困于重启和代码中止带来的销毁与从头重置境遇之中"
+            ]
+        }
+    ]
+}

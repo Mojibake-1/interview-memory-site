@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 自动化原子记忆站</title>
+  <meta name="description" content="AI 自动化岗位核心概念记忆站：把概念原子化，支持间隔复习与测验。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="hero">
+    <p class="kicker">ATOMIC MEMORY ENGINE</p>
+    <h1>AI 自动化原子记忆站</h1>
+    <p class="subtitle">
+      针对 AI 自动化岗位核心概念：逐条原子化、逐条记忆、逐条验收。
+    </p>
+    <div class="hero-actions">
+      <a class="hero-btn" href="/admin">进入后台管理</a>
+      <a class="hero-btn" href="/roadmap">查看学习路线博客</a>
+      <a class="hero-btn" href="/lecture0">CS50P L0</a>
+      <a class="hero-btn" href="/lecture1">CS50P L1</a>
+      <a class="hero-btn" href="/lecture2">CS50P L2</a>
+      <a class="hero-btn" href="/lecture3">CS50P L3</a>
+      <a class="hero-btn" href="/lecture4">CS50P L4</a>
+      <a class="hero-btn" href="/lecture5">CS50P L5</a>
+      <a class="hero-btn" href="/lecture6">CS50P L6</a>
+    </div>
+
+    <div class="intro-video-container"
+      style="max-width: 800px; margin: 40px auto; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border);">
+      <video width="100%" controls poster="./assets/intro_video_poster.png" style="display: block;">
+        <source src="./assets/intro_video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="meta-grid">
+      <article class="meta-card">
+        <span>概念总数</span>
+        <strong id="statConcepts">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>原子点总数</span>
+        <strong id="statAtoms">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>原子点已完成</span>
+        <strong id="statAtomsDone">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>今日到期复习</span>
+        <strong id="statDue">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>掌握概念</span>
+        <strong id="statMastered">-</strong>
+      </article>
+      <article class="meta-card">
+        <span>最后构建</span>
+        <strong id="statGenerated">-</strong>
+      </article>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel left-panel">
+      <div class="block">
+        <label class="label" for="searchInput">搜索概念</label>
+        <input id="searchInput" class="search" type="search" placeholder="输入关键词：幂等、重试、OpenClaw、合规...">
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>状态筛选</h2>
+          <button id="resetStatusBtn" class="text-btn" type="button">重置</button>
+        </div>
+        <div id="statusFilters" class="status-filters"></div>
+      </div>
+
+      <div class="block">
+        <div class="block-head">
+          <h2>分类筛选</h2>
+          <button id="clearCategoryBtn" class="text-btn" type="button">清空</button>
+        </div>
+        <div id="categoryFilters" class="category-filters"></div>
+      </div>
+
+    </aside>
+
+    <section class="panel center-panel">
+      <nav class="tab-nav" aria-label="学习模式">
+        <button class="tab-btn active" data-tab="atoms" type="button">原子库</button>
+        <button class="tab-btn" data-tab="drill" type="button">记忆复习</button>
+        <button class="tab-btn" data-tab="quiz" type="button">概念测验</button>
+      </nav>
+
+      <section id="tab-atoms" class="tab-panel active">
+        <div class="section-head">
+          <h2>原子概念卡片墙</h2>
+          <p id="atomSummary" class="muted">-</p>
+        </div>
+        <div id="atomGrid" class="atom-grid"></div>
+      </section>
+
+      <section id="tab-drill" class="tab-panel">
+        <div class="section-head">
+          <h2>间隔复习训练</h2>
+          <p id="drillSummary" class="muted">-</p>
+        </div>
+
+        <div class="drill-toolbar">
+          <button id="buildDueDeckBtn" type="button">按到期队列</button>
+          <button id="buildFilterDeckBtn" type="button">按当前筛选</button>
+          <button id="revealAnswerBtn" type="button" class="ghost">显示答案</button>
+        </div>
+
+        <article id="drillCard" class="drill-card"></article>
+
+        <div class="grade-row">
+          <button type="button" class="grade-btn again" data-grade="again">没记住</button>
+          <button type="button" class="grade-btn hard" data-grade="hard">模糊</button>
+          <button type="button" class="grade-btn good" data-grade="good">记住了</button>
+          <button type="button" class="grade-btn easy" data-grade="easy">非常熟</button>
+        </div>
+      </section>
+
+      <section id="tab-quiz" class="tab-panel">
+        <div class="section-head">
+          <h2>4 选 1 概念测验</h2>
+          <p id="quizSummary" class="muted">-</p>
+        </div>
+
+        <article id="quizCard" class="quiz-card"></article>
+
+        <div class="quiz-actions">
+          <button id="nextQuizBtn" type="button">下一题</button>
+        </div>
+      </section>
+    </section>
+
+    <aside class="panel right-panel">
+      <div id="detailPane" class="detail-pane">
+        <p class="empty">选择一个概念，查看原子拆解。</p>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>学习建议：每天先刷到期复习，再做 10 道测验，最后用“2分钟项目讲解”串联当天概念。</p>
+  </footer>
+
+  <script src="./src/app.ts" type="module"></script>
+</body>
+
+</html>

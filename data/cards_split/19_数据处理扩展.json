@@ -1,0 +1,82 @@
+[
+  {
+    "id": "pandas_read_write",
+    "term": "pandas 读写 CSV/Excel",
+    "category": "数据处理扩展",
+    "core": "pandas 读写能力让表格数据在 CSV/Excel 与 DataFrame 之间高效转换。",
+    "boundary": "不指定 dtype 直接读数据，可能引入隐式类型错误。",
+    "signal": "批量数据清洗和分析任务中，读写稳定性是第一环。",
+    "action": "读取时显式指定关键列类型；写出时固定列顺序并设置 `index=False`。",
+    "aliases": []
+  },
+  {
+    "id": "pandas_filter_sort",
+    "term": "pandas 筛选与排序",
+    "category": "数据处理扩展",
+    "core": "筛选与排序是数据定位基本功，直接影响分析结果可解释性。",
+    "boundary": "链式操作过长不做中间检查，容易筛错数据却不自知。",
+    "signal": "需要从大表里快速找出目标记录时，filter/sort 是高频操作。",
+    "action": "每次筛选后先 `head()` 抽样验证，再做排序和后续聚合。",
+    "aliases": []
+  },
+  {
+    "id": "pandas_groupby",
+    "term": "pandas 分组聚合",
+    "category": "数据处理扩展",
+    "core": "groupby 用于按维度聚合指标，是统计分析和报表生成核心操作。",
+    "boundary": "聚合前不处理缺失值和异常值，统计结果会失真。",
+    "signal": "当你需要按日期、渠道、用户分组看趋势时，groupby 是基础工具。",
+    "action": "明确分组键和聚合函数，输出前重置索引并补字段含义说明。",
+    "aliases": []
+  },
+  {
+    "id": "openpyxl_basics",
+    "term": "openpyxl 精细 Excel 处理",
+    "category": "数据处理扩展",
+    "core": "openpyxl 适合做单元格级 Excel 处理，如样式、公式、批注和模板填充。",
+    "boundary": "把大规模数据处理都放在 openpyxl，会比 pandas 慢很多。",
+    "signal": "需要保留原模板格式并批量填数时，openpyxl 优势明显。",
+    "action": "先加载模板再写值，改动后另存新文件；关键单元格做回读校验。",
+    "aliases": []
+  },
+  {
+    "id": "json_schema_validate",
+    "term": "JSON Schema 校验",
+    "category": "数据处理扩展",
+    "core": "JSON Schema 校验在入口阶段拦截结构错误，防止脏数据进入核心流程。",
+    "boundary": "只在出错后补救，而不在入口校验，会把问题扩散到下游。",
+    "signal": "接口输入字段不稳定、上游系统较多时，schema 校验尤为必要。",
+    "action": "请求入站先跑 schema validate，失败返回明确错误路径和字段名。",
+    "aliases": []
+  },
+  {
+    "id": "regex_pattern",
+    "term": "正则表达式在数据清洗中的应用",
+    "category": "数据处理扩展",
+    "core": "正则在清洗中适合提取格式稳定字段，如手机号、订单号、日期。",
+    "boundary": "拿正则处理复杂层次结构文本会变得脆弱难维护。",
+    "signal": "当字段分隔不规整但模式稳定时，正则是高效工具。",
+    "action": "为每个核心正则保留正负样例测试，避免规则升级时误伤。",
+    "aliases": []
+  },
+  {
+    "id": "sql_basics",
+    "term": "SQL 基础语句 SELECT/INSERT/UPDATE",
+    "category": "数据处理扩展",
+    "core": "SQL 基础语句让你在存储层直接完成查询、写入和更新，是数据工程通用语言。",
+    "boundary": "没有 where 条件的更新语句风险极高。",
+    "signal": "需要快速验证数据状态、定位异常记录时，SQL 往往比代码更直接。",
+    "action": "先 `SELECT` 确认范围，再执行 `UPDATE/DELETE`；重要操作包裹事务。",
+    "aliases": []
+  },
+  {
+    "id": "data_pipeline_pattern",
+    "term": "数据管道模式",
+    "category": "数据处理扩展",
+    "core": "数据管道模式把流程分成采集、转换、加载、校验等阶段，便于监控和扩展。",
+    "boundary": "把所有逻辑揉成单脚本，故障定位和复用都会变差。",
+    "signal": "流程复杂度上升或团队协作增强时，应尽快管道化。",
+    "action": "每阶段定义输入输出契约和指标；失败时记录阶段名和重试策略。",
+    "aliases": []
+  }
+]

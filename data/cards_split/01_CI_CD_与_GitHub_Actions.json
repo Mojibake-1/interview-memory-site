@@ -1,0 +1,102 @@
+[
+  {
+    "id": "ci_what_why",
+    "term": "CI 的目的与价值",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "CI 的价值不是“跑个脚本”，而是把每次提交都变成可验证的质量检查点，尽早拦截回归缺陷。",
+    "boundary": "很多团队把 CI 只当测试触发器，忽略构建、静态检查和制品管理，最终问题仍在上线后暴露。",
+    "signal": "当你发现“本地能跑、线上挂掉”反复出现，或者 PR 合并后经常炸主干时，需要先补 CI 基线。",
+    "action": "在 `.github/workflows/ci.yml` 里先落三步：安装依赖、运行测试、上传日志；确保 PR 必须通过后才能合并。",
+    "aliases": []
+  },
+  {
+    "id": "ci_workflow_yaml",
+    "term": "workflow YAML 结构",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "workflow YAML 是流水线的执行图描述文件，决定触发条件、执行环境、步骤顺序和失败行为。",
+    "boundary": "把 YAML 当“配置抄模板”会造成隐性风险，例如触发事件错配、权限过大、步骤互相污染。",
+    "signal": "新仓库接入自动化、或现有流水线行为不稳定时，通常都要回到 YAML 结构本身逐段核查。",
+    "action": "按 `name/on/jobs` 三层组织；每个 job 固定 `runs-on`、显式列出 steps，并用 `if` 约束高风险步骤。",
+    "aliases": []
+  },
+  {
+    "id": "ci_trigger_events",
+    "term": "触发事件 push/PR/schedule",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "触发事件决定“什么时候验证什么”：push 适合快速反馈，PR 适合合并门禁，schedule 适合周期巡检。",
+    "boundary": "把所有检查都挂在 push 上会拖慢开发；把关键检查只挂在 schedule 上又会让问题滞后。",
+    "signal": "当流水线耗时太长或检查覆盖不足时，往往是事件拆分策略没做好。",
+    "action": "把快检放 `pull_request`，重检放 `schedule`，发布检查放 `workflow_dispatch`；每类任务单独 job。",
+    "aliases": []
+  },
+  {
+    "id": "ci_jobs_steps",
+    "term": "Jobs 与 Steps",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "Job 是隔离执行单元，Step 是 job 内部动作；合理拆分能并行提速并降低失败定位成本。",
+    "boundary": "把所有命令塞进一个 step 会导致日志难读、重试粒度粗、失败点不可见。",
+    "signal": "当你只能看到“一坨脚本失败”，却不知道失败在安装、测试还是打包环节时，需要重构 jobs/steps。",
+    "action": "按阶段拆成 `lint/test/build` 三个 job；每个 step 只做一件事，命名写清输入和输出。",
+    "aliases": []
+  },
+  {
+    "id": "ci_env_secrets",
+    "term": "环境变量与 Secrets",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "环境变量承载非敏感配置，Secrets 承载密钥；两者分离是 CI 安全和可维护性的底线。",
+    "boundary": "把 token 写进仓库或日志是高危行为，常见于临时排障时“先跑通再说”。",
+    "signal": "当 workflow 需要访问外部服务（云、包仓、Webhook）时，必须先设计密钥注入路径。",
+    "action": "在 GitHub 仓库设置 Secrets，通过 `${{ secrets.NAME }}` 注入；日志里对敏感值打码并最小化权限。",
+    "aliases": []
+  },
+  {
+    "id": "ci_artifacts_upload",
+    "term": "构建产物上传",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "构建产物上传让“当时跑了什么”可追溯，尤其对测试报告、截图、二进制包和调试日志很关键。",
+    "boundary": "只看控制台输出而不保存制品，复盘时会失去关键证据，排障成本陡增。",
+    "signal": "当失败无法复现、或需要跨团队共享结果时，产物留存是第一优先项。",
+    "action": "使用 `actions/upload-artifact` 保存测试报告和截图；失败分支也要上传，保留至少 7 天。",
+    "aliases": []
+  },
+  {
+    "id": "ci_matrix_strategy",
+    "term": "矩阵策略",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "矩阵策略用于一次定义、多维验证，常见维度是 Python 版本、操作系统、数据库版本。",
+    "boundary": "盲目扩矩阵会导致成本爆炸；维度太少又会漏掉兼容性缺陷。",
+    "signal": "当用户环境多样且“只在某版本失败”频发时，矩阵是最有效的预防手段。",
+    "action": "先覆盖主流组合（如 3.10/3.11 + ubuntu），稳定后再扩展；对慢用例启用 `fail-fast: false`。",
+    "aliases": []
+  },
+  {
+    "id": "ci_required_checks",
+    "term": "Required Status Checks",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "Required Checks 把质量门禁制度化，避免“明知失败也能合并”破坏主干稳定性。",
+    "boundary": "只靠口头约定无法替代强制检查，紧急合并会迅速侵蚀规范。",
+    "signal": "当主分支经常红灯、团队对“能否合并”有争议时，需要把检查规则固化到分支保护策略。",
+    "action": "在分支保护里勾选必过检查，至少包含 `lint` 和 `test`；禁用直接 push 到主分支。",
+    "aliases": []
+  },
+  {
+    "id": "ci_cache_deps",
+    "term": "依赖缓存加速",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "依赖缓存通过复用包下载结果降低流水线时长，直接提升反馈速度和开发体验。",
+    "boundary": "缓存键设计不当会引入脏缓存，导致“偶发通过/偶发失败”的幽灵问题。",
+    "signal": "当安装依赖占据主要耗时，且 lock 文件更新不频繁时，优先引入缓存。",
+    "action": "以 `hashFiles(\"**/requirements*.txt\")` 或 lock 文件作为 key；缓存命中后仍执行完整测试。",
+    "aliases": []
+  },
+  {
+    "id": "ci_cd_deploy",
+    "term": "CD 自动部署概念",
+    "category": "CI/CD 与 GitHub Actions",
+    "core": "CD 关注“可控发布”，核心不是自动化本身，而是可回滚、可审计、可分阶段放量。",
+    "boundary": "把“测试通过就直接全量上线”当 CD，忽略发布审批和回滚路径，会放大事故半径。",
+    "signal": "当版本发布依赖人工 SSH 操作或多人口头确认时，说明需要把发布流程产品化。",
+    "action": "先做 staging 自动部署 + 生产手动审批；发布后自动执行健康检查，失败立即触发回滚。",
+    "aliases": []
+  }
+]

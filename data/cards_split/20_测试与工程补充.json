@@ -1,0 +1,102 @@
+[
+  {
+    "id": "pytest_assertion",
+    "term": "pytest 断言与错误信息",
+    "category": "测试与工程补充",
+    "core": "pytest 断言应该直接表达业务期望，失败信息要能指导下一步修复。",
+    "boundary": "断言写得过于抽象（如仅 `assert result`）会降低排障效率。",
+    "signal": "测试失败后需要快速判断是数据问题还是逻辑问题时，断言质量尤为关键。",
+    "action": "优先断言关键字段和边界值；必要时自定义失败消息补充上下文。",
+    "aliases": []
+  },
+  {
+    "id": "pytest_conftest",
+    "term": "conftest.py 共享配置",
+    "category": "测试与工程补充",
+    "core": "conftest.py 用于共享 fixtures 和钩子，减少重复 setup 并统一测试基础设施。",
+    "boundary": "把业务逻辑塞进 conftest 会让依赖关系隐蔽。",
+    "signal": "测试文件增多后，重复初始化代码明显时应抽取到 conftest。",
+    "action": "只放通用 fixture；按目录分层组织 conftest，避免全局污染。",
+    "aliases": []
+  },
+  {
+    "id": "pytest_test_discovery",
+    "term": "测试发现机制",
+    "category": "测试与工程补充",
+    "core": "测试发现机制基于命名约定自动收集用例，影响“哪些测试会被执行”。",
+    "boundary": "命名不规范会导致用例静默不执行。",
+    "signal": "新增测试却在 CI 没跑到时，先检查 discovery 规则。",
+    "action": "遵循 `test_*.py` 和 `test_*` 命名；定期执行 `pytest --collect-only` 审核收集结果。",
+    "aliases": []
+  },
+  {
+    "id": "pytest_run_select",
+    "term": "运行与选择测试用例",
+    "category": "测试与工程补充",
+    "core": "用例选择执行可以提升调试效率，让你在改动集中区域快速获得反馈。",
+    "boundary": "长期只跑局部测试不跑全量，会放大回归风险。",
+    "signal": "本地迭代阶段需要快反馈，提交前需要全量回归。",
+    "action": "开发中用 `-k` 和路径筛选，合并前执行全量 `pytest -q`。",
+    "aliases": []
+  },
+  {
+    "id": "json_loads_dumps",
+    "term": "json.loads / json.dumps",
+    "category": "测试与工程补充",
+    "core": "`loads/dumps` 是字符串与对象互转基础，正确处理编码和类型能避免接口对接错误。",
+    "boundary": "把 Python dict 直接转字符串发送，常导致 JSON 格式不合法。",
+    "signal": "API 通信、配置读写、日志落盘都离不开 JSON 序列化。",
+    "action": "始终用 `json.dumps` 生成 JSON；接收后先 `loads` 再做字段校验。",
+    "aliases": []
+  },
+  {
+    "id": "csv_dict_reader_writer",
+    "term": "csv.DictReader / DictWriter",
+    "category": "测试与工程补充",
+    "core": "DictReader/DictWriter 按列名读写 CSV，降低字段顺序耦合。",
+    "boundary": "依赖列位置而不依赖列名，模板一改顺序就错位。",
+    "signal": "跨团队交换 CSV 或模板经常变动时，应改用 dict 方式读写。",
+    "action": "写入前固定 `fieldnames` 并写 header；读取后先校验必需列是否存在。",
+    "aliases": []
+  },
+  {
+    "id": "logging_basic_config",
+    "term": "logging.basicConfig 配置",
+    "category": "测试与工程补充",
+    "core": "basicConfig 是统一日志格式和级别的起点，影响后续排障效率。",
+    "boundary": "到处 `print` 无法按级别过滤，也不利于集中收集。",
+    "signal": "项目进入多模块协作后，日志规范必须先于复杂功能。",
+    "action": "初始化统一日志格式（时间、级别、模块、消息），并按环境配置日志级别。",
+    "aliases": []
+  },
+  {
+    "id": "dotenv_usage",
+    "term": "python-dotenv 使用",
+    "category": "测试与工程补充",
+    "core": "python-dotenv 让本地开发配置外置化，避免把密钥和环境差异写死在代码里。",
+    "boundary": "把 `.env` 提交到仓库会造成凭据泄露风险。",
+    "signal": "项目需要本地、测试、生产多环境切换时，dotenv 很实用。",
+    "action": "项目启动时 `load_dotenv()`；仓库提供 `.env.example`，真实 `.env` 加入 `.gitignore`。",
+    "aliases": []
+  },
+  {
+    "id": "twelve_factor_config",
+    "term": "12-Factor Config 原则",
+    "category": "测试与工程补充",
+    "core": "12-Factor 的 Config 原则强调配置来自环境而非代码，提升部署一致性和可移植性。",
+    "boundary": "把环境差异写在 if/else 代码中，会让发布流程脆弱。",
+    "signal": "应用需要跨机器或容器部署时，配置外部化是硬要求。",
+    "action": "把数据库、密钥、服务地址全部改成环境变量注入，并在启动时做缺失检查。",
+    "aliases": []
+  },
+  {
+    "id": "shell_basics",
+    "term": "Shell 基础命令",
+    "category": "测试与工程补充",
+    "core": "Shell 基础命令通过管道组合快速完成检索、过滤、统计，是工程排障提效利器。",
+    "boundary": "完全依赖 GUI 点击会降低自动化和批处理能力。",
+    "signal": "处理日志、文件批量操作、临时排障时，Shell 往往比写脚本更快。",
+    "action": "熟练使用 `rg`、`awk`、`sort`、`uniq`、重定向和管道，并把常用命令沉淀成脚本。",
+    "aliases": []
+  }
+]

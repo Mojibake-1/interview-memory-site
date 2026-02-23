@@ -1,0 +1,266 @@
+{
+    "deckId": "cs50p-lecture4",
+    "title": "CS50P L4",
+    "subtitle": "按视频逻辑整理的记忆卡片（共 16 节）",
+    "updatedAt": "2026-02-22",
+    "cards": [
+        {
+            "id": "l4-01",
+            "order": 1,
+            "section": "模块与库简介",
+            "sectionEn": "Intro to Libraries/Modules",
+            "core": "介绍了什么是库（Libraries）和模块（Modules）。Python 提供了许多开箱即用的模块，通过 `import` 关键字加载到内存后，可以极大地减少重复造轮子的工作。",
+            "question": "为什么我们需要引入模块或库，而不是将所有的代码都写在一个 Python 文件中？",
+            "quote": "库或模块的根本目的是为了鼓励代码复用。",
+            "quoteTime": "01:01",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=61",
+            "expandedAnswer": "根据 David 教授的讲解，如果你发现自己一遍又一遍地使用相同类型的功能，或者不断将旧项目中的代码复制粘贴到新项目中，那么这就是一个将代码提取出来放入库中的好时机。这样你就可以在未来的程序中直接加载它，而不必在各个文件中散落各种难以维护的代码副本。",
+            "keyPoints": [
+                "库的核心目的是鼓励代码复用",
+                "避免跨项目反复复制粘贴",
+                "使代码更易于维护和加载"
+            ]
+        },
+        {
+            "id": "l4-02",
+            "order": 2,
+            "section": "`random` 模块与 `choice` 函数",
+            "sectionEn": "random module and choice function",
+            "core": "引入 Python 自带的 `random` 模块，并演示如何使用 `random.choice` 函数来实现抛硬币等随机选择功能。",
+            "question": "在使用 `random.choice()` 函数模拟抛硬币时，传递给该函数的参数格式有什么具体的要求？",
+            "quote": "`random.choice` 需要接收一个“序列（sequence）”作为参数。",
+            "quoteTime": "05:01",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=301",
+            "expandedAnswer": "在 Python 中，这通常是一个列表（List）或类似列表的数据结构。在抛硬币的例子中，我们需要传入一个包含两个字符串的列表，如 `[\"heads\", \"tails\"]`，函数会以此列表为基础，以均等的概率（50/50）随机返回其中一个元素。",
+            "keyPoints": [
+                "参数必须是序列（如列表）",
+                "以均等概率返回其中一个元素"
+            ]
+        },
+        {
+            "id": "l4-03",
+            "order": 3,
+            "section": "`from` 关键字与作用域",
+            "sectionEn": "`from` keyword and namespace scope",
+            "core": "对比了 `import random` 和 `from random import choice` 的区别，探讨了如何将特定的函数直接导入到本地命名空间中。",
+            "question": "使用 `import random` 和 `from random import choice` 这两种导入方式在代码编写体验和变量命名空间（namespace）上有什么具体区别？",
+            "quote": "`import random` 会导入整个模块，使用时必须加上模块名前缀；`from` 会直接加载到当前的本地命名空间。",
+            "quoteTime": "07:56",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=476",
+            "expandedAnswer": "`import random` 会导入整个模块，使用时必须加上模块名作为前缀（即 `random.choice`），这能避免命名冲突，保留了模块的独立作用域。而 `from random import choice` 会将 `choice` 函数名直接加载到当前的本地命名空间中。这样做的好处是可以精简代码（直接写 `choice` 即可），但这意味着你不能在自己的文件中再定义名叫 `choice` 的变量或函数，否则会引发名称冲突。",
+            "keyPoints": [
+                "`import` 保留独立命名空间，避免冲突",
+                "`from` 能够精简代码调用",
+                "`from` 存在引起命名冲突的风险"
+            ]
+        },
+        {
+            "id": "l4-04",
+            "order": 4,
+            "section": "生成随机整数：`random.randint`",
+            "sectionEn": "random.randint",
+            "core": "讲解了 `random.randint(a, b)` 的用法，常用于生成一个指定范围内的随机整数，如随机抽取 1 到 10 之间的数字。",
+            "question": "如果我想生成一个 1 到 10 之间的随机数字，调用 `random.randint(1, 10)` 生成的数字范围会包含 10 本身吗？",
+            "quote": "`randint` 生成的随机数是在参数 a 和 b 之间且“包含（inclusive）”两端的。",
+            "quoteTime": "11:04",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=664",
+            "expandedAnswer": "教授明确指出，`randint` 生成的随机数是在参数 a 和 b 之间且**“包含（inclusive）”**两端的。因此，传入 1 和 10 意味着结果将是一个 1 到 10 之间的数字，既包括 1，也包括 10。",
+            "keyPoints": [
+                "生成的范围是包含两端的 (inclusive)"
+            ]
+        },
+        {
+            "id": "l4-05",
+            "order": 5,
+            "section": "打乱序列：`random.shuffle`",
+            "sectionEn": "random.shuffle",
+            "core": "演示了如何使用 `random.shuffle` 模拟洗牌操作，将列表内的元素顺序随机打乱。",
+            "question": "`random.shuffle` 函数在处理列表时，它的执行方式和返回值与以往我们学过的普通函数有什么显著的不同？",
+            "quote": "`random.shuffle` 会在原地（in place）打乱传入的参数。",
+            "quoteTime": "13:41",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=821",
+            "expandedAnswer": "教授强调，`random.shuffle` 会在**原地（in place）**打乱传入的参数。它并不像以往许多函数那样“返回一个包含打乱后元素的新列表”，而是直接对传入的列表变量自身进行了修改。",
+            "keyPoints": [
+                "操作是“原地（in place）”进行的",
+                "没有返回新列表，直接修改原列表变量"
+            ]
+        },
+        {
+            "id": "l4-06",
+            "order": 6,
+            "section": "数据分析：`statistics` 模块",
+            "sectionEn": "statistics module",
+            "core": "引入了另一个内置模块 `statistics`，展示了如何用它来计算一组数据的平均值。",
+            "question": "如果我们想计算班级学生的平均成绩，在 Python 中如何用最简便且避免手动写数学公式的方法来实现？",
+            "quote": "只需调用自带 `statistics` 库的 `.mean()` 方法并将包含成绩的数字列表传进去。",
+            "quoteTime": "17:04",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=1024",
+            "expandedAnswer": "教授展示了 Python 自带的 `statistics` 库，该库包含了用于计算均值、中位数等统计特征的函数。我们只需在代码顶部导入它，调用 `statistics.mean()`，并将包含成绩的数字列表传进去，它就会自动为你计算并返回平均值。",
+            "keyPoints": [
+                "内置 `statistics` 库包含基本统计函数",
+                "`statistics.mean()` 接收数字列表计算平均值"
+            ]
+        },
+        {
+            "id": "l4-07",
+            "order": 7,
+            "section": "命令行参数与 `sys.argv`",
+            "sectionEn": "Command-line arguments & sys.argv",
+            "core": "讲解了如何使用 `sys` 模块中的 `argv`（参数向量）来接收用户在终端命令行输入的额外指令，从而避免在程序内部使用 `input` 询问。",
+            "question": "在 `sys.argv` 列表中，`sys.argv[0]` 存储的内容是什么？为什么我们要获取用户输入的第一个实际参数时，索引要从 1 开始？",
+            "quote": "按照惯例，Python 会在 `sys.argv[0]` 中存储正在执行的程序文件名。",
+            "quoteTime": "24:43",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=1483",
+            "expandedAnswer": "按照惯例，Python 会在 `sys.argv[0]` 中存储**正在执行的程序文件名**（例如 `name.py`）。因此，用户在命令行中输入的文件名之后的所有单词（即真正的传入参数），都会顺延从索引 1 开始存储。这就是为什么获取第一个实际参数需要调用 `sys.argv[1]`。",
+            "keyPoints": [
+                "`sys.argv[0]` 本身是程序文件名",
+                "真实的传入参数从索引 `1` 开始顺延"
+            ]
+        },
+        {
+            "id": "l4-08",
+            "order": 8,
+            "section": "参数异常处理与条件判断",
+            "sectionEn": "Argument Exceptions & Conditionals",
+            "core": "探讨了当用户没有提供预期数量的命令行参数时，如何利用 `try-except` (IndexError) 或 `if-elif-else` 防止程序直接崩溃。",
+            "question": "当我们在代码中提取 `sys.argv[1]` 但用户在命令行没有提供任何额外参数时，程序会抛出什么具体的异常？应如何预防？",
+            "quote": "如果试图访问列表中不存在的元素位置，程序会抛出 `IndexError`（列表索引越界错误）。",
+            "quoteTime": "25:41",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=1541",
+            "expandedAnswer": "如果试图访问列表中不存在的元素位置，程序会抛出 `IndexError`（列表索引越界错误）。为了更优雅地防止程序崩溃，我们可以利用条件判断（如 `if len(sys.argv) < 2:`）来主动检查用户是否输入了足够长度的参数，并给出友好的文字提示，而不是让红色的报错信息吓到用户。",
+            "keyPoints": [
+                "强行提取越界参数会报 `IndexError`",
+                "应该利用 `len(sys.argv)` 条件检查长度并给出友好提示"
+            ]
+        },
+        {
+            "id": "l4-09",
+            "order": 9,
+            "section": "提前终止程序：`sys.exit`",
+            "sectionEn": "sys.exit",
+            "core": "介绍了 `sys.exit` 的用法，教导学生在输入数据校验失败时打印错误信息并直接退出程序，优化代码结构。",
+            "question": "在进行错误条件排查时，为什么教授推荐使用 `sys.exit` 提前退出，而不是将正确的业务代码全部包裹在一个巨大的 `else` 语句块中？",
+            "quote": "这是为了代码设计的美学。提前退出可以让下方核心代码保持左对齐。",
+            "quoteTime": "33:08",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=1988",
+            "expandedAnswer": "教授提到，这是为了“代码设计的美学”。如果把核心代码藏在 `else` 中，会导致代码不断向右缩进（层级嵌套）。通过在错误条件触发时使用 `sys.exit(\"错误提示\")` 直接终止程序，我们可以放心地让下方关心的核心代码保持左对齐。因为一旦代码执行到了下方，就说明所有的错误隐患已经被成功拦截并退出了。",
+            "keyPoints": [
+                "避免了核心代码不必要的向右嵌套（`else` 内）",
+                "使得错误拦截与业务流程在结构上更加清晰"
+            ]
+        },
+        {
+            "id": "l4-10",
+            "order": 10,
+            "section": "列表切片 (Slices)",
+            "sectionEn": "List Slices",
+            "core": "演示了如何使用列表切片语法（`[start:end]`）处理具有多个输入参数的情况，过滤掉不需要的文件名。",
+            "question": "如果我们要遍历 `sys.argv` 列表中所有的名字，但想要剔除掉属于文件名的第一个元素，在 Python 语法上应该怎么写？",
+            "quote": "通过在列表变量后加上方括号及冒号即可实现，例如 `sys.argv[1:]`。",
+            "quoteTime": "41:09",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=2469",
+            "expandedAnswer": "教授介绍了列表“切片（slice）”技术。通过在列表变量后加上方括号及冒号即可实现，例如 `sys.argv[1:]`。这意味着从索引 1 开始截取该列表的子集，冒号后面留空则代表“一直截取到列表末尾”。这样就完美地把位于索引 0 的文件名给剔除了。",
+            "keyPoints": [
+                "使用 `[1:]` 可以跳过首项并截取到最后",
+                "冒号后面留空表示一直截取到列表末尾"
+            ]
+        },
+        {
+            "id": "l4-11",
+            "order": 11,
+            "section": "第三方包管理器 `pip`",
+            "sectionEn": "Package manager pip",
+            "core": "介绍了除了官方模块之外的第三方生态系统（PyPI）。演示了如何在终端中使用 `pip` 命令安装开源的第三方包（如 `cowsay`）。",
+            "question": "什么是 Python Package（包）？如果我们想在自己的电脑上使用他人发布的包，需要用到什么工具？",
+            "quote": "包（Package）通常指代第三方库，用 Python 附带的包管理器工具 `pip` 进行安装。",
+            "quoteTime": "44:50",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=2690",
+            "expandedAnswer": "教授解释说，包（Package）通常指代第三方库，Python 有一个庞大且活跃的开源生态系统。要安装这些别人写好的库，我们需要使用随 Python 附带的包管理器工具 `pip`。在终端运行命令 `pip install 包名`（如 `pip install cowsay`），它就能自动从网上下载并安装代码到你的系统中供你调用。",
+            "keyPoints": [
+                "包（Package）通常指代生态内的开源第三方库",
+                "使用 `pip install 包名` 工具可以在终端中进行安装下载"
+            ]
+        },
+        {
+            "id": "l4-12",
+            "order": 12,
+            "section": "API 概念解析",
+            "sectionEn": "API Concepts",
+            "core": "讨论了 API（Application Programming Interface，应用程序接口）的概念，特别是基于互联网的第三方服务接口。",
+            "question": "在现代编程语境下，Web API 通常是用来做什么的？",
+            "quote": "API 如今通常指代生存在互联网服务器上的第三方服务，连接它们可以自动化下载所需数据。",
+            "quoteTime": "53:29",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=3209",
+            "expandedAnswer": "教授阐述到，API 如今通常指代生存在互联网服务器上的第三方服务。通过编写代码来连接这些 API，我们的 Python 程序就可以扮演浏览器的角色，自动化地连接到服务商的数据服务器，下载我们所需的数据（如歌曲、天气等），然后将其整合到我们自己的应用程序中。",
+            "keyPoints": [
+                "扮演浏览器角色自动化连接服务器",
+                "下载所需的数据（如歌曲天气等）并整合"
+            ]
+        },
+        {
+            "id": "l4-13",
+            "order": 13,
+            "section": "`requests` 库与 iTunes API",
+            "sectionEn": "requests library and iTunes API",
+            "core": "演示了如何使用强大的 `requests` 第三方库向 Apple 的 iTunes API 发送 HTTP 请求并获取返回数据（JSON 格式）。",
+            "question": "`requests` 库如何协助我们与网络交互？当它从 iTunes 服务器拿到数据时，这些数据是什么格式的，Python 是如何将其转换为我们可以操作的格式的？",
+            "quote": "它返回的是 JSON 纯文本格式，通过调用 `.json()` 方法转换为本地的字典（Dictionary）和列表（List）。",
+            "quoteTime": "54:19",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=3259",
+            "expandedAnswer": "`requests` 库能让 Python 模拟成网页浏览器来发送网络请求。当向 iTunes API 请求数据后，它返回的是一种名叫 JSON (JavaScript Object Notation) 的纯文本格式。通过调用 `requests` 返回对象的 `.json()` 方法，Python 会自动将这个结构化的文本转化为本地的“字典（Dictionary）”和“列表（List）”，从而方便我们在代码中通过键名直接提取数据。",
+            "keyPoints": [
+                "`requests` 库能让 Python 直接发送网络请求",
+                "服务器返回 JSON 纯文本格式",
+                "内置的 `.json()` 方法将文本自动转为字典或列表对象"
+            ]
+        },
+        {
+            "id": "l4-14",
+            "order": 14,
+            "section": "解析与格式化 JSON：`json` 模块",
+            "sectionEn": "json formatting",
+            "core": "当直接打印 API 返回的巨大 JSON 数据时，阅读起来极其困难。教授演示了如何使用 Python 的内置 `json` 模块进行“优雅打印”（Pretty Print）。",
+            "question": "当我们收到一个极其冗长且拥挤的 JSON 响应体时，应该使用哪个 Python 工具将其转换成方便人类阅读的格式？",
+            "quote": "为了看清复杂的数据结构，可以使用 `json.dumps(对象, indent=2)` 方法。",
+            "quoteTime": "01:01:47",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=3707",
+            "expandedAnswer": "教授引入了内置的 `json` 模块。为了看清复杂的数据结构，可以使用 `json.dumps(对象, indent=2)` 方法（dumps 即 dump string 的意思）。这个函数能强制把数据按照 2 个空格的缩进层级重新排版，这样能清楚地展示出哪些部分是字典、哪些部分是列表，极大地帮助了开发者理解数据结构。",
+            "keyPoints": [
+                "使用内置模块 `json` 中带缩进排版的方法",
+                "`json.dumps(对象, indent=2)` 能够直观展示层级结构"
+            ]
+        },
+        {
+            "id": "l4-15",
+            "order": 15,
+            "section": "创建自定义库/模块",
+            "sectionEn": "Custom Libraries",
+            "core": "从使用别人的包回归到自己开发。演示了如何将自定义的函数放在单独的 Python 脚本中，并在另一个脚本中导入复用。",
+            "question": "如果我发现在不同的项目中总是需要用到几个我写的专属函数，我应该如何将它们变为自定义模块进行复用？",
+            "quote": "新建一个干净的 Python 文件，之后就可以像引入官方库一样，使用 `import` 来直接调用它们。",
+            "quoteTime": "01:10:33",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=4233",
+            "expandedAnswer": "你可以新建一个干净的 Python 文件（例如命名为 `sayings.py`），把那些你希望经常复用的函数（如自定义的 `hello` 和 `goodbye`）放进去。之后在任何其他程序文件中，只要它们在同一个目录下，你就可以像引入官方库一样，使用 `import sayings` 或者 `from sayings import hello` 来直接调用它们。",
+            "keyPoints": [
+                "抽取公共函数放入独立 Python 文件之中",
+                "同一目录下可通过 `import 文件名` 直接引用复用"
+            ]
+        },
+        {
+            "id": "l4-16",
+            "order": 16,
+            "section": "`__name__ == \"__main__\"` 的原理与应用",
+            "sectionEn": "__name__ == '__main__'",
+            "core": "深入剖析了当一个含有测试代码的模块被导入时发生的意外行为，并给出了标准的 Python 解决方案。",
+            "question": "当你写好的自定义模块文件在底部有直接调用 `main()` 的测试代码时，如果这个文件被其他脚本导入，会发生什么诡异的错误？如何利用 `__name__` 变量解决这个问题？",
+            "quote": "Python 在处理 `import` 语句时会导入文件内的所有代码；条件判断 `if __name__ == \"__main__\": main()` 可解决该问题。",
+            "quoteTime": "01:14:07",
+            "quoteUrl": "http://www.youtube.com/watch?v=MztLZWibctI&t=4447",
+            "expandedAnswer": "由于 Python 在处理 `import` 语句时会从上到下执行被导入文件内的所有代码，如果该文件底部直接调用了 `main()`，那么一导入就会自动运行测试代码。为了防止这种情况发生，我们应当使用条件判断 `if __name__ == \"__main__\": main()`。`__name__` 是一个特殊内置变量，只有当你在命令行**直接运行**这个文件本身时，它的值才会被设定为 `\"__main__\"`。如果文件是被当作模块导入的，判断结果就会为假，从而避免执行不需要的测试代码。",
+            "keyPoints": [
+                "`import` 时默认将由第一行到最后一行全部执行，包括直接调用的函数内容",
+                "利用特殊变量判断：`if __name__ == \"__main__\": main()`"
+            ]
+        }
+    ]
+}

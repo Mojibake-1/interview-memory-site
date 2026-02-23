@@ -1,0 +1,52 @@
+[
+  {
+    "id": "docker_image_container",
+    "term": "镜像与容器",
+    "category": "Docker 容器基础",
+    "core": "镜像是可分发的只读运行模板，容器是镜像的运行实例；两者分清后排障才不会混淆“构建问题”和“运行问题”。",
+    "boundary": "把容器当虚拟机使用、在容器里手工改配置，最终会导致环境不可复现。",
+    "signal": "当同一服务在不同机器行为不一致时，通常先确认镜像版本和容器启动参数。",
+    "action": "用 `docker image ls` 看镜像版本，用 `docker ps -a` 查容器状态；固定 tag 并记录启动命令。",
+    "aliases": []
+  },
+  {
+    "id": "docker_dockerfile",
+    "term": "Dockerfile 编写",
+    "category": "Docker 容器基础",
+    "core": "Dockerfile 定义了应用运行环境的构建步骤，是“环境即代码”的核心载体。",
+    "boundary": "把临时调试命令塞进 Dockerfile 会放大镜像体积并污染生产环境。",
+    "signal": "当新成员拉代码后无法复现环境，说明 Dockerfile 还没覆盖真实依赖。",
+    "action": "采用分层写法：先基础镜像、再依赖、最后拷贝业务代码；把 `CMD/ENTRYPOINT` 写成单一职责。",
+    "aliases": []
+  },
+  {
+    "id": "docker_build_run",
+    "term": "docker build / run",
+    "category": "Docker 容器基础",
+    "core": "`build` 负责产出可复用镜像，`run` 负责带参数启动实例，二者分离便于定位问题阶段。",
+    "boundary": "“能跑就行”但不打 tag、不记录参数，会让回滚和对比失去依据。",
+    "signal": "当上线后出现行为差异，需要快速回答“到底跑的是哪一个构建产物”。",
+    "action": "执行 `docker build -t app:2026-02-22 .` 后用 `docker run --rm -p 8080:8080 app:2026-02-22` 验证。",
+    "aliases": []
+  },
+  {
+    "id": "docker_volume",
+    "term": "数据卷 Volume",
+    "category": "Docker 容器基础",
+    "core": "Volume 用于把数据生命周期从容器进程中解耦，避免容器重建导致状态丢失。",
+    "boundary": "把数据库数据写在容器层会在重启或替换容器时直接丢失。",
+    "signal": "当服务需要持久化文件、缓存或数据库目录时，必须先设计挂载策略。",
+    "action": "把数据目录挂到命名卷，例如 `-v app_data:/var/lib/app`；备份和恢复都基于卷路径执行。",
+    "aliases": []
+  },
+  {
+    "id": "docker_compose",
+    "term": "Docker Compose 编排",
+    "category": "Docker 容器基础",
+    "core": "Compose 用声明式文件描述多容器依赖关系，让“本地一键起整套系统”成为常规能力。",
+    "boundary": "依赖关系靠口头约定会导致启动顺序混乱、环境变量不一致。",
+    "signal": "当服务数量超过 2 个（应用、数据库、缓存）且每次启动命令都很长时，应引入 Compose。",
+    "action": "在 `compose.yml` 定义 `services/ports/volumes/env`，用 `docker compose up -d` 启动并用 `docker compose logs -f` 验证。",
+    "aliases": []
+  }
+]

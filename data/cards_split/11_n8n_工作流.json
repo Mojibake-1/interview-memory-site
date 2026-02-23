@@ -1,0 +1,141 @@
+[
+  {
+    "id": "n8n_schedule_trigger",
+    "term": "n8n Schedule Trigger",
+    "category": "n8n 工作流",
+    "core": "Schedule Trigger 用于按时间计划稳定触发流程，适合日报、巡检、同步等周期任务。",
+    "boundary": "把高实时任务也放定时触发会引入感知延迟。",
+    "signal": "任务目标是“每小时/每天固定执行”，而非事件即时响应时使用 schedule。",
+    "action": "先定义时区和执行窗口，避开峰值；首次上线用低频验证，再提升频率。",
+    "aliases": [
+      "n8n",
+      "schedule"
+    ]
+  },
+  {
+    "id": "n8n_http_request",
+    "term": "n8n HTTP Request",
+    "category": "n8n 工作流",
+    "core": "HTTP Request 节点是 n8n 与外部系统互通的基础，承担取数、提交和状态查询。",
+    "boundary": "不设置超时和重试会让节点在外部波动时频繁失败。",
+    "signal": "流程需要调用第三方 API 时，HTTP 节点通常是核心依赖。",
+    "action": "显式配置 method、headers、timeout；失败分支接 Error Workflow 做告警和重试。",
+    "aliases": [
+      "http request"
+    ]
+  },
+  {
+    "id": "n8n_expressions",
+    "term": "n8n Expressions",
+    "category": "n8n 工作流",
+    "core": "Expressions 让节点参数可动态引用上游数据，实现流程内数据编排。",
+    "boundary": "表达式过于复杂会让流程难以维护，调试成本很高。",
+    "signal": "当参数依赖前序节点输出或运行时间上下文时，应使用 expressions。",
+    "action": "关键表达式写在注释字段并做样例输入验证；复杂转换移到 Code 节点。",
+    "aliases": [
+      "expressions"
+    ]
+  },
+  {
+    "id": "n8n_code_node",
+    "term": "n8n Code Node",
+    "category": "n8n 工作流",
+    "core": "Code Node 用于处理标准节点无法表达的逻辑，如复杂映射、聚合和条件分流。",
+    "boundary": "把整条业务流程都塞进代码节点会失去低代码可视化优势。",
+    "signal": "遇到字段规则复杂、需多步 JS 运算时，Code 节点最灵活。",
+    "action": "代码只做转换不做外部副作用；输入输出字段名固定并附一组测试样例。",
+    "aliases": [
+      "code node"
+    ]
+  },
+  {
+    "id": "n8n_error_trigger",
+    "term": "n8n Error Workflow",
+    "category": "n8n 工作流",
+    "core": "Error Workflow 把失败处理独立出来，确保主流程失败时仍能通知、记录和补偿。",
+    "boundary": "失败后无统一处理会导致“任务悄悄失败”无人感知。",
+    "signal": "流程进入生产后，Error Workflow 是可靠性必选项而非可选项。",
+    "action": "配置 Error Trigger 接收失败上下文，发送告警并附执行链接与重试入口。",
+    "aliases": [
+      "error trigger",
+      "error workflow"
+    ]
+  },
+  {
+    "id": "n8n_credentials",
+    "term": "n8n 凭据管理",
+    "category": "n8n 工作流",
+    "core": "凭据管理把密钥集中存储并按节点注入，避免明文暴露在流程 JSON。",
+    "boundary": "把 token 写在节点参数里，导出流程后极易泄露。",
+    "signal": "涉及第三方 API、数据库或邮件服务时，先建 credentials 再接节点。",
+    "action": "按环境拆分凭据（dev/staging/prod），限制编辑权限并定期轮换。",
+    "aliases": [
+      "credentials"
+    ]
+  },
+  {
+    "id": "n8n_execution_logs",
+    "term": "n8n 执行日志",
+    "category": "n8n 工作流",
+    "core": "执行日志记录每次运行输入、输出和失败节点，是回放和复盘的核心证据。",
+    "boundary": "只看最终结果不保留执行细节，问题复现几乎不可能。",
+    "signal": "流程偶发失败或数据异常时，要先回看执行日志再改逻辑。",
+    "action": "开启保留策略并设置过期时间；对关键流程导出失败样本用于回归测试。",
+    "aliases": [
+      "execution",
+      "logs"
+    ]
+  },
+  {
+    "id": "n8n_webhook",
+    "term": "Webhook 触发",
+    "category": "n8n 工作流",
+    "core": "Webhook 触发让外部系统以事件驱动启动流程，适合工单、消息和回调场景。",
+    "boundary": "直接对公网暴露 webhook 而无签名校验会有滥用风险。",
+    "signal": "当流程需要“事件来了就立即处理”时，应优先 webhook 而非定时轮询。",
+    "action": "配置验证令牌或签名；上线前用模拟请求覆盖正常和异常 payload。",
+    "aliases": [
+      "webhook"
+    ]
+  },
+  {
+    "id": "n8n_trigger_webhook",
+    "term": "Webhook Trigger",
+    "category": "n8n 工作流",
+    "core": "Webhook Trigger 节点负责接收并标准化外部事件，是事件驱动工作流的入口门面。",
+    "boundary": "不校验来源和字段完整性会把脏数据直接带入下游。",
+    "signal": "多系统联动且需要低延迟响应时，Webhook Trigger 是首选触发器。",
+    "action": "入口先做 schema 校验和幂等键检查；无效请求直接返回明确错误码。",
+    "aliases": []
+  },
+  {
+    "id": "n8n_error_workflow",
+    "term": "Error Workflow",
+    "category": "n8n 工作流",
+    "core": "独立 Error Workflow 可以把失败处理做成产品能力，而不是每条主流程都重复写一遍。",
+    "boundary": "把错误处理散落在各节点，后续统一升级非常困难。",
+    "signal": "流程数量增长后，错误治理需要从“节点级”提升到“平台级”。",
+    "action": "统一错误模板：错误类型、节点名、输入摘要、执行链接、建议动作；集中发送到通知渠道。",
+    "aliases": []
+  },
+  {
+    "id": "n8n_credentials_mgmt",
+    "term": "Credentials 管理",
+    "category": "n8n 工作流",
+    "core": "Credentials 管理关注的不只是“能连上”，还包括权限最小化、审计和生命周期管理。",
+    "boundary": "所有流程共用一个高权限账号，单点泄露会影响全局。",
+    "signal": "当流程跨多个业务域时，应按系统和环境拆分凭据并做权限隔离。",
+    "action": "为每类外部系统建立独立凭据；定期检查未使用凭据并回收。",
+    "aliases": []
+  },
+  {
+    "id": "n8n_execution_log",
+    "term": "执行日志与重放",
+    "category": "n8n 工作流",
+    "core": "执行日志与重放机制让故障处理从猜测转为证据驱动，尤其适合偶发性问题。",
+    "boundary": "只重试不分析日志会把错误反复放大。",
+    "signal": "当某类失败难以本地复现时，应直接基于历史执行进行重放验证。",
+    "action": "保存失败执行的输入快照；修复后先在同样输入上重放通过再恢复定时触发。",
+    "aliases": []
+  }
+]

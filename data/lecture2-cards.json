@@ -1,0 +1,331 @@
+{
+  "deckId": "cs50p-lecture2",
+  "title": "CS50P L2",
+  "subtitle": "Loops 复习卡片（共 19 节）",
+  "updatedAt": "2026-02-19",
+  "cards": [
+    {
+      "id": "l2-01",
+      "order": 1,
+      "section": "循环的动机",
+      "sectionEn": "Motivation for Loops",
+      "core": "复制粘贴虽然可运行，但在需求扩大时会迅速变得难维护。循环的价值是把重复模式抽象成一个规则。",
+      "question": "复制三行 `print` 也能工作，为什么仍然是糟糕设计？",
+      "quote": "Copy-pasting 50 times is ugly and costly; one change means editing many places.",
+      "quoteTime": "02:46",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=166",
+      "expandedAnswer": "坏设计的本质不是“现在不能运行”，而是“未来改动成本高”。复制代码会制造多个同步点，任何小改动都要全量手改，极易漏改。循环把重复行为集中到一处，需求从 3 次变 50 次只改一个数字，维护成本线性下降。",
+      "keyPoints": [
+        "能运行不等于可维护",
+        "重复代码会放大修改风险",
+        "循环把重复模式参数化"
+      ]
+    },
+    {
+      "id": "l2-02",
+      "order": 2,
+      "section": "While 循环基础",
+      "sectionEn": "While Loops",
+      "core": "`while` 基于条件重复执行代码，循环变量必须变化，否则条件永远不变。",
+      "question": "如果忘了更新计数器，计算机会发生什么？",
+      "quote": "If i never changes, the condition never changes, and the loop runs forever.",
+      "quoteTime": "06:55",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=415",
+      "expandedAnswer": "`while` 每轮都会重新判断条件。如果你不更新计数器，条件始终保持真，程序就会无限重复同一块代码，形成死循环。死循环本质是“状态未推进”，所以写 `while` 时要先想清楚：哪一行在推动状态走向终止。",
+      "keyPoints": [
+        "while 依赖条件变化终止",
+        "不更新状态会导致死循环",
+        "循环体必须有推进逻辑"
+      ]
+    },
+    {
+      "id": "l2-03",
+      "order": 3,
+      "section": "可视化逻辑",
+      "sectionEn": "Visualizing Logic",
+      "core": "流程图能直观看到循环回边，帮助理解控制流不是纯线性，而是带回跳结构。",
+      "question": "为什么初学时流程图比只看代码更易理解循环控制流？",
+      "quote": "Graphically you can literally see the loop back and forth.",
+      "quoteTime": "09:07",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=547",
+      "expandedAnswer": "代码文本是顺序排布，回跳关系需要脑内模拟；流程图把“判断-回到判断”画成显式箭头，降低思维负担。它尤其适合定位死循环、漏分支、错误终止条件。初学阶段把执行路径画出来，能更快形成控制流心智模型。",
+      "keyPoints": [
+        "流程图把回跳显式化",
+        "可视化降低模拟成本",
+        "适合检查终止条件与路径"
+      ]
+    },
+    {
+      "id": "l2-04",
+      "order": 4,
+      "section": "计数惯例",
+      "sectionEn": "Counting Conventions",
+      "core": "编程里常从 0 开始计数，配合索引系统更自然，也更统一。",
+      "question": "现实从 1 数，为什么编程建议从 0 开始？",
+      "quote": "Starting from zero is a convention with practical upsides in Python and other languages.",
+      "quoteTime": "11:53",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=713",
+      "expandedAnswer": "很多结构（数组、字符串）天然以偏移量定义，首元素偏移就是 0，所以从 0 计数能和底层模型对齐。统一 0-based 思维后，切片、范围、长度等规则更一致，边界错误更少。它是工程约定，不是生活习惯迁移。",
+      "keyPoints": [
+        "0-based 与索引模型一致",
+        "统一规则减少边界错误",
+        "这是编程约定而非日常习惯"
+      ]
+    },
+    {
+      "id": "l2-05",
+      "order": 5,
+      "section": "For 循环与列表",
+      "sectionEn": "For Loops and Lists",
+      "core": "`for` 循环让迭代变量的初始化和更新由 Python 自动完成，写法更紧凑。",
+      "question": "相比 while，for 如何减少手动管理变量的负担？",
+      "quote": "Python initializes and updates i automatically across the list values.",
+      "quoteTime": "18:23",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=1103",
+      "expandedAnswer": "`while` 需要你手动写初值、条件、更新三个部件；`for` 直接表达“遍历这个可迭代对象”，迭代细节由解释器处理。这样减少样板代码，也降低忘写更新语句导致死循环的风险。",
+      "keyPoints": [
+        "for 抽象了迭代控制细节",
+        "减少样板代码",
+        "降低循环管理错误风险"
+      ]
+    },
+    {
+      "id": "l2-06",
+      "order": 6,
+      "section": "Range 函数",
+      "sectionEn": "The Range Function",
+      "core": "`range(n)` 生成从 0 到 n-1 的序列，适合按次数循环而不手写长列表。",
+      "question": "`range()` 如何解决“一百万次循环”这种极端场景？",
+      "quote": "Use range to generate values instead of writing huge lists by hand.",
+      "quoteTime": "20:14",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=1214",
+      "expandedAnswer": "`range` 把“值序列的构造”交给语言内置机制，你只声明边界，不手写元素。它让代码从“数据罗列”变成“规则描述”，在大规模循环时仍保持可读和可维护。核心收益是可扩展性而不是省几行字。",
+      "keyPoints": [
+        "range 用规则代替枚举",
+        "大规模循环更可维护",
+        "边界清晰、扩展简单"
+      ]
+    },
+    {
+      "id": "l2-07",
+      "order": 7,
+      "section": "Pythonic 变量命名",
+      "sectionEn": "Pythonic Variables",
+      "core": "当循环变量仅用于占位且不被使用时，用 `_` 表示“存在但我不关心它”。",
+      "question": "不用循环变量值时，为什么推荐命名为 `_`？",
+      "quote": "A single underscore signals this variable exists but its name/value is not important here.",
+      "quoteTime": "22:30",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=1350",
+      "expandedAnswer": "`_` 是一种语义标注：告诉读代码的人“这里是按次数迭代，不依赖当前元素”。它能减少误解，避免别人以为变量后续会被使用。Pythonic 不只是语法，更是通过命名传达意图。",
+      "keyPoints": [
+        "`_` 表示占位变量",
+        "命名用于传达意图",
+        "提升团队阅读一致性"
+      ]
+    },
+    {
+      "id": "l2-08",
+      "order": 8,
+      "section": "字符串乘法",
+      "sectionEn": "String Multiplication",
+      "core": "Python 支持字符串乘法，如 `'meow\n' * 3`，可快速生成重复文本。",
+      "question": "不写循环时，Python 如何“直接重复打印”？",
+      "quote": "You can print a string multiplied by the number of repetitions.",
+      "quoteTime": "23:36",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=1416",
+      "expandedAnswer": "这是语法糖：把重复操作交给运算符而非控制流。它对简单文本生成很高效，但当每次迭代逻辑不同（需判断、需计算）时，循环仍是更通用的方案。选择依据是需求复杂度，不是炫技。",
+      "keyPoints": [
+        "字符串乘法适合简单重复输出",
+        "复杂重复仍需循环",
+        "语法糖应服务可读性"
+      ]
+    },
+    {
+      "id": "l2-09",
+      "order": 9,
+      "section": "验证用户输入",
+      "sectionEn": "Validating Input",
+      "core": "`while True` + 条件校验 + `break` 是常见输入验证模式：直到输入合法才退出。",
+      "question": "为什么看似危险的 `while True` 在输入验证中反而常用？",
+      "quote": "You can deliberately create an infinite loop and break only when input is valid.",
+      "quoteTime": "28:19",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=1699",
+      "expandedAnswer": "它把逻辑写成“先无限尝试，再由成功条件终止”，非常符合交互式输入场景。关键不在 `while True` 本身，而在你是否提供了可靠退出条件。没有 `break` 才危险；有明确验证与退出时，它是高可读模板。",
+      "keyPoints": [
+        "while True 是控制模板",
+        "安全性来自明确退出条件",
+        "非常适合用户重试场景"
+      ]
+    },
+    {
+      "id": "l2-10",
+      "order": 10,
+      "section": "函数与返回值",
+      "sectionEn": "Functions and Return",
+      "core": "在函数内，`return` 既能返回结果，也会立即终止当前函数执行。",
+      "question": "循环内部写 `return` 会对循环和函数产生什么双重影响？",
+      "quote": "Returning a value lets the function hand an actual value back explicitly.",
+      "quoteTime": "33:37",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=2017",
+      "expandedAnswer": "`break` 只跳出最近一层循环，函数还会继续执行后续代码；`return` 则直接结束整个函数并把值交给调用者。在输入函数里这很自然：一旦拿到合法值，立即返回，流程最短、意图最清晰。",
+      "keyPoints": [
+        "return 同时终止函数并传值",
+        "break 只影响循环层",
+        "输入函数常用 return 直接收束流程"
+      ]
+    },
+    {
+      "id": "l2-11",
+      "order": 11,
+      "section": "列表与索引",
+      "sectionEn": "Lists and Indexing",
+      "core": "列表通过索引访问元素，语法是 `students[0]` 这类方括号表达式。",
+      "question": "访问列表中某个元素要用什么语法？它印证了哪种计数习惯？",
+      "quote": "Use square brackets with numbers; this is where zero-based counting becomes useful.",
+      "quoteTime": "36:41",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=2201",
+      "expandedAnswer": "索引本质是位置偏移量。首元素偏移为 0，所以访问首项写 `list[0]`。这再次说明编程里“从 0 开始”与数据结构紧密耦合。掌握这一点后，切片、循环边界和长度关系会更直观。",
+      "keyPoints": [
+        "方括号语法用于索引访问",
+        "索引即偏移量",
+        "0-based 是列表操作基础"
+      ]
+    },
+    {
+      "id": "l2-12",
+      "order": 12,
+      "section": "遍历列表",
+      "sectionEn": "Iterating Over Lists",
+      "core": "`for item in items` 直接迭代元素值，无需手动计算长度和索引。",
+      "question": "`for student in students` 背后自动帮我们处理了什么？",
+      "quote": "The loop prints all items one at a time regardless of list size.",
+      "quoteTime": "38:09",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=2289",
+      "expandedAnswer": "解释器负责迭代推进、停止条件与取值动作，你只写“对每个元素做什么”。这让代码天然适应列表长度变化，3 个和 400 个元素写法完全一致。它体现了“声明意图优于手工控制细节”。",
+      "keyPoints": [
+        "for-in 自动处理迭代流程",
+        "代码与数据规模解耦",
+        "更关注业务动作而非循环细节"
+      ]
+    },
+    {
+      "id": "l2-13",
+      "order": 13,
+      "section": "结合 len 和 range",
+      "sectionEn": "Combining len and range",
+      "core": "当既要索引又要元素时，可用 `for i in range(len(students))`。",
+      "question": "若要同时打印排名和名字，`range` 与 `len` 应如何组合？",
+      "quote": "Get length first, pass it to range, then iterate over 0..n-1 indices.",
+      "quoteTime": "42:12",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=2532",
+      "expandedAnswer": "`len(students)` 提供边界，`range(...)` 生成合法索引集合。循环内可用 `students[i]` 取值并同时输出 `i` 或 `i+1` 作为序号。它适用于需要位置信息的场景，比如排名、编号、差异比较。",
+      "keyPoints": [
+        "len 提供范围上限",
+        "range 生成索引序列",
+        "适合需要位置与值并存的任务"
+      ]
+    },
+    {
+      "id": "l2-14",
+      "order": 14,
+      "section": "字典基础",
+      "sectionEn": "Dictionaries Intro",
+      "core": "字典通过键值对关联数据，适合表达“属性-值”关系，而非纯顺序集合。",
+      "question": "字典和列表在数据组织方式上有何本质区别？",
+      "quote": "A dictionary associates one thing with another, like words and definitions.",
+      "quoteTime": "45:53",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=2753",
+      "expandedAnswer": "列表强调顺序和位置，靠索引访问；字典强调语义键，靠名称访问。若数据天然是“字段集合”（如 name, house, patronus），字典比列表更直观，也更抗结构变动。它是从“位置思维”转向“属性思维”。",
+      "keyPoints": [
+        "列表：按位置取值",
+        "字典：按键名取值",
+        "对象属性场景更适合字典"
+      ]
+    },
+    {
+      "id": "l2-15",
+      "order": 15,
+      "section": "遍历字典",
+      "sectionEn": "Iterating Dictionaries",
+      "core": "直接遍历字典默认得到键（keys），若要值需再用键索引。",
+      "question": "`for student in students`（students 是 dict）时，循环变量拿到的到底是什么？",
+      "quote": "Iterating a dictionary with for loops goes over keys by design.",
+      "quoteTime": "52:59",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=3179",
+      "expandedAnswer": "默认迭代的是键，因为键是字典的访问入口。常见写法是 `for key in d:` 后用 `d[key]` 取值，或显式用 `d.items()` 同时拿键和值。理解默认行为可避免误以为循环变量是值而导致逻辑错误。",
+      "keyPoints": [
+        "dict 默认迭代 keys",
+        "值需通过 key 再索引",
+        "可用 items() 同时获取键值"
+      ]
+    },
+    {
+      "id": "l2-16",
+      "order": 16,
+      "section": "复杂数据结构：字典列表",
+      "sectionEn": "List of Dictionaries",
+      "core": "“字典的列表”可表示多条结构化记录，`None` 表示值缺失比空字符串更语义化。",
+      "question": "表示数据不存在时，为什么 `None` 比 `''` 更准确？",
+      "quote": "None officially represents the absence of a value and is semantically clearer.",
+      "quoteTime": "01:00:08",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=3608",
+      "expandedAnswer": "空字符串仍是“存在的值”，只是内容为空；`None` 表示“此字段无值/未知/不适用”。这一区别对后续逻辑很关键：你可以明确区分“用户输入了空文本”和“根本没有数据”，从而做正确分支处理。",
+      "keyPoints": [
+        "空字符串是值，None 是缺失",
+        "None 语义更明确",
+        "有助于后续分支与数据清洗"
+      ]
+    },
+    {
+      "id": "l2-17",
+      "order": 17,
+      "section": "马里奥示例：抽象化",
+      "sectionEn": "Mario and Abstraction",
+      "core": "将打印逻辑封装为函数可把复杂实现隐藏在名字后面，让主流程更清晰。",
+      "question": "把打印封装成 `print_column` 为什么有意义？抽象带来什么价值？",
+      "quote": "Abstraction is simplifying a potentially more complicated idea.",
+      "quoteTime": "01:07:19",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=4039",
+      "expandedAnswer": "抽象把“做什么”与“怎么做”分离。主程序只描述意图（打印一列），实现细节放进函数内部管理。这样你能独立优化/替换实现而不影响调用方，也让代码像积木一样组合，降低整体复杂度。",
+      "keyPoints": [
+        "抽象隔离细节",
+        "主流程聚焦意图",
+        "函数化提升复用与替换能力"
+      ]
+    },
+    {
+      "id": "l2-18",
+      "order": 18,
+      "section": "嵌套循环",
+      "sectionEn": "Nested Loops",
+      "core": "二维输出常用双层循环：外层控制行，内层控制列；换行要在每行结束时统一处理。",
+      "question": "打印 3x3 方阵时，为什么内层结束后还要单独写一次 `print()`？",
+      "quote": "You want a newline at the end of each row, not after every brick.",
+      "quoteTime": "01:17:30",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=4650",
+      "expandedAnswer": "内层循环负责一行内连续输出砖块，通常用 `end=''` 抑制自动换行；当这一行完成后，再调用空 `print()` 才会换到下一行。若每块都换行，就会变成单列输出，丢失二维结构。",
+      "keyPoints": [
+        "内层控制列，外层控制行",
+        "换行应发生在行尾",
+        "`end` 与空 print 配合塑造版式"
+      ]
+    },
+    {
+      "id": "l2-19",
+      "order": 19,
+      "section": "分解问题",
+      "sectionEn": "Decomposition",
+      "core": "把大问题拆成小函数（如 `print_row`）可显著降低嵌套逻辑复杂度。",
+      "question": "复杂嵌套循环如何通过“把责任交给函数”来简化？",
+      "quote": "Decompose a larger program into smaller components that assemble into the final idea.",
+      "quoteTime": "01:20:00",
+      "quoteUrl": "http://www.youtube.com/watch?v=-7xg8pGcP6w&t=4800",
+      "expandedAnswer": "先识别重复子任务，再抽成独立函数，让上层代码只保留流程骨架。这样每层只关注一个维度：主流程管组织，子函数管细节。分解不是为了函数数量，而是为了把认知负担切块，便于测试与修改。",
+      "keyPoints": [
+        "先拆子任务，再组装全局",
+        "每层只处理一类责任",
+        "分解能提升测试性与可维护性"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "deckId": "cs50p-lecture3",
+  "title": "CS50P L3",
+  "subtitle": "Exceptions 复习卡片（共 11 节）",
+  "updatedAt": "2026-02-19",
+  "cards": [
+    {
+      "id": "l3-01",
+      "order": 1,
+      "section": "异常与语法错误",
+      "sectionEn": "Exceptions and SyntaxError",
+      "core": "`SyntaxError` 是代码结构本身无效，解释器在运行前就无法解析，因此必须先修代码。",
+      "question": "为什么不能用 `try...except` 捕获并处理语法错误（如少引号）？",
+      "quote": "SyntaxError is on the programmer; code cannot run to catch it because parsing already failed.",
+      "quoteTime": "02:36",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=156",
+      "expandedAnswer": "`try...except` 只在程序成功启动并执行到对应语句时才有机会工作。语法错误发生在解释器“读代码”阶段，连抽象语法树都建不起来，执行阶段根本没开始。所以它不属于运行时可恢复错误，而是编写期必须修复的问题。",
+      "keyPoints": [
+        "SyntaxError 发生在解析阶段",
+        "程序未启动，异常处理机制尚未生效",
+        "必须先修源代码才能运行"
+      ]
+    },
+    {
+      "id": "l3-02",
+      "order": 2,
+      "section": "运行时错误与 ValueError",
+      "sectionEn": "Runtime Errors and ValueError",
+      "core": "`ValueError` 表示类型看似可接受，但值不满足函数要求，如 `int('cat')`。",
+      "question": "报错中的 `invalid literal for int() with base 10` 具体是什么意思？",
+      "quote": "`int` in base 10 cannot parse the literal 'cat' into a valid number.",
+      "quoteTime": "07:44",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=464",
+      "expandedAnswer": "`literal` 是用户输入的原始字面文本，`int()` 期望的是十进制数字串。`cat` 不符合十进制数字规则，所以转换失败并抛出 `ValueError`。这类错误提醒你：输入并不可信，程序必须做验证与兜底。",
+      "keyPoints": [
+        "ValueError 是值语义不合法",
+        "`int` 只接受可解析数字文本",
+        "输入验证是防崩溃基础"
+      ]
+    },
+    {
+      "id": "l3-03",
+      "order": 3,
+      "section": "引入 try 和 except",
+      "sectionEn": "Introducing try and except",
+      "core": "`try` 尝试执行，若发生指定异常则进入 `except`，避免程序直接崩溃。",
+      "question": "为什么 `except` 后应明确写异常类型（如 `ValueError`）？",
+      "quote": "Specify the exception type so only the intended error is handled.",
+      "quoteTime": "09:54",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=594",
+      "expandedAnswer": "精确捕获能让处理逻辑与错误类型一一对应，避免把无关 bug 误当成输入问题吞掉。异常类型越明确，代码行为越可预测，调试成本越低。这是“最小处理范围”原则在异常处理里的体现。",
+      "keyPoints": [
+        "只处理你预期的异常",
+        "精确捕获提升可调试性",
+        "避免误吞其他错误"
+      ]
+    },
+    {
+      "id": "l3-04",
+      "order": 4,
+      "section": "捕获所有异常的坏处",
+      "sectionEn": "Why Bare except is Dangerous",
+      "core": "裸 `except:` 会捕获所有异常，可能掩盖真实 bug，导致程序“看似稳定、实则错误被吞”。",
+      "question": "既然能防崩溃，为什么教授说裸 except 危险且懒惰？",
+      "quote": "Bare except can hide other bugs because you stop knowing what actually failed.",
+      "quoteTime": "12:24",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=744",
+      "expandedAnswer": "防崩溃不是唯一目标，定位问题同样重要。裸 `except` 把所有异常混成一个出口，你失去错误类型和上下文，严重时会让逻辑错误长期潜伏。正确做法是按异常类别精细处理，未知异常应暴露或记录。",
+      "keyPoints": [
+        "异常处理要可观测",
+        "裸 except 会隐藏真实故障",
+        "未知错误不应被无差别吞掉"
+      ]
+    },
+    {
+      "id": "l3-05",
+      "order": 5,
+      "section": "作用域与 NameError",
+      "sectionEn": "Scope and NameError",
+      "core": "若赋值语句右侧先报错，左侧变量不会被成功绑定，后续引用会触发 `NameError`。",
+      "question": "明明写了 `x = ...`，为何转换失败后再用 `x` 仍报未定义？",
+      "quote": "Assignment completes only after the right-hand side succeeds; if it errors, x never gets set.",
+      "quoteTime": "17:58",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=1078",
+      "expandedAnswer": "赋值是原子流程：先算右边，再绑定左边。右边抛异常时流程中断，绑定动作根本没发生。所以“代码里出现变量名”不代表变量已存在；只有赋值成功后，它才进入当前作用域。",
+      "keyPoints": [
+        "右侧求值先于左侧绑定",
+        "异常中断会导致变量未定义",
+        "NameError 常来自失败赋值后的误引用"
+      ]
+    },
+    {
+      "id": "l3-06",
+      "order": 6,
+      "section": "else 子句的作用",
+      "sectionEn": "The else Clause",
+      "core": "`else` 在 `try` 成功时执行，适合放依赖成功结果的后续代码，缩小 `try` 范围。",
+      "question": "为何建议把打印 `x` 放进 `else`，而不是紧跟在 try 里？",
+      "quote": "Keep try minimal: only risky lines inside; run follow-up logic in else when no exception occurs.",
+      "quoteTime": "13:57",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=837",
+      "expandedAnswer": "`try` 范围过大时，后续代码出错也会被误判成同类异常。把高风险语句单独放 `try`，将成功路径放 `else`，可以精准定位失败点。这样异常语义清晰，维护时更容易判断“到底哪一步失败”。",
+      "keyPoints": [
+        "最小化 try 范围",
+        "else 表达成功分支更明确",
+        "降低误捕获概率"
+      ]
+    },
+    {
+      "id": "l3-07",
+      "order": 7,
+      "section": "循环提问",
+      "sectionEn": "Reprompting with while True",
+      "core": "输入验证常用 `while True` 重试，成功时 `break` 或 `return` 退出；失败则继续循环。",
+      "question": "`break` 放在 `try` 末尾还是 `else` 中，有本质区别吗？",
+      "quote": "Both can work; putting break in else may read clearer, but try-end break is also acceptable in small code.",
+      "quoteTime": "29:14",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=1754",
+      "expandedAnswer": "功能上通常等价，因为只有不抛异常时才会走到 `break`。差异主要在可读性：放 `else` 更显式地表达“成功才退出”。代码较短时放 `try` 末尾也可行，但团队协作中建议优先语义更清晰的布局。",
+      "keyPoints": [
+        "两种放置多数场景功能等价",
+        "else 语义更直观",
+        "风格选择应服务可读性"
+      ]
+    },
+    {
+      "id": "l3-08",
+      "order": 8,
+      "section": "函数化",
+      "sectionEn": "Creating Functions",
+      "core": "把输入逻辑封装为 `get_int()`，在函数中 `return` 可同时结束循环并返回结果。",
+      "question": "函数内部用了 `return` 之后，还需要写 `break` 吗？",
+      "quote": "No. Return is stronger than break: it exits the loop and the whole function with a value.",
+      "quoteTime": "33:16",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=1996",
+      "expandedAnswer": "`break` 只退出循环，函数继续；`return` 直接离开函数并交回结果，所以通常无需再 `break`。在“拿到合法输入立即结束”的场景里，`return` 是最短路径，也减少状态变量与额外控制语句。",
+      "keyPoints": [
+        "return 覆盖 break 的退出需求",
+        "return 同时完成传值",
+        "能简化输入函数控制流"
+      ]
+    },
+    {
+      "id": "l3-09",
+      "order": 9,
+      "section": "精简代码",
+      "sectionEn": "Refining get_int",
+      "core": "可将 `x = int(input())` 与 `return x` 合并为 `return int(input())`，在简洁与可读间做平衡。",
+      "question": "合并为单行 `return int(input(...))` 的优缺点是什么？",
+      "quote": "Shorter code can be elegant, but you should balance compactness with readability.",
+      "quoteTime": "34:51",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=2091",
+      "expandedAnswer": "优点是减少中间变量与样板行，逻辑更集中；缺点是调试断点和初学阅读可能稍难。判断标准是团队是否能快速理解并维护。简洁是手段，不是目标，清晰可维护才是目标。",
+      "keyPoints": [
+        "短代码不必然更好",
+        "简洁与可读需权衡",
+        "可维护性优先于炫技巧"
+      ]
+    },
+    {
+      "id": "l3-10",
+      "order": 10,
+      "section": "pass 语句",
+      "sectionEn": "The pass Statement",
+      "core": "`pass` 是空操作，可在捕获异常后静默跳过，让循环直接进入下一轮重试。",
+      "question": "什么场景下 `except` 里用 `pass` 比打印错误更合适？",
+      "quote": "Use pass when you intentionally catch and ignore an exception, e.g., quietly reprompting.",
+      "quoteTime": "35:56",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=2156",
+      "expandedAnswer": "当错误对用户来说无需解释、且你只想温和重试输入时，`pass` 很合适。但在开发/调试阶段，完全静默可能掩盖问题，通常应至少记录日志。也就是说：对用户可安静，对系统不可失明。",
+      "keyPoints": [
+        "pass 表示有意忽略本轮异常",
+        "适合温和重试交互",
+        "生产环境建议配合日志"
+      ]
+    },
+    {
+      "id": "l3-11",
+      "order": 11,
+      "section": "函数参数与复用性",
+      "sectionEn": "Function Parameters and Reuse",
+      "core": "把提示语做成参数 `get_int(prompt)`，能解耦调用方与函数内部细节，显著提升复用性。",
+      "question": "为什么把 `'What's x?'` 改成参数 `prompt` 会让 `get_int` 更好？",
+      "quote": "Parameterizing prompt lets caller decide wording; get_int stays reusable and decoupled from variable names.",
+      "quoteTime": "42:00",
+      "quoteUrl": "http://www.youtube.com/watch?v=LW7g1169v7w&t=2520",
+      "expandedAnswer": "参数化让函数从“为某个变量写死的工具”变成“通用能力模块”。调用者决定上下文文案，函数专注做一件事：读入并返回整数。职责边界更清晰后，函数可在多个场景复用，测试也更简单。",
+      "keyPoints": [
+        "参数化提升通用性",
+        "调用方与实现方解耦",
+        "函数职责更单一、可测试"
+      ]
+    }
+  ]
+}

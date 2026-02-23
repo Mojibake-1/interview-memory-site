@@ -1,0 +1,125 @@
+[
+  {
+    "id": "cron_schedule",
+    "term": "cron 定时",
+    "category": "部署与运维",
+    "core": "cron 定时是最基础的任务调度方式，适合单机稳定周期任务。",
+    "boundary": "把复杂依赖任务都交给 cron，会缺少失败重试和可观测能力。",
+    "signal": "任务简单、执行环境固定时，cron 是低成本选择。",
+    "action": "crontab 命令中显式设置环境变量和日志重定向；执行结果接入告警。",
+    "aliases": [
+      "cron"
+    ]
+  },
+  {
+    "id": "gha_schedule",
+    "term": "GitHub Actions schedule",
+    "category": "部署与运维",
+    "core": "GitHub Actions schedule 适合仓库内自动任务，如巡检、同步和报告生成。",
+    "boundary": "把高实时任务放在 schedule 上会受平台调度延迟影响。",
+    "signal": "任务和代码强耦合且希望免维护基础设施时，可优先用 GHA schedule。",
+    "action": "配置 `on: schedule` 后在日志打印执行时间和版本，便于追踪偏差。",
+    "aliases": [
+      "github actions",
+      "schedule"
+    ]
+  },
+  {
+    "id": "env_management",
+    "term": ".env 与环境变量",
+    "category": "部署与运维",
+    "core": "环境变量管理用于隔离不同环境配置，保证同一代码在多环境行为可控。",
+    "boundary": "把配置散落在脚本和代码常量里，排错时难以统一定位。",
+    "signal": "出现“测试环境正常、生产异常”时，首先核查环境变量差异。",
+    "action": "建立 `.env.example` 作为契约；启动时校验必需变量，缺失即失败退出。",
+    "aliases": [
+      ".env",
+      "环境变量"
+    ]
+  },
+  {
+    "id": "secret_rotation",
+    "term": "密钥轮换",
+    "category": "部署与运维",
+    "core": "密钥轮换降低长期泄露风险，是安全运维的常规动作。",
+    "boundary": "密钥长期不换，一次泄露可能长期未被发现。",
+    "signal": "人员变动、供应商变更或检测到异常调用时应立即轮换密钥。",
+    "action": "建立轮换日历和自动化脚本；轮换后回归验证关键调用路径。",
+    "aliases": [
+      "secret rotation"
+    ]
+  },
+  {
+    "id": "structured_logging",
+    "term": "结构化日志",
+    "category": "部署与运维",
+    "core": "结构化日志用统一字段记录事件，便于检索、聚合和自动告警。",
+    "boundary": "纯文本日志难以做稳定查询和跨服务关联。",
+    "signal": "系统规模扩大后，日志分析效率决定故障恢复速度。",
+    "action": "统一输出 JSON 日志，包含 trace_id、level、module、event、duration。",
+    "aliases": [
+      "logging",
+      "结构化"
+    ]
+  },
+  {
+    "id": "log_level",
+    "term": "日志级别",
+    "category": "部署与运维",
+    "core": "日志级别用于控制信息粒度，平衡排障能力与存储成本。",
+    "boundary": "生产长期开 debug 会淹没关键信号并增加成本。",
+    "signal": "日志太少定位不了问题，或太多看不到重点时，要重设级别策略。",
+    "action": "默认 INFO，异常用 ERROR，临时排障短期开 DEBUG 并设置自动回退。",
+    "aliases": [
+      "log level"
+    ]
+  },
+  {
+    "id": "health_check",
+    "term": "健康检查",
+    "category": "部署与运维",
+    "core": "健康检查用于持续判断服务是否可用，并为流量切换和自动恢复提供依据。",
+    "boundary": "只检查进程存活不检查依赖可用，会误判健康状态。",
+    "signal": "发布后需要快速确认可用性时，health check 是第一道保障。",
+    "action": "实现就绪检查与存活检查分离；检查数据库、缓存、队列等关键依赖。",
+    "aliases": [
+      "health check"
+    ]
+  },
+  {
+    "id": "incident_response",
+    "term": "故障响应流程",
+    "category": "部署与运维",
+    "core": "故障响应流程把“发现-分级-处置-沟通-复盘”标准化，缩短恢复时间。",
+    "boundary": "没有流程会导致多人并行乱改，事故影响扩大。",
+    "signal": "系统进入值班阶段后，故障响应流程必须先于规模增长。",
+    "action": "预设值班角色和升级路径；故障期间固定节奏同步状态，恢复后立即复盘。",
+    "aliases": [
+      "incident"
+    ]
+  },
+  {
+    "id": "runbook",
+    "term": "Runbook",
+    "category": "部署与运维",
+    "core": "Runbook 是可执行操作手册，保证关键任务在压力场景下也能按步骤完成。",
+    "boundary": "只靠个人经验处理故障，人员一换就失效。",
+    "signal": "高频操作（重启、扩容、回滚）都应沉淀 runbook。",
+    "action": "每个 runbook 包含前置条件、步骤、验证、回滚和联系人。",
+    "aliases": [
+      "runbook"
+    ]
+  },
+  {
+    "id": "rollback",
+    "term": "回滚策略",
+    "category": "部署与运维",
+    "core": "回滚策略用于在发布异常时快速恢复服务，核心是“快、稳、可验证”。",
+    "boundary": "没有可回滚版本和数据兼容方案，失败发布会被动拖长。",
+    "signal": "每次发布前都应确认回滚路径是否可执行。",
+    "action": "保留上一个稳定版本并支持一键切换；回滚后自动执行健康检查。",
+    "aliases": [
+      "rollback"
+    ]
+  }
+]

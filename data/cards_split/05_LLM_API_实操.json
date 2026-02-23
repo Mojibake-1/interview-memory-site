@@ -1,0 +1,102 @@
+[
+  {
+    "id": "llm_api_key_mgmt",
+    "term": "API Key 安全管理",
+    "category": "LLM API 实操",
+    "core": "API Key 管理的重点是“最小暴露、可轮换、可追踪”，否则模型能力越强风险越大。",
+    "boundary": "把 key 写进仓库、截图或共享文档，会在短时间内演变成真实安全事件。",
+    "signal": "项目从本地 PoC 走向团队协作时，必须先补密钥治理。",
+    "action": "用环境变量和密钥管理服务注入 key；按月轮换，异常调用量触发自动告警。",
+    "aliases": []
+  },
+  {
+    "id": "llm_token_pricing",
+    "term": "Token 计费与成本控制",
+    "category": "LLM API 实操",
+    "core": "Token 成本控制是 LLM 产品化的财务底座，输入长度、输出上限和调用频次都会放大费用。",
+    "boundary": "只关注效果不计成本，常见结果是 demo 可行、上线不可持续。",
+    "signal": "当请求量增长或出现长上下文场景时，必须把单请求成本可视化。",
+    "action": "记录每次调用的 input/output token，按功能模块打账；对长文本先摘要再推理。",
+    "aliases": []
+  },
+  {
+    "id": "llm_context_window",
+    "term": "上下文窗口限制",
+    "category": "LLM API 实操",
+    "core": "上下文窗口限制决定模型一次能“看见”多少信息，超限会截断、报错或丢关键信息。",
+    "boundary": "把全文硬塞进 prompt 会让真正重要的指令被稀释。",
+    "signal": "模型开始答非所问、遗漏尾部信息或偶发 400 错误时，要先检查上下文预算。",
+    "action": "实施分块检索 + 分层摘要；把系统约束放在最前，示例和背景按优先级裁剪。",
+    "aliases": []
+  },
+  {
+    "id": "llm_temperature",
+    "term": "temperature 参数",
+    "category": "LLM API 实操",
+    "core": "temperature 控制采样随机性：越低越稳定，越高越发散，适合不同任务目标。",
+    "boundary": "把高温度用于结构化抽取会显著降低一致性和可测性。",
+    "signal": "输出风格漂移、字段不稳定时，优先调低 temperature 再看 prompt。",
+    "action": "抽取/分类任务设 0~0.3，创意生成设 0.7 左右；固定参数后再做效果对比。",
+    "aliases": []
+  },
+  {
+    "id": "llm_system_prompt",
+    "term": "system prompt 设计",
+    "category": "LLM API 实操",
+    "core": "system prompt 决定模型角色边界和行为优先级，是稳定输出格式与安全策略的核心控制点。",
+    "boundary": "只写用户提问不写系统约束，会导致模型在不同输入下行为飘忽。",
+    "signal": "当你需要“长期稳定同一种输出格式”时，必须把规则放入 system 层。",
+    "action": "system 中明确角色、禁止项、输出 schema；用户层只放任务变量，减少规则冲突。",
+    "aliases": []
+  },
+  {
+    "id": "llm_few_shot",
+    "term": "Few-shot 示例引导",
+    "category": "LLM API 实操",
+    "core": "Few-shot 通过高质量示例给模型“对齐样本”，比抽象描述更容易稳定任务行为。",
+    "boundary": "示例质量差或风格不一致，会把噪声放大成系统性误差。",
+    "signal": "零样本结果能用但不稳定时，通常加 2~3 个标准样例即可显著提升一致性。",
+    "action": "挑选边界清晰、覆盖反例的示例；每次只改一组样例并做 A/B 评估。",
+    "aliases": []
+  },
+  {
+    "id": "llm_streaming",
+    "term": "流式响应 Streaming",
+    "category": "LLM API 实操",
+    "core": "流式响应把“等待完整结果”改为“边生成边消费”，可明显降低首字延迟。",
+    "boundary": "只追求流式体验却不处理中断和拼接，会导致前端展示残缺文本。",
+    "signal": "对话产品需要即时反馈、或长文本生成等待过长时，应开启 streaming。",
+    "action": "客户端按增量 token 拼接并维护光标；连接中断时支持重试与断点续传。",
+    "aliases": []
+  },
+  {
+    "id": "llm_rate_limit_api",
+    "term": "API 调用频率限制",
+    "category": "LLM API 实操",
+    "core": "频率限制管理是稳定调用的前提，核心是识别 429 并实施有界退避。",
+    "boundary": "收到 429 立即无脑重试会形成雪崩，反而延长整体恢复时间。",
+    "signal": "并发上升后偶发超时或限流报错，说明需要引入请求队列和重试预算。",
+    "action": "实现指数退避 + 抖动，设置最大重试次数；对热点任务启用令牌桶限速。",
+    "aliases": []
+  },
+  {
+    "id": "llm_error_handling",
+    "term": "API 错误处理",
+    "category": "LLM API 实操",
+    "core": "LLM API 错误处理要区分参数错误、鉴权错误、限流错误和服务端错误，处理策略完全不同。",
+    "boundary": "把所有异常都捕获成“调用失败”会丢失可操作信息。",
+    "signal": "线上出现间歇性失败但日志只写一行报错时，先补错误分类与结构化日志。",
+    "action": "按 HTTP 状态码分类处理；日志记录 request_id、模型名、token 用量和重试次数。",
+    "aliases": []
+  },
+  {
+    "id": "llm_eval_output",
+    "term": "输出质量评估",
+    "category": "LLM API 实操",
+    "core": "输出评估不是“感觉好不好”，而是用可重复指标验证准确率、一致性和格式遵循度。",
+    "boundary": "没有基准集就频繁改 prompt，团队会陷入主观争论。",
+    "signal": "需求变更后需要证明“新版本确实更好”时，必须依赖评估集和评分规则。",
+    "action": "建立回归样本集，定义评分 rubric；每次改动跑离线评测并记录版本对比。",
+    "aliases": []
+  }
+]

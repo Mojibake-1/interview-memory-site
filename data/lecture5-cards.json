@@ -1,0 +1,220 @@
+{
+    "deckId": "cs50p-lecture5",
+    "title": "CS50P L5",
+    "subtitle": "按视频逻辑整理的记忆卡片（共 13 节）",
+    "updatedAt": "2026-02-22",
+    "cards": [
+        {
+            "id": "l5-01",
+            "order": 1,
+            "section": "为什么需要编写测试代码",
+            "sectionEn": "Introduction",
+            "core": "传统的测试方法是手动运行程序并输入不同的样本值，但这种方式效率低下且容易遗漏。现代软件开发的标准实践是编写额外的、专门的代码来自动化测试原来的代码。",
+            "question": "在现代软件开发中，编写专门的测试代码（而不仅仅是手动输入样例）为什么被认为是更好、更必要的实践？",
+            "quote": "不仅写代码解决问题，再写一些额外的代码来测试原代码，可以让我们更加确信问题被正确解决。",
+            "quoteTime": "00:45",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=45",
+            "expandedAnswer": "教授指出，不仅写代码解决问题，再写一些额外的代码来测试原代码，可以让我们更加确信问题被正确解决。手动测试过于繁琐，而专门的测试代码可以将测试过程自动化，避免遗漏边界情况，是个人项目和工业界的普遍做法。",
+            "keyPoints": [
+                "让我们可以更加确信问题被正确解决",
+                "将繁琐费时的手动测试自动化",
+                "防范和避免遗漏冷僻或异常的边界情况"
+            ]
+        },
+        {
+            "id": "l5-02",
+            "order": 2,
+            "section": "控制主函数执行",
+            "sectionEn": "if __name__ == '__main__'",
+            "core": "复习了早期的计算器程序。引入了将文件作为“库”导入的概念。为了防止主交互逻辑在导入时被意外执行，我们必须使用特殊的条件判断来限制 `main` 函数的调用。",
+            "question": "在编写需要被其他文件导入测试的模块时，为什么要在文件末尾加上 `if __name__ == \"__main__\":` 判断？如果漏掉会发生什么？",
+            "quote": "如果不加这个条件判断，当我们为了测试而从另一个文件中 `import` 这个模块的函数时，原文件的 `main` 函数会自动执行。",
+            "quoteTime": "03:31",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=211",
+            "expandedAnswer": "如果不加这个条件判断，当我们为了测试而从另一个文件中 `import` 这个模块的函数时，原文件的 `main` 函数会自动执行，导致原本的交互逻辑（如在控制台要求用户输入数据）被意外触发。加上这个判断，可以安全地将文件当作库（Library）来导入而不会触发副作用。",
+            "keyPoints": [
+                "防止导入时意外执行主逻辑发生副作用",
+                "为将文件自身作为一个库提供了保障机制"
+            ]
+        },
+        {
+            "id": "l5-03",
+            "order": 3,
+            "section": "手动编写测试与潜在瓶颈",
+            "sectionEn": "Manual assertions issues",
+            "core": "展示了如何通过简单的 `if` 条件和 `print` 语句去判断函数输出是否符合预期。如果预期与实际不符，则打印错误提示。",
+            "question": "如果我们在测试代码中只用简单的 `if` 语句和 `print` 来做自动化测试，当测试规模变大时会遇到什么严重的潜在瓶颈？",
+            "quote": "当测试变多时，测试代码的复杂度和代码量将远超原函数，使得测试变得极其繁琐。",
+            "quoteTime": "09:33",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=573",
+            "expandedAnswer": "当我们只是用 `if` 和 `print` 去做测试时，每增加一个测试用例都需要写好几行冗余代码（条件判断和打印输出）。当测试变多时，测试代码的复杂度和代码量将远超原函数，使得测试变得极其繁琐，进而导致开发者不愿意编写测试，并且容易在测试代码本身中引入错误。",
+            "keyPoints": [
+                "产生大量的模板化或冗长代码（Boilerplate）",
+                "代码过于复杂可能掩盖或引出自身的错误",
+                "使得开发者极其抗拒并逃避编写测试"
+            ]
+        },
+        {
+            "id": "l5-04",
+            "order": 4,
+            "section": "巧合导致的测试盲区与代表性输入",
+            "sectionEn": "Testing Coincidence and Coverage",
+            "core": "教授演示了一个 Bug：如果把平方逻辑 `n * n` 错写成 `n + n`，测试 `square(2)` 依然会通过。这表明仅凭单一测试是不够的。",
+            "question": "为什么我们的测试必须覆盖多个不同的输入？（请以将平方操作误写为加法操作的 Bug 为例说明）",
+            "quote": "只有测试如 3 这样的输入，才会暴露出 3 + 3 != 3 * 3 的错误，必须测试不同的代表性输入才能抓住偶然巧合带来的漏洞。",
+            "quoteTime": "09:04",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=544",
+            "expandedAnswer": "如果把平方函数误写成了加法（`n + n`），当测试输入为 2 时，`2 + 2` 恰好等于 `2 * 2`，此时这一个测试不会报错，错误被巧合掩盖了。只有测试如 3 这样的输入，才会暴露出 `3 + 3 != 3 * 3` 的错误，因此必须测试不同的代表性输入才能抓住偶然巧合带来的漏洞。",
+            "keyPoints": [
+                "单一的测试用例具有巧合风险",
+                "2*2恰好等于2+2",
+                "应当测试多种不同的具有代表性的情况或维度"
+            ]
+        },
+        {
+            "id": "l5-05",
+            "order": 5,
+            "section": "assert 关键字与异常处理",
+            "sectionEn": "assert",
+            "core": "引入了 Python 中的 `assert`（断言）关键字，它可以大大简化测试代码。当断言失败时，会抛出 `AssertionError`。可以通过 `try` 和 `except` 捕获该错误以输出友好信息。",
+            "question": "`assert` 关键字的作用机制是什么？如果断言条件为假，Python 默认会产生什么样的行为？",
+            "quote": "如果表达式为真什么都不会发生；如果为假，Python 就会主动抛出一个 AssertionError。",
+            "quoteTime": "10:23",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=623",
+            "expandedAnswer": "`assert` 允许我们在代码中“大胆声明”一个布尔表达式为真。如果该表达式为真，什么都不会发生；如果为假，Python 就会主动抛出一个 `AssertionError`（断言错误）并在屏幕上显示错误追踪信息。",
+            "keyPoints": [
+                "当逻辑正确（真）时静默不作为",
+                "引发 AssertionError （断言错误）异常并抛出"
+            ]
+        },
+        {
+            "id": "l5-06",
+            "order": 6,
+            "section": "捕捉边界情况",
+            "sectionEn": "Corner Cases",
+            "core": "为了全面测试函数，除了正数，还添加了对 0 和负数的测试。通过多角度测试发现代码在这些输入下的反应。",
+            "question": "在测试一个数学计算函数时，为什么选择测试负数和 0 是一种良好的工程直觉？",
+            "quote": "因为通常所有正数的表现一致，负数一致，而 0 则是边缘情况（corner cases）。",
+            "quoteTime": "15:03",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=903",
+            "expandedAnswer": "寻找测试用例并没有绝对的科学公式，而是基于经验去寻找“边缘情况”（corner cases）。通常所有正数的表现可能一致，所有负数的表现也可能一致，而 0 往往是一个数学上的异常或分界点。测试这些具有代表性的大类，能更全面地捕捉代码中的逻辑错误。",
+            "keyPoints": [
+                "这是一种寻找“边缘情况”的经验性直觉",
+                "0往往是数学上的异常或者特殊的分界点",
+                "正数和负数往往自身各自表现一致"
+            ]
+        },
+        {
+            "id": "l5-07",
+            "order": 7,
+            "section": "单元测试与 pytest 库介绍",
+            "sectionEn": "pytest",
+            "core": "教授解释了单元测试（Unit Testing）的概念，并引出了第三方框架 `pytest`，它可以自动发现、执行测试并生成报告，免去了开发者手动写异常处理代码的麻烦。",
+            "question": "相比于我们手动编写 `try/except` 和打印错误信息，`pytest` 这个第三方库提供了什么核心优势？",
+            "quote": "`pytest` 帮我们自动化处理了捕获异常、条件判断、打印错误日志等标准化的运行流程。极大减轻了开发负担。",
+            "quoteTime": "19:23",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=1163",
+            "expandedAnswer": "`pytest` 帮我们自动化处理了捕获异常、条件判断、打印错误日志等标准化的运行流程。我们不需要自己写 `main` 函数，也不用写臃肿的 `try...except` 块，只需要编写极简的 `assert` 语句，`pytest` 会自动运行它们并输出直观的通过/失败报告，极大减轻了开发负担。",
+            "keyPoints": [
+                "极简：只需要编写 `assert` 语句，剥离了异常结构",
+                "完全自动化地输出可视化、结构直观的失败与成功报告"
+            ]
+        },
+        {
+            "id": "l5-08",
+            "order": 8,
+            "section": "隔离用户输入以提升代码的“可测试性”",
+            "sectionEn": "Testability & decoupling",
+            "core": "回答学生关于“用户输入字符串导致程序崩溃如何测试”的问题，强调了把逻辑与用户输入解耦的重要性。",
+            "question": "如果我们把获取和校验用户输入的逻辑全部堆放在主程序中，这会给“单元测试”带来什么麻烦？这凸显了什么架构设计原则？",
+            "quote": "我们需要将大问题拆解成具备明确输入和输出的、独立且“纯粹”的函数。",
+            "quoteTime": "24:20",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=1460",
+            "expandedAnswer": "如果所有的逻辑都在 `main` 函数中，且交织着用户输入（`input()`），这部分代码将很难通过自动化的方式进行隔离测试，输入字符串会直接导致未被捕捉的报错。这说明了我们需要将大问题拆解成具备明确输入和输出的、独立且“纯粹”的函数（例如专门负责计算的 `square`），从而让代码更具备“可测试性”。",
+            "keyPoints": [
+                "阻碍隔离与自动化验证进程，使得单元测试变得臃肿或报错",
+                "提醒将用户交互与核心业务运算拆分、结构化为独立纯粹函数"
+            ]
+        },
+        {
+            "id": "l5-09",
+            "order": 9,
+            "section": "将测试拆分为多个分类函数",
+            "sectionEn": "Breaking Down Tests",
+            "core": "展示了把原本塞在一个巨大的 `test_square` 函数里的多条断言，拆分成 `test_positive`、`test_negative` 和 `test_zero` 多个小函数。",
+            "question": "为什么把所有断言放在同一个测试函数中不是一个明智的选择？将其拆分为多个较小的测试函数（如按正负数分类）能为调试提供什么直接好处？",
+            "quote": "如果把所有断言放在一个测试函数中，遇到第一个失败的 `assert` 时函数就会立即终止执行。",
+            "quoteTime": "27:58",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=1678",
+            "expandedAnswer": "如果把所有断言放在一个测试函数中，遇到第一个失败的 `assert` 时函数就会立即终止执行，导致后续的测试用例完全没机会运行，这让你失去了很多排错的线索。拆分成多个独立的测试函数后，`pytest` 会独立运行每一个函数。即使其中一个失败，其他的仍会执行，你可以通过哪些分类通过了、哪些失败了，更精准地推理出 Bug 的根源。",
+            "keyPoints": [
+                "防止一旦单个断言错误导致整体链条被截断无法往后看",
+                "获得更详细报告线索推理具体属于哪个维度的bug"
+            ]
+        },
+        {
+            "id": "l5-10",
+            "order": 10,
+            "section": "使用 pytest.raises 测试预期的异常",
+            "sectionEn": "pytest.raises",
+            "core": "有时候函数遇到非法输入抛出异常是预期的正确行为（例如字符串不能做数学平方运算）。引入了 `pytest.raises` 来测试函数是否如期报错。",
+            "question": "如果我们期望函数在接收到非法参数时应当主动抛出一个特定的异常（如 `TypeError`），我们如何在 `pytest` 中对其进行自动化断言？",
+            "quote": "可以使用 `with pytest.raises(ExceptionType):` 的语法结构。",
+            "quoteTime": "37:05",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=2225",
+            "expandedAnswer": "我们需要先引入 `pytest` 库本身，然后使用 `with pytest.raises(ExceptionType):` 的语法结构。比如期望传入字符串时抛出类型错误，就可以写 `with pytest.raises(TypeError):`，然后在上下文块的内部去调用该函数。如果函数确实按预期抛出了该异常，测试就会标记为通过。",
+            "keyPoints": [
+                "需要提前导入 `import pytest`",
+                "使用 `with pytest.raises(具体异常名):` 的上下文管理器"
+            ]
+        },
+        {
+            "id": "l5-11",
+            "order": 11,
+            "section": "测试“副作用”与测试“返回值”",
+            "sectionEn": "副作用 vs 返回值测试",
+            "core": "转入 `hello.py` 的例子。尝试测试一个没有 `return`、仅有 `print` 打印副作用的函数会导致断言失败。随后重构函数，使其返回字符串。",
+            "question": "如果一个函数内部只是通过 `print()` 将结果输出到屏幕，并没有显式的 `return` 语句，我们能直接用 `assert` 去断言它的返回值吗？这告诉我们在设计函数时应该注意什么？",
+            "quote": "不能。最佳实践是让函数尽量少产生副作用，而是通过 `return` 返回明确的值。",
+            "quoteTime": "41:48",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=2508",
+            "expandedAnswer": "不能。调用 `print` 只是一种“副作用（side effect）”，在屏幕上产生视觉伪影，函数本身并没有真正返回任何值。如果试图去用 `assert` 比较其返回值，测试必定失败。最佳实践是让函数尽量少产生副作用，而是通过 `return` 返回明确的值，这样使得自动化测试可以直接捕捉返回值验证逻辑，而将输出控制权交给调用者。",
+            "keyPoints": [
+                "副作用并不能作为代码或 `assert` 断言能成功捕获的东西",
+                "应当将函数设计成利用返回值的模式而不是只直接执行内部动作的模式"
+            ]
+        },
+        {
+            "id": "l5-12",
+            "order": 12,
+            "section": "保持测试本身的简单性",
+            "sectionEn": "Keep Tests Simple",
+            "core": "有学生提问是否可以在测试里写 `for` 循环来测试列表数据。教授表示可以，但警告不要把测试写得过于复杂。",
+            "question": "为什么教授强调应该保持每个测试逻辑的“简短而简单”，甚至不推荐在测试代码内部编写过于复杂的循环或条件分支逻辑？",
+            "quote": "绝对不希望陷入“必须再写一些代码来测试我们的测试代码”的死循环。",
+            "quoteTime": "47:29",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=2849",
+            "expandedAnswer": "因为如果测试代码写得过于复杂，测试代码本身就可能产生漏洞和 Bug。我们绝对不希望陷入“必须再写一些代码来测试我们的测试代码”的死循环。保持测试的简单性，使得普通人只需通过肉眼审查就能确信这些测试逻辑是对的。",
+            "keyPoints": [
+                "越多的代码或循环可能掩藏或引进它们本身的缺陷或bug",
+                "我们不想陷入测试“测试代码”的死胡同的循环中"
+            ]
+        },
+        {
+            "id": "l5-13",
+            "order": 13,
+            "section": "使用 Package 组织与运行测试",
+            "sectionEn": "testing Packages",
+            "core": "当测试文件增多时，可以将它们放进一个独立的目录（如 `test` 文件夹）。讲解了 `__init__.py` 的作用，以及如何对整个文件夹运行 `pytest`。",
+            "question": "当我们的测试脚本变得很多，需要将它们组织到一个专门的文件夹里统一运行时，需要在该文件夹中放置一个什么特殊的空文件？它的本质作用是什么？",
+            "quote": "需要放置一个名为 `__init__.py` 的文件。在 Python 中，这是一个特殊的指示器，它告诉解释器将其视为一个“包（Package）”。",
+            "quoteTime": "49:08",
+            "quoteUrl": "http://www.youtube.com/watch?v=tIrcxwLqzjQ&t=2948",
+            "expandedAnswer": "需要放置一个名为 `__init__.py` 的文件。在 Python 中，这是一个特殊的指示器，它告诉解释器将该文件夹不仅仅视为一个普通目录，而是视为一个“包（Package）”。这样我们就可以在命令行里直接执行 `pytest 文件夹名`，它会自动遍历整个包并执行内部所有有效的测试脚本。",
+            "keyPoints": [
+                "必须添加 `__init__.py` (通常是空文件)",
+                "其作用是指示解释器将当前普通目录当做包环境以确保模块与子逻辑被打包执行"
+            ]
+        }
+    ]
+}

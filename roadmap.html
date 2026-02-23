@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 自动化技能学习路线</title>
+  <meta name="description" content="AI 自动化岗位技能路线：Python 自动化、pytest、Selenium、接口自动化、CI、OpenClaw、n8n、LLM API、部署运维与交付。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./roadmap.css">
+</head>
+
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="cover">
+    <a class="back-link" href="/">返回主页</a>
+    <p class="kicker">AI AUTOMATION ROADMAP</p>
+    <h1>AI 自动化岗位技能路线</h1>
+    <p class="lead">
+      聚焦实战技能 + 项目产出 + 可维护可讲清的技能组合，整理成可直接执行的学习路线。
+    </p>
+
+    <div class="cover-meta">
+      <span>范围：9 个模块</span>
+      <span>建议周期：1-2 周强化</span>
+      <span>目标：能做 Demo + 能讲落地 + 快速上手</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <aside class="sidebar">
+      <div class="toc" id="toc">
+        <h2>目录</h2>
+        <ol>
+          <li><a href="#sec-1">Python 自动化核心包</a></li>
+          <li><a href="#sec-2">HTTP / JSON / 合规爬取</a></li>
+          <li><a href="#sec-3">OpenClaw / Clawbot</a></li>
+          <li><a href="#sec-4">n8n 工作流编排</a></li>
+          <li><a href="#sec-5">LLM API 接入</a></li>
+          <li><a href="#sec-6">定时运行 + 部署 + 运维</a></li>
+          <li><a href="#sec-7">数据处理：Excel / CSV / SQLite</a></li>
+          <li><a href="#sec-8">推送与对接：Telegram / Email</a></li>
+          <li><a href="#sec-9">Git 与交付</a></li>
+          <li><a href="#sec-10">技能掌握检查表</a></li>
+        </ol>
+      </div>
+
+      <section class="reading-card" aria-labelledby="reading-title">
+        <h2 id="reading-title" class="reading-title">代码阅读进度</h2>
+        <p class="reading-goal">目标：阅读代码量 <strong>2 万行</strong></p>
+        <label class="reading-label" for="readingInput">已阅读（行）</label>
+        <input id="readingInput" class="reading-input" type="number" min="0" step="100" inputmode="numeric"
+          placeholder="例如：3600">
+        <div class="reading-progress" aria-hidden="true">
+          <span id="readingProgressFill" class="reading-progress-fill"></span>
+        </div>
+        <p id="readingSummary" class="reading-summary">0 / 20,000（0.0%）</p>
+      </section>
+    </aside>
+
+    <article class="post">
+      <section id="sec-1" class="post-section">
+        <h2>1) Python 自动化核心包</h2>
+
+        <h3>你要掌握到什么程度</h3>
+        <ul>
+          <li>能写脚本：抓网页/API、处理 JSON/CSV/Excel、写文件、写日志、异常重试、定时执行。</li>
+          <li>能看懂并改 AI 生成代码：尤其是 <code>requests</code> / <code>bs4</code>、数据结构、函数、错误栈。</li>
+        </ul>
+
+        <h3>基础部分（CS50P 已覆盖）</h3>
+        <p>如果你已经学完 CS50P（至少 L1-L6），下面这些基础教程不再作为必学任务：</p>
+        <ul>
+          <li><a href="https://docs.python.org/3/tutorial/" target="_blank" rel="noopener noreferrer">Python
+              官方教程</a>里基础语法章节（Control Flow / Functions / Modules / Input/Output / Exceptions）。</li>
+          <li><a href="https://automatetheboringstuff.com/" target="_blank" rel="noopener noreferrer">Automate the
+              Boring Stuff with Python</a>、<a
+              href="https://www.freecodecamp.org/learn/scientific-computing-with-python/" target="_blank"
+              rel="noopener noreferrer">freeCodeCamp Python</a>、<a href="https://www.py4e.com/" target="_blank"
+              rel="noopener noreferrer">PY4E</a> 的入门部分。</li>
+        </ul>
+
+        <h3>保留：直接支持项目的文档</h3>
+        <div class="split-grid">
+          <section class="mini-card">
+            <h4><a href="https://docs.python.org/3/howto/logging.html" target="_blank"
+                rel="noopener noreferrer">logging</a> / <a href="https://docs.python.org/3/library/csv.html"
+                target="_blank" rel="noopener noreferrer">csv</a> / <a
+                href="https://docs.python.org/3/library/json.html" target="_blank" rel="noopener noreferrer">json</a>
+            </h4>
+            <ul>
+              <li><code>basicConfig</code>、<code>logger</code>、日志级别、写入文件。</li>
+              <li><code>json.load</code> / <code>json.dump</code></li>
+              <li><code>csv.DictReader</code> / <code>csv.DictWriter</code></li>
+            </ul>
+          </section>
+
+          <section class="mini-card">
+            <h4>写脚本必备库文档（学会查，不用背）</h4>
+            <ul>
+              <li><a href="https://requests.readthedocs.io/en/latest/user/quickstart/" target="_blank"
+                  rel="noopener noreferrer"><code>requests</code> Quickstart</a>：会话、超时、headers。</li>
+              <li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank"
+                  rel="noopener noreferrer">BeautifulSoup 官方文档</a>：<code>find</code> / <code>find_all</code>、属性选择、文本提取。
+              </li>
+              <li><a href="https://realpython.com/beautiful-soup-web-scraper-python/" target="_blank"
+                  rel="noopener noreferrer">Real Python 的 bs4 实战</a>：看一遍形成“从 0 到 1”骨架。</li>
+            </ul>
+          </section>
+        </div>
+
+        <p class="note">CS50P 基础已覆盖，重点投入实战文档和后续模块。</p>
+
+        <h3>补强模块：pytest / Selenium</h3>
+        <div class="split-grid">
+          <section class="mini-card">
+            <h4><code>pytest</code>（接口与脚本测试主力）</h4>
+            <ul>
+              <li>先掌握：测试发现、断言、<code>fixture</code>、<code>parametrize</code>、<code>mark</code>。</li>
+              <li>目录建议：<code>tests/api</code>、<code>tests/ui</code>、<code>conftest.py</code>。</li>
+              <li>目标：能把你的核心脚本改成“可回归”的自动化测试。</li>
+            </ul>
+          </section>
+
+          <section class="mini-card">
+            <h4><code>Selenium</code>（只做关键流程 UI 冒烟）</h4>
+            <ul>
+              <li>重点不是全覆盖，而是登录、查询、提交这类关键路径。</li>
+              <li>必须会：显式等待、稳定定位器、失败截图。</li>
+              <li>目标：能解释“为什么 UI 自动化要少而精”。</li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <section id="sec-2" class="post-section">
+        <h2>2) HTTP / JSON / 状态码 / 合规爬取</h2>
+
+        <h3>必学要点</h3>
+        <ul>
+          <li>HTTP：GET/POST、headers、状态码（200/403/404/429/5xx）、超时与重试。</li>
+          <li>JSON：把它当“字典/列表嵌套”处理。</li>
+          <li>合规：优先 RSS/API，尊重 robots.txt，控制频率，不碰登录/付费墙/隐私数据。</li>
+        </ul>
+
+        <h3>推荐资源</h3>
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank"
+              rel="noopener noreferrer">MDN：HTTP 概览</a>（请求-响应、状态码）。</li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON" target="_blank"
+              rel="noopener noreferrer">MDN：JSON 基础</a>（读懂结构）。</li>
+          <li><a href="https://www.rfc-editor.org/rfc/rfc9309" target="_blank" rel="noopener noreferrer">Robots
+              Exclusion Protocol（RFC 9309）</a>：知道 robots 是什么以及为何要尊重。</li>
+          <li><a href="https://automatetheboringstuff.com/2e/chapter12/" target="_blank"
+              rel="noopener noreferrer">Automate the Boring Stuff 爬虫章节</a>：优先 API、结构会变、DevTools 定位元素。</li>
+        </ul>
+
+        <h3>接口自动化与 API 测试框架</h3>
+        <ul>
+          <li>框架建议：<code>pytest + requests</code> 作为主线，先稳再扩展。</li>
+          <li>用例结构：按“鉴权 / 查询 / 创建 / 更新 / 删除 / 异常码”分层组织。</li>
+          <li>断言分层：状态码、响应字段、业务规则（而不只断言 200）。</li>
+          <li>数据治理：测试数据可回收、环境隔离（dev/test/prod 分离）、避免脏数据污染。</li>
+          <li>接口契约：关键接口可加 <code>JSON Schema</code> 或字段完整性校验。</li>
+        </ul>
+
+        <h3>接口自动化资源（按顺序）</h3>
+        <ul>
+          <li><a href="https://docs.pytest.org/en/stable/" target="_blank" rel="noopener noreferrer"><code>pytest</code>
+              官方文档</a>：fixture、参数化、标记、测试组织。</li>
+          <li><a href="https://requests.readthedocs.io/en/latest/user/quickstart/" target="_blank"
+              rel="noopener noreferrer"><code>requests</code> Quickstart</a>：会话、headers、timeout、异常。</li>
+          <li><a href="https://json-schema.org/" target="_blank" rel="noopener noreferrer">JSON Schema</a>：接口返回结构校验思路。
+          </li>
+          <li><a href="https://selenium-python.readthedocs.io/" target="_blank" rel="noopener noreferrer">Selenium with
+              Python</a>：定位器、等待、页面交互。</li>
+        </ul>
+
+        <h3>进阶方向</h3>
+        <ul>
+          <li>JS 逆向、复杂反爬对抗、代理池工程化。</li>
+          <li>Scrapy（除非岗位明确要求）。</li>
+        </ul>
+      </section>
+
+      <section id="sec-3" class="post-section">
+        <h2>3) OpenClaw / Clawbot</h2>
+        <p class="note">
+          目标：能装、能跑、能接渠道、能解释架构、能说安全边界。
+        </p>
+
+        <h3>最小知识图谱</h3>
+        <ul>
+          <li>Onboarding / 安装与基础运行：Node 版本要求、<code>openclaw onboard</code> 流程、Gateway 验证。</li>
+          <li>Gateway / CLI 排障：doctor、迁移/状态检查、日志定位思路。</li>
+          <li>Channels：Telegram 快速落地、WhatsApp 复杂性、allowlist/DM/群组差异。</li>
+          <li>Skills：目录结构、<code>SKILL.md</code>（含 YAML frontmatter）、加载/过滤机制。</li>
+          <li>Sandboxing：Docker 可降低 blast radius，但不是完美边界；默认不开 sandbox 的风险要能讲清。</li>
+        </ul>
+
+        <h3>官方学习入口（顺序）</h3>
+        <ol>
+          <li><a href="https://docs.openclaw.ai/" target="_blank" rel="noopener noreferrer">Docs 首页</a>（当目录）</li>
+          <li><a href="https://docs.openclaw.ai/advanced/channels/" target="_blank" rel="noopener noreferrer">Channels
+              文档</a></li>
+          <li><a href="https://docs.openclaw.ai/advanced/skills/" target="_blank" rel="noopener noreferrer">Skills
+              文档</a></li>
+          <li><a href="https://docs.openclaw.ai/installation/doctor/" target="_blank" rel="noopener noreferrer">Doctor
+              文档</a></li>
+          <li><a href="https://docs.openclaw.ai/advanced/sandboxing/" target="_blank"
+              rel="noopener noreferrer">Sandboxing 文档</a></li>
+          <li><a href="https://github.com/openclaw/openclaw/blob/main/README.md" target="_blank"
+              rel="noopener noreferrer">README</a>（CLI 与架构线索）</li>
+        </ol>
+
+        <h3>安全意识</h3>
+        <p>要能主动说出安全落地原则：最小权限、环境隔离、密钥管理、技能审查、操作审计。</p>
+      </section>
+
+      <section id="sec-4" class="post-section">
+        <h2>4) n8n 工作流编排</h2>
+        <p class="note">典型落地链路：定时触发 → HTTP/API → 处理 → 推送 → 出错告警。</p>
+
+        <h3>核心节点</h3>
+        <ol>
+          <li><strong>Schedule Trigger</strong>：定时任务。</li>
+          <li><strong>HTTP Request</strong>：超时、分页、鉴权。</li>
+          <li><strong>Expressions</strong>：取字段、拼接、日期处理、基础清洗。</li>
+          <li><strong>Code Node</strong>：必要时写少量 JS/Python 做定制处理。</li>
+          <li><strong>Error handling / Error Trigger</strong>：上线流程必须有错误链路。</li>
+        </ol>
+
+        <h3>资源与范围</h3>
+        <ul>
+          <li><a href="https://docs.n8n.io/courses/" target="_blank" rel="noopener noreferrer">官方 Text
+              courses</a>：按需挑主题学习。</li>
+          <li><a href="https://n8n.io/workflows/" target="_blank" rel="noopener noreferrer">项目驱动练习（n8n workflows）</a>：做
+            2-3 个端到端工作流即可，不要陷入超长刷课。</li>
+        </ul>
+
+        <h3>进阶方向</h3>
+        <ul>
+          <li>自定义 Node、n8n 内核、复杂自托管架构。</li>
+          <li>大量 JS 表达式技巧（按需补充，靠搜索补齐）。</li>
+        </ul>
+
+        <h3>安全提醒</h3>
+        <p>控制编辑权限、持续升级版本、生产环境隔离，尤其是涉及 Code Node 的流程。</p>
+      </section>
+
+      <section id="sec-5" class="post-section">
+        <h2>5) LLM API 接入</h2>
+        <p>目标不是训练模型，而是把“采集”变成“可结构化处理的 AI 自动化”。</p>
+
+        <h3>核心能力</h3>
+        <ul>
+          <li>能调用至少一家 API（OpenAI / Claude / Qwen）。</li>
+          <li>能控制成本（截断上下文、只传关键段落）。</li>
+          <li>能输出结构化 JSON，方便入库与推送。</li>
+          <li>理解 function calling / tool use 的基本概念。</li>
+        </ul>
+
+        <div class="split-grid">
+          <section class="mini-card">
+            <h4>OpenAI（如用 OpenAI 生态）</h4>
+            <ul>
+              <li><a href="https://platform.openai.com/docs/quickstart" target="_blank"
+                  rel="noopener noreferrer">Developer Quickstart</a>：先跑通第一条请求。</li>
+              <li><a href="https://github.com/openai/openai-python" target="_blank" rel="noopener noreferrer">Python
+                  SDK</a>：知道如何发请求与取结果。</li>
+              <li><a href="https://platform.openai.com/docs/guides/structured-outputs" target="_blank"
+                  rel="noopener noreferrer">Structured Outputs（重点）</a>：<code>json_schema</code> 或 function calling 严格
+                JSON。</li>
+              <li><a href="https://platform.openai.com/docs/guides/migrate-to-responses" target="_blank"
+                  rel="noopener noreferrer">Responses API 迁移</a>：了解即可。</li>
+            </ul>
+            <ul>
+              <li>旧式 Completions（除非维护遗留项目）。</li>
+              <li>深入流式 / Realtime（短期非刚需）。</li>
+            </ul>
+          </section>
+
+          <section class="mini-card">
+            <h4>Claude / Qwen</h4>
+            <ul>
+              <li><a href="https://docs.anthropic.com/en/docs/build-with-claude/overview" target="_blank"
+                  rel="noopener noreferrer">Claude：Build with Claude 入口</a> 与 <a
+                  href="https://docs.anthropic.com/en/docs/build-with-claude/tool-use" target="_blank"
+                  rel="noopener noreferrer">Tool use 概念</a>。</li>
+              <li><a href="https://www.alibabacloud.com/help/en/model-studio/qwen-api-via-dashscope" target="_blank"
+                  rel="noopener noreferrer">Qwen：DashScope / Model Studio API 参考</a>，跑通一条即可。</li>
+              <li><a href="https://dashscope.console.aliyun.com/" target="_blank" rel="noopener noreferrer">DashScope
+                  API 平台</a>：了解 API 形态和参数风格。</li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+      <section id="sec-6" class="post-section">
+        <h2>6) 定时运行 + 部署 + 运维</h2>
+        <p>不必上 K8s，但要能说明“怎么稳定跑、失败怎么发现”。</p>
+
+        <h3>必须会的 3 件事</h3>
+        <ol>
+          <li>定时运行：cron 或 GitHub Actions schedule（二选一）。</li>
+          <li>日志与告警：logging + 失败推送（Telegram/邮件）或 n8n Error workflow。</li>
+          <li>配置与密钥：<code>.env</code> / 环境变量，不把 key 写死，也不提交 <code>.env</code>。</li>
+        </ol>
+
+        <h3>CI 细节</h3>
+        <ul>
+          <li>触发策略：至少配置 <code>pull_request</code> + <code>push(main)</code> + 可选 <code>schedule</code>。</li>
+          <li>标准步骤：<code>checkout -> setup-python -> install deps -> run pytest</code>。</li>
+          <li>失败可追踪：失败时上传日志/测试报告（artifact），便于复盘。</li>
+          <li>合并门槛：开启 required checks，CI 红灯不允许合并。</li>
+        </ul>
+
+        <h3>资源</h3>
+        <ul>
+          <li><a href="https://crontab.guru/" target="_blank" rel="noopener noreferrer">crontab 五段式语法</a>（每天/每小时任务会写）。
+          </li>
+          <li><a
+              href="https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule"
+              target="_blank" rel="noopener noreferrer">GitHub Actions schedule</a>（UTC、最小间隔等）。</li>
+          <li><a href="https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python"
+              target="_blank" rel="noopener noreferrer">GitHub Actions：Python 构建与测试</a>（官方 workflow 模板）。</li>
+          <li><a
+              href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches"
+              target="_blank" rel="noopener noreferrer">Branch protection / required checks</a>（把 CI 结果变成合并门槛）。</li>
+          <li><a href="https://pypi.org/project/python-dotenv/" target="_blank"
+              rel="noopener noreferrer"><code>python-dotenv</code></a> 与 <a href="https://12factor.net/config"
+              target="_blank" rel="noopener noreferrer">Twelve-Factor Config</a> 原则。</li>
+          <li><a href="https://docs.docker.com/get-started/" target="_blank" rel="noopener noreferrer">Docker 入门</a>（用于
+            sandboxing 或脚本打包部署）。</li>
+          <li><a href="https://csdiy.wiki/%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8/MIT-Missing-Semester/" target="_blank"
+              rel="noopener noreferrer">CSDIY：MIT Missing Semester</a>（Shell/Git/SSH/tmux 工具链）；可配合 <a
+              href="https://missing.csail.mit.edu/2020/" target="_blank" rel="noopener noreferrer">官方课程</a> 与 <a
+              href="https://missing-semester-cn.github.io/" target="_blank" rel="noopener noreferrer">中文站</a>快速补齐工程效率。
+          </li>
+        </ul>
+
+        <h3>进阶方向</h3>
+        <ul>
+          <li>Kubernetes、复杂 CI/CD、服务网格。</li>
+          <li>复杂监控栈（Prometheus/Grafana）。</li>
+        </ul>
+      </section>
+
+      <section id="sec-7" class="post-section">
+        <h2>7) 数据处理：Excel / CSV / SQLite</h2>
+
+        <h3>需要掌握到什么程度</h3>
+        <ul>
+          <li>把采集结果结构化保存（CSV/Excel/SQLite）。</li>
+          <li>完成基础清洗（去重、筛选、排序）。</li>
+          <li>导出日报（Excel 或 Markdown）。</li>
+        </ul>
+
+        <h3>资源</h3>
+        <ul>
+          <li><code>pandas</code>：<a href="https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html"
+              target="_blank" rel="noopener noreferrer"><code>read_excel</code></a> / <a
+              href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html" target="_blank"
+              rel="noopener noreferrer"><code>to_excel</code></a>。</li>
+          <li><a href="https://openpyxl.readthedocs.io/en/stable/" target="_blank"
+              rel="noopener noreferrer"><code>openpyxl</code></a>：需要精细化 Excel 处理再补。</li>
+          <li><a href="https://docs.python.org/3/library/sqlite3.html" target="_blank"
+              rel="noopener noreferrer"><code>sqlite3</code></a>：轻量本地库，适合 Demo 与展示。</li>
+        </ul>
+
+        <h3>进阶方向</h3>
+        <ul>
+          <li>复杂数据分析/机器学习。</li>
+          <li>大数据组件（Spark 等）。</li>
+        </ul>
+      </section>
+
+      <section id="sec-8" class="post-section">
+        <h2>8) 推送与对接：Telegram / Email</h2>
+        <h3>资源</h3>
+        <ul>
+          <li><a href="https://core.telegram.org/bots/api#sendmessage" target="_blank"
+              rel="noopener noreferrer">Telegram Bot API：<code>sendMessage</code></a>（日报推送与失败告警最直接）。</li>
+          <li>Python <a href="https://docs.python.org/3/library/smtplib.html" target="_blank"
+              rel="noopener noreferrer"><code>smtplib</code></a>：邮件推送备选。</li>
+        </ul>
+      </section>
+
+      <section id="sec-9" class="post-section">
+        <h2>9) Git 与交付</h2>
+        <p>交付可维护系统、快速上手、降低管理成本是核心目标。</p>
+
+        <h3>必须会</h3>
+        <ul>
+          <li><code>init</code> / <code>clone</code> / <code>add</code> / <code>commit</code> / <code>push</code></li>
+          <li>查看历史、简单回滚、远程协作。</li>
+          <li>分支提交流程：能在 PR 中解释改动、修复评论、等 CI 通过再合并。</li>
+        </ul>
+
+        <h3>交付证据包</h3>
+        <ul class="check-list">
+          <li>1 页简历，突出核心能力与项目结果指标。</li>
+          <li>可运行仓库 + README（新电脑 10 分钟内跑通）。</li>
+          <li>1 分钟录屏，展示完整闭环，不只展示成功截图。</li>
+          <li>日志与告警截图 + 1 条排障记录（问题-原因-修复-验证）。</li>
+          <li>项目结果量化：吞吐量、失败率、重试成功率、节省人时至少 3 项。</li>
+        </ul>
+
+        <h3>快速上手计划</h3>
+        <ul>
+          <li>首周交付模板：D1 环境与权限，D3 跑通闭环并接入告警，D5 补齐稳定性并交付 Runbook。</li>
+          <li>排障按"复现-定位-修复-回归"四步法系统处理。</li>
+        </ul>
+
+        <h3>学习要点</h3>
+        <ul>
+          <li>动手写代码，不只停留在概念记忆，要有可运行 Demo 和结果指标。</li>
+          <li>掌握完整链路：成功路径 + 失败分支 + 修复过程。</li>
+          <li>每个模块的项目结果要能量化。</li>
+        </ul>
+
+        <h3>资源</h3>
+        <ul>
+          <li><a href="https://csdiy.wiki/%E5%BF%85%E5%AD%A6%E5%B7%A5%E5%85%B7/Git/" target="_blank"
+              rel="noopener noreferrer">CSDIY：Git 学习路径</a>（常用 Git 能力按路线梳理）。</li>
+          <li>Pro Git：<a href="https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository" target="_blank"
+              rel="noopener noreferrer">2.1</a> / <a
+              href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository" target="_blank"
+              rel="noopener noreferrer">2.2</a> / <a
+              href="https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History" target="_blank"
+              rel="noopener noreferrer">2.3</a> / <a href="https://git-scm.com/book/en/v2/Git-Basics-Undoing-Things"
+              target="_blank" rel="noopener noreferrer">2.4</a> / <a
+              href="https://git-scm.com/book/en/v2/Git-Basics-Working-with-Remotes" target="_blank"
+              rel="noopener noreferrer">2.5</a>（建库、提交、历史、撤销、远程）。</li>
+          <li><a href="https://learngitbranching.js.org/" target="_blank" rel="noopener noreferrer">Learn Git
+              Branching</a>：可视化练习分支、合并与回滚。</li>
+          <li><a href="https://chris.beams.io/git-commit" target="_blank" rel="noopener noreferrer">How to Write a Git
+              Commit Message</a>：规范提交信息，提升交付表达。</li>
+          <li><a href="https://docs.github.com/en/get-started/git-basics" target="_blank"
+              rel="noopener noreferrer">GitHub Docs：Git basics</a>（按步骤走一遍）。</li>
+        </ul>
+
+        <h3>进阶方向</h3>
+        <ul>
+          <li>复杂 rebase、深度分支策略、Git hook（短期不值）。</li>
+        </ul>
+      </section>
+
+      <section id="sec-10" class="post-section">
+        <h2>10) 技能掌握检查表</h2>
+        <p>按 1-9 模块逐项自测，检验学习成果。</p>
+
+        <h3>A. Python 自动化核心包</h3>
+        <ul class="check-list">
+          <li>我能写出含 <code>requests + bs4 + try/except + logging</code> 的可运行脚本。</li>
+          <li>我能用 <code>pytest</code> 写基础测试（fixture、参数化、断言）。</li>
+          <li>我能用 Selenium 做关键流程冒烟，并处理等待与截图。</li>
+        </ul>
+
+        <h3>B. HTTP / JSON / 合规爬取</h3>
+        <ul class="check-list">
+          <li>我能解释并处理 200/403/429/5xx，不只看 200。</li>
+          <li>我能写接口自动化用例，覆盖状态码、字段、业务规则三层断言。</li>
+          <li>我知道 robots、ToS、频率控制和数据边界，不碰高风险采集。</li>
+        </ul>
+
+        <h3>C. OpenClaw / Clawbot</h3>
+        <ul class="check-list">
+          <li>我能讲清 Gateway/Channels/Skills，并跑通一个渠道。</li>
+          <li>我会用 doctor / status / 日志做排障。</li>
+          <li>我能说明 sandboxing 的价值和限制。</li>
+        </ul>
+
+        <h3>D. n8n 工作流编排</h3>
+        <ul class="check-list">
+          <li>我会 Schedule Trigger、HTTP Request、Expressions、Error workflow。</li>
+          <li>我能把失败分支显式接入告警而不是静默失败。</li>
+        </ul>
+
+        <h3>E. LLM API 接入</h3>
+        <ul class="check-list">
+          <li>我能跑通至少一家 LLM API 并输出结构化 JSON。</li>
+          <li>我能解释如何做成本控制、降级与不确定性标记。</li>
+        </ul>
+
+        <h3>F. 定时运行 / 部署 / 运维</h3>
+        <ul class="check-list">
+          <li>我能用 cron 或 GitHub Actions schedule 定时执行任务。</li>
+          <li>我会配置 <code>pull_request + push</code> 自动跑 <code>pytest</code>。</li>
+          <li>我会看 CI 失败日志/artifact 并用 required checks 控制合并风险。</li>
+        </ul>
+
+        <h3>G. 数据处理</h3>
+        <ul class="check-list">
+          <li>我能把数据落到 CSV/Excel/SQLite，并做去重与字段规范化。</li>
+          <li>我能解释数据质量校验和增量更新策略。</li>
+        </ul>
+
+        <h3>H. 推送与对接</h3>
+        <ul class="check-list">
+          <li>我能把日报和失败告警推送到 Telegram 或 Email。</li>
+          <li>我能区分业务通知与错误告警，避免信息噪音。</li>
+        </ul>
+
+        <h3>I. Git 与交付</h3>
+        <ul class="check-list">
+          <li>我有完整证据包：1 页简历、可运行仓库、README、录屏、日志与排障记录。</li>
+          <li>我能用量化指标讲项目结果，不只描述过程。</li>
+          <li>我能说出首周交付计划（D1/D3/D5）并给出明确到岗信号。</li>
+          <li>我能讲清失败分支与修复过程，不只展示成功路径。</li>
+          <li>聚焦高度匹配的岗位方向：Python 自动化 / 接口自动化 / 运维自动化。</li>
+        </ul>
+      </section>
+
+    </article>
+  </main>
+  <script>
+    (() => {
+      const daysEl = document.getElementById("countdown-days");
+      const hoursEl = document.getElementById("countdown-hours");
+      const minutesEl = document.getElementById("countdown-minutes");
+      const noteEl = document.getElementById("deadline-note");
+
+      if (!daysEl || !hoursEl || !minutesEl || !noteEl) {
+        return;
+      }
+
+      const now = new Date();
+      const deadline = new Date(now.getFullYear(), now.getMonth(), 24, 0, 0, 0, 0);
+      const deadlineLabel = `${deadline.getMonth() + 1} 月 24 日 00:00`;
+
+      const updateCountdown = () => {
+        const current = new Date();
+        const diffMs = deadline.getTime() - current.getTime();
+
+        if (diffMs <= 0) {
+          daysEl.textContent = "0";
+          hoursEl.textContent = "0";
+          minutesEl.textContent = "00";
+          noteEl.textContent = "已到截止时间，请立刻完成最后收尾并开始复盘。";
+          return;
+        }
+
+        const totalMinutes = Math.floor(diffMs / (1000 * 60));
+        const totalHours = Math.floor(totalMinutes / 60);
+        const days = Math.floor(totalHours / 24);
+        const hours = totalHours % 24;
+        const minutes = totalMinutes % 60;
+
+        daysEl.textContent = String(days);
+        hoursEl.textContent = String(hours).padStart(2, "0");
+        minutesEl.textContent = String(minutes).padStart(2, "0");
+        noteEl.textContent = `距离 ${deadlineLabel} 还剩`;
+      };
+
+      updateCountdown();
+      setInterval(updateCountdown, 30 * 1000);
+    })();
+  </script>
+  <script>
+    (() => {
+      const STORAGE_KEY = "interview_reading_lines_v1";
+      const TARGET = 20000;
+
+      const inputEl = document.getElementById("readingInput");
+      const fillEl = document.getElementById("readingProgressFill");
+      const summaryEl = document.getElementById("readingSummary");
+
+      if (!inputEl || !fillEl || !summaryEl) {
+        return;
+      }
+
+      const sanitizeNonNegativeInt = (value) => {
+        const parsed = Number(value);
+        if (!Number.isFinite(parsed)) return 0;
+        return Math.max(0, Math.floor(parsed));
+      };
+
+      const loadLines = () => {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return 0;
+
+          const parsed = JSON.parse(raw);
+          if (typeof parsed === "object" && parsed !== null && "lines" in parsed) {
+            return sanitizeNonNegativeInt(parsed.lines);
+          }
+          return sanitizeNonNegativeInt(parsed);
+        } catch {
+          return 0;
+        }
+      };
+
+      const formatNumber = (value) => {
+        const num = Number(value);
+        if (!Number.isFinite(num)) return "0";
+        return num.toLocaleString("zh-CN");
+      };
+
+      let readingLines = loadLines();
+
+      const render = () => {
+        const percentRaw = TARGET ? (readingLines / TARGET) * 100 : 0;
+        const percent = Math.max(0, percentRaw);
+
+        summaryEl.textContent = `${formatNumber(readingLines)} / ${formatNumber(TARGET)}（${percent.toFixed(1)}%）`;
+        fillEl.style.width = `${Math.min(percent, 100)}%`;
+        fillEl.classList.toggle("done", readingLines >= TARGET);
+
+        if (document.activeElement !== inputEl) {
+          inputEl.value = String(readingLines);
+        }
+      };
+
+      inputEl.addEventListener("input", () => {
+        readingLines = sanitizeNonNegativeInt(inputEl.value);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(readingLines));
+        render();
+      });
+
+      inputEl.addEventListener("blur", () => {
+        inputEl.value = String(readingLines);
+      });
+
+      render();
+    })();
+  </script>
+</body>
+
+</html>

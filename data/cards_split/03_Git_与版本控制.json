@@ -1,0 +1,152 @@
+[
+  {
+    "id": "git_init_clone",
+    "term": "git init / clone",
+    "category": "Git 与版本控制",
+    "core": "`git init` 建立本地版本库，`git clone` 获取远程历史；它们决定项目历史从哪里开始接轨。",
+    "boundary": "把现有项目直接复制目录继续开发而不保留提交历史，会丢失可追溯性。",
+    "signal": "新项目启动或接手老项目时，第一步就是确认仓库来源和默认分支。",
+    "action": "新建仓库用 `git init`；已有远端用 `git clone <url>`，随后立即执行 `git remote -v` 核对地址。",
+    "aliases": []
+  },
+  {
+    "id": "git_add_commit",
+    "term": "git add / commit",
+    "category": "Git 与版本控制",
+    "core": "`add` 是选择本次提交内容，`commit` 是写入历史快照；两步分离能精确表达一次变更意图。",
+    "boundary": "直接 `git add .` 再提交容易把无关改动打包，后续回滚和 review 都会变难。",
+    "signal": "当 PR 体积失控或 reviewer 看不懂改动范围时，多半是暂存策略有问题。",
+    "action": "先 `git status` 看改动，再按文件 `git add <file>`；提交信息写“动词+对象+原因”。",
+    "aliases": []
+  },
+  {
+    "id": "git_status_diff",
+    "term": "git status / diff",
+    "category": "Git 与版本控制",
+    "core": "`status` 告诉你仓库状态，`diff` 告诉你具体变化；这是提交前自检的最小闭环。",
+    "boundary": "不看 diff 就提交，常见后果是调试代码、临时日志或密钥误入历史。",
+    "signal": "每次 commit 前、每次 rebase 后，都需要用 status/diff 做一次确认。",
+    "action": "执行 `git status`、`git diff`、`git diff --staged` 三连检查，确认后再 commit。",
+    "aliases": []
+  },
+  {
+    "id": "git_log_history",
+    "term": "git log 查看历史",
+    "category": "Git 与版本控制",
+    "core": "`git log` 用于按时间线追踪“谁在什么时候改了什么以及为什么改”，是排障和回溯关键证据。",
+    "boundary": "提交信息随意（如 update/fix）会让 log 失去诊断价值。",
+    "signal": "线上回归后需要定位可疑提交、或者准备变更复盘时，log 是第一入口。",
+    "action": "使用 `git log --oneline --decorate --graph -20` 快速查看主线，再配合 `git show <sha>` 精读单提交。",
+    "aliases": []
+  },
+  {
+    "id": "git_push_pull",
+    "term": "git push / pull",
+    "category": "Git 与版本控制",
+    "core": "`pull` 同步远端变化，`push` 发布本地提交；节奏正确可以减少冲突和返工。",
+    "boundary": "长时间不 pull 会累积大冲突；频繁强推会破坏团队协作稳定性。",
+    "signal": "开始一天开发前、发起 PR 前都应先同步主分支状态。",
+    "action": "执行 `git pull --rebase origin main` 同步后再 `git push origin <branch>`，确保历史线性。",
+    "aliases": []
+  },
+  {
+    "id": "git_branch_basics",
+    "term": "分支创建与切换",
+    "category": "Git 与版本控制",
+    "core": "分支是并行开发隔离机制，让新功能、修复和实验互不干扰。",
+    "boundary": "多人直接在 main 开发会把高风险改动直接暴露给所有人。",
+    "signal": "任何超过 1 小时的开发任务都应在独立分支完成。",
+    "action": "从主分支拉新分支：`git switch main && git pull && git switch -c feat/<topic>`。",
+    "aliases": []
+  },
+  {
+    "id": "git_merge",
+    "term": "合并与冲突解决",
+    "category": "Git 与版本控制",
+    "core": "merge 把两条历史汇合，冲突解决本质上是在代码层做决策并留下可审计记录。",
+    "boundary": "机械接受 ours/theirs 可能“看起来过了”但悄悄丢掉逻辑。",
+    "signal": "分支长期未同步、多人改同一模块时，冲突概率显著上升。",
+    "action": "先在本地 merge 并跑测试；冲突文件逐段比对后再 `git add` + `git commit` 完成合并。",
+    "aliases": []
+  },
+  {
+    "id": "git_pull_request",
+    "term": "Pull Request 流程",
+    "category": "Git 与版本控制",
+    "core": "PR 是协作质量门，目标不是走流程，而是让变更意图、风险和验证证据可被他人快速理解。",
+    "boundary": "只贴“大量代码”不写背景和验证步骤，会把 review 成本转嫁给同事。",
+    "signal": "任何进入主分支的非紧急改动，都应经过 PR 和至少一次有效评审。",
+    "action": "PR 描述固定四段：背景、改动点、验证方式、回滚方案；附关键截图或日志。",
+    "aliases": []
+  },
+  {
+    "id": "git_gitignore",
+    "term": ".gitignore 配置",
+    "category": "Git 与版本控制",
+    "core": "`.gitignore` 用于定义“哪些文件不应进入版本历史”，保护仓库整洁和信息安全。",
+    "boundary": "把已提交的敏感文件写进 ignore 并不会自动从历史移除。",
+    "signal": "项目引入构建产物、临时缓存或本地配置时，应立即更新 ignore 规则。",
+    "action": "先更新 `.gitignore`，再用 `git rm --cached <file>` 清理已追踪文件，最后提交规则变更。",
+    "aliases": []
+  },
+  {
+    "id": "git_reset_revert",
+    "term": "撤销操作 reset / revert",
+    "category": "Git 与版本控制",
+    "core": "`reset` 适合本地历史整理，`revert` 适合公共历史回滚；选择错误会影响协作安全。",
+    "boundary": "在共享分支用 reset 改写历史，会让他人分支出现难解冲突。",
+    "signal": "当你需要“撤销一个已发布错误提交”时，优先考虑 revert。",
+    "action": "本地未推送改动可 `git reset --soft HEAD~1`；已推送改动使用 `git revert <sha>`。",
+    "aliases": []
+  },
+  {
+    "id": "git_stash",
+    "term": "git stash 暂存",
+    "category": "Git 与版本控制",
+    "core": "stash 用于临时封存未完成改动，方便中断当前任务切换到紧急修复。",
+    "boundary": "长期把重要改动放在 stash 容易遗忘，最终形成“隐形分支”。",
+    "signal": "当你还没准备好提交，却必须立刻切换分支处理新任务时。",
+    "action": "`git stash push -m \"wip:<topic>\"` 保存现场；处理完后 `git stash list` + `git stash pop` 恢复。",
+    "aliases": []
+  },
+  {
+    "id": "git_remote",
+    "term": "远程仓库管理",
+    "category": "Git 与版本控制",
+    "core": "remote 定义仓库协作边界（origin/upstream），是同步、提交流向和权限控制的基础。",
+    "boundary": "远端地址配错会导致代码推到错误仓库，带来泄露或流程事故。",
+    "signal": "fork 协作、多远端同步或迁移平台时，必须先梳理 remote 拓扑。",
+    "action": "用 `git remote -v` 审核读写地址；需要修正时执行 `git remote set-url origin <url>`。",
+    "aliases": []
+  },
+  {
+    "id": "git_commit_message",
+    "term": "提交信息规范",
+    "category": "Git 与版本控制",
+    "core": "提交信息是未来排障和审计的索引，写清“做了什么 + 为什么做”能显著降低认知成本。",
+    "boundary": "“update”“fix bug”这类空洞信息在回溯阶段几乎没有价值。",
+    "signal": "当团队开始做 changelog、自动发布或规范化 review 时，message 质量会直接影响效率。",
+    "action": "采用 `type(scope): summary`，正文补充风险和验证方式，例如 `fix(parser): handle empty payload`。",
+    "aliases": []
+  },
+  {
+    "id": "git_tag_release",
+    "term": "标签与版本发布",
+    "category": "Git 与版本控制",
+    "core": "tag 是发布快照锚点，用于把代码状态与可交付版本绑定。",
+    "boundary": "直接用分支名代表版本会让回滚和审计缺乏确定性。",
+    "signal": "每次对外发布、给测试或运营交付可安装包时，都应打明确标签。",
+    "action": "`git tag -a v1.2.0 -m \"release v1.2.0\"` 后 `git push origin v1.2.0`，并在发布说明中引用 tag。",
+    "aliases": []
+  },
+  {
+    "id": "git_workflow_model",
+    "term": "Feature Branch 工作流",
+    "category": "Git 与版本控制",
+    "core": "Feature Branch 工作流把“开发、评审、合并”拆成稳定流程，目标是让主分支始终可发布。",
+    "boundary": "分支生命周期过长会导致集成冲突和上下文丢失。",
+    "signal": "当团队人数增长、需求并行推进时，必须用统一工作流控制节奏。",
+    "action": "小步提交、短分支周期；每天 rebase 主分支一次，完成后通过 PR 合并并及时删除分支。",
+    "aliases": []
+  }
+]

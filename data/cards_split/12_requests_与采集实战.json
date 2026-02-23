@@ -1,0 +1,62 @@
+[
+  {
+    "id": "requests_get_params",
+    "term": "requests.get 与参数传递",
+    "category": "requests 与采集实战",
+    "core": "`requests.get` + `params` 能安全编码查询参数，避免手拼 URL 带来的转义和漏参问题。",
+    "boundary": "字符串拼接查询串容易在空格、中文和特殊字符上出错。",
+    "signal": "做搜索、分页、筛选类请求时，参数编码正确性直接影响结果。",
+    "action": "用 `requests.get(url, params={...}, timeout=10)`；出错时打印 `response.url` 复核最终请求。",
+    "aliases": []
+  },
+  {
+    "id": "requests_post_json",
+    "term": "requests.post 发 JSON",
+    "category": "requests 与采集实战",
+    "core": "`requests.post(json=...)` 会自动序列化并设置 JSON 头，适合提交结构化业务数据。",
+    "boundary": "手动 `data=str(dict)` 常导致服务端解析失败。",
+    "signal": "接口要求 JSON body 且字段较多时，优先使用 `json` 参数。",
+    "action": "调用后先检查 `status_code`，再 `response.json()`；解析失败时落原文日志。",
+    "aliases": []
+  },
+  {
+    "id": "requests_session",
+    "term": "Session 会话复用",
+    "category": "requests 与采集实战",
+    "core": "Session 会复用连接和 cookie，能降低请求开销并保持登录态。",
+    "boundary": "跨任务复用同一 Session 而不清理状态，容易引入串数据问题。",
+    "signal": "需要连续请求同一站点或携带登录态抓取时，Session 是必备。",
+    "action": "按任务创建独立 Session；任务结束显式 `close()`，避免长期连接泄漏。",
+    "aliases": []
+  },
+  {
+    "id": "requests_timeout_retry",
+    "term": "requests 超时与重试实现",
+    "category": "requests 与采集实战",
+    "core": "超时与重试是采集稳定性的底线配置，目标是“快失败、可恢复”。",
+    "boundary": "默认无限等待会让任务卡死，影响整条流水线。",
+    "signal": "外部站点波动或网络抖动频繁时，必须配置 timeout + retry。",
+    "action": "请求统一设置 `timeout=(3,10)`；对可重试错误用指数退避，超过上限进入失败队列。",
+    "aliases": []
+  },
+  {
+    "id": "requests_error_handling",
+    "term": "requests 异常处理",
+    "category": "requests 与采集实战",
+    "core": "异常处理要区分网络错误、超时、状态码错误和解析错误，避免一刀切。",
+    "boundary": "捕获大异常后静默跳过会导致数据缺口难以发现。",
+    "signal": "采集任务“偶尔少数据”时，通常是错误被吞掉了。",
+    "action": "分别捕获 `Timeout/ConnectionError/HTTPError`；记录 URL、参数、状态码和响应摘要。",
+    "aliases": []
+  },
+  {
+    "id": "bs4_find_select",
+    "term": "BeautifulSoup find / select",
+    "category": "requests 与采集实战",
+    "core": "BeautifulSoup 的 `find/select` 分别适合结构明确和 CSS 查询场景，是 HTML 抽取核心工具。",
+    "boundary": "仅靠脆弱层级选择器，页面轻微改版就会全量失效。",
+    "signal": "从页面中抽标题、链接、价格等结构化字段时，通常先从 bs4 开始。",
+    "action": "优先选择稳定属性（id/class/data-*）；抽取后立即做字段完整性校验。",
+    "aliases": []
+  }
+]

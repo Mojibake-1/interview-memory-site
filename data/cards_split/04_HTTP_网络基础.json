@@ -1,0 +1,152 @@
+[
+  {
+    "id": "http_request_response",
+    "term": "HTTP 请求-响应模型",
+    "category": "HTTP / 网络基础",
+    "core": "HTTP 请求-响应模型定义了客户端与服务端的标准交互：请求携带意图，响应返回结果与状态。",
+    "boundary": "把一次 HTTP 调用当“黑盒成功/失败”会漏掉状态码、头部、超时等关键诊断信号。",
+    "signal": "接口对接初期、联调失败或线上 API 异常时，先回到请求-响应基本面排查。",
+    "action": "用 `curl -i <url>` 同时看状态行、响应头和响应体；记录请求参数以便复现。",
+    "aliases": []
+  },
+  {
+    "id": "http_get_post",
+    "term": "GET 与 POST 方法",
+    "category": "HTTP / 网络基础",
+    "core": "GET 通常用于读取资源，POST 用于提交数据或触发处理，语义差异影响缓存、幂等和安全策略。",
+    "boundary": "把“所有操作都用 POST”会增加排障成本，也破坏接口可读性。",
+    "signal": "设计新接口或评审第三方 API 时，方法语义是否匹配是第一检查点。",
+    "action": "读取接口优先 GET，写入接口用 POST/PUT/PATCH；在文档里写明幂等性和重试策略。",
+    "aliases": []
+  },
+  {
+    "id": "http_status_codes",
+    "term": "状态码分类 2xx/3xx/4xx/5xx",
+    "category": "HTTP / 网络基础",
+    "core": "状态码是接口健康信号：2xx 成功，4xx 客户端问题，5xx 服务端故障，3xx 重定向流程。",
+    "boundary": "只看响应体文字忽略状态码，会把权限问题误判成业务逻辑错误。",
+    "signal": "接口调用失败时，优先按状态码分流处理路径，而不是先改业务代码。",
+    "action": "先分三层处理：`>=500` 重试并告警、`4xx` 校验请求、`2xx` 再解析业务字段。",
+    "aliases": []
+  },
+  {
+    "id": "http_headers",
+    "term": "请求头与响应头",
+    "category": "HTTP / 网络基础",
+    "core": "请求头和响应头承载协议元信息，如鉴权、缓存、内容协商和追踪标识。",
+    "boundary": "忽略 headers 会导致“看起来参数对了却仍失败”的隐性问题。",
+    "signal": "遇到 401、跨域、缓存错乱或编码异常时，几乎都要检查头部。",
+    "action": "联调时固定打印 `Authorization/Content-Type/Accept/Set-Cookie` 等关键头。",
+    "aliases": []
+  },
+  {
+    "id": "http_content_type",
+    "term": "Content-Type 与数据格式",
+    "category": "HTTP / 网络基础",
+    "core": "Content-Type 决定消息体解析方式，是客户端与服务端达成格式契约的关键。",
+    "boundary": "请求体是 JSON 却不设 `application/json`，服务端可能按表单解析导致字段全空。",
+    "signal": "接口返回 400 且提示参数缺失时，先确认 Content-Type 与 body 编码是否匹配。",
+    "action": "JSON 请求统一设置 `Content-Type: application/json`，并校验 body 是否为合法 JSON 字符串。",
+    "aliases": []
+  },
+  {
+    "id": "http_json_body",
+    "term": "JSON 请求体与响应体",
+    "category": "HTTP / 网络基础",
+    "core": "JSON body 用结构化键值传输业务数据，便于跨语言互通和字段扩展。",
+    "boundary": "把 JSON 当自由文本拼接，容易引入转义错误和字段类型漂移。",
+    "signal": "当接口需要嵌套对象、数组或可选字段时，应优先采用 JSON body。",
+    "action": "请求前做 schema 校验；响应后先判空再按字段读取，避免直接链式索引崩溃。",
+    "aliases": []
+  },
+  {
+    "id": "http_query_params",
+    "term": "URL 查询参数",
+    "category": "HTTP / 网络基础",
+    "core": "查询参数适合表达筛选、排序、分页等“读取条件”，能让 URL 具备可分享和可复现性。",
+    "boundary": "把敏感信息放到 query 会被日志和浏览器历史长期暴露。",
+    "signal": "当你需要复现某次查询结果时，完整 URL 往往就是最小复现场景。",
+    "action": "分页统一使用 `page/size` 或 `offset/limit`；参数编码用库函数生成，避免手拼 URL。",
+    "aliases": []
+  },
+  {
+    "id": "http_cookie_session",
+    "term": "Cookie 与 Session",
+    "category": "HTTP / 网络基础",
+    "core": "Cookie 在客户端保存会话标识，Session 在服务端保存状态，两者协同实现登录态延续。",
+    "boundary": "把敏感数据直接放 Cookie 而不签名/加密，会带来篡改和泄露风险。",
+    "signal": "遇到“接口在浏览器已登录但脚本请求未登录”时，通常是 Cookie/Session 传递链路断了。",
+    "action": "先抓包确认 `Set-Cookie` 与后续请求 Cookie；跨域场景检查 SameSite 和凭据策略。",
+    "aliases": []
+  },
+  {
+    "id": "http_auth_bearer",
+    "term": "Bearer Token 鉴权",
+    "category": "HTTP / 网络基础",
+    "core": "Bearer Token 鉴权通过 `Authorization` 头传令牌，服务端据此识别调用方身份和权限。",
+    "boundary": "把 token 写死在代码或日志中，常导致凭据泄露与权限滥用。",
+    "signal": "返回 401/403 时，应先验证 token 是否过期、范围是否匹配、头格式是否正确。",
+    "action": "请求头使用 `Authorization: Bearer <token>`；令牌放环境变量并设置轮换周期。",
+    "aliases": []
+  },
+  {
+    "id": "http_rest_convention",
+    "term": "RESTful API 约定",
+    "category": "HTTP / 网络基础",
+    "core": "REST 约定强调“资源 + 方法 + 状态码”的一致表达，让接口直观可预测。",
+    "boundary": "URL 用动词堆砌且状态码乱用，会让客户端无法可靠处理失败场景。",
+    "signal": "设计新服务或重构老接口时，REST 一致性能显著降低协作摩擦。",
+    "action": "资源用名词复数路径，动作靠 HTTP 方法表达；错误返回统一结构（code/message/detail）。",
+    "aliases": []
+  },
+  {
+    "id": "http_api_versioning",
+    "term": "API 版本管理",
+    "category": "HTTP / 网络基础",
+    "core": "API 版本管理用于在演进接口时兼顾新增能力和旧客户端兼容。",
+    "boundary": "直接“无版本破坏式修改”会让存量调用方瞬间失效。",
+    "signal": "当字段语义变更或响应结构重构不可避免时，应先定义版本策略。",
+    "action": "采用路径或 header 版本号（如 `/v1`）；发布前提供迁移说明和双版本并行窗口。",
+    "aliases": []
+  },
+  {
+    "id": "http_cors_basics",
+    "term": "CORS 跨域基础",
+    "category": "HTTP / 网络基础",
+    "core": "CORS 是浏览器侧跨域访问控制机制，决定前端能否读取目标域响应。",
+    "boundary": "把 CORS 当服务端“开放所有来源”开关，会引入安全面暴露。",
+    "signal": "接口在 Postman 正常但浏览器报跨域，基本就是 CORS 配置问题。",
+    "action": "最小化允许域名和方法，必要时只对特定路由放开；调试时同时看预检 OPTIONS 请求。",
+    "aliases": []
+  },
+  {
+    "id": "http_ssl_tls",
+    "term": "HTTPS 与 TLS 基础",
+    "category": "HTTP / 网络基础",
+    "core": "HTTPS 通过 TLS 提供传输加密、身份验证和数据完整性校验，是生产系统默认基线。",
+    "boundary": "把证书问题视为“偶发网络波动”会掩盖中间人风险和配置缺陷。",
+    "signal": "出现证书过期、握手失败或 mixed content 报错时，要从 TLS 链路层排查。",
+    "action": "定期检查证书有效期和链路配置；生产环境强制 HTTPS 并开启 HSTS。",
+    "aliases": []
+  },
+  {
+    "id": "http_devtools",
+    "term": "DevTools 网络面板",
+    "category": "HTTP / 网络基础",
+    "core": "DevTools Network 面板能按时间线还原请求全过程，是前端接口排障效率最高的入口。",
+    "boundary": "只看页面报错弹窗，不看请求详情，会错过关键头部、重定向和缓存信息。",
+    "signal": "页面“看起来没反应”或数据异常时，第一步应抓到失败请求条目。",
+    "action": "按请求名过滤，重点看 Status、Timing、Response、Initiator，并导出 HAR 供后续复盘。",
+    "aliases": []
+  },
+  {
+    "id": "http_curl_basics",
+    "term": "curl 命令基础",
+    "category": "HTTP / 网络基础",
+    "core": "curl 能把页面行为还原成纯协议调用，是接口联调、复现和自动化脚本化的基础工具。",
+    "boundary": "只在浏览器里点点点，不沉淀 curl 命令，会让复现过程不可分享。",
+    "signal": "当你需要向后端证明“同参数仍失败”，curl 是最具说服力的证据格式。",
+    "action": "先用 `curl -i` 验证响应，再补 `-H`、`-d`、`--max-time`；最终把命令存进 runbook。",
+    "aliases": []
+  }
+]

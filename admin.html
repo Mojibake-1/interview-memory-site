@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>卡片后台管理</title>
+  <meta name="description" content="概念卡片后台：新增、编辑、删除。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+
+<body>
+  <header class="hero">
+    <div>
+      <p class="kicker">CARD ADMIN</p>
+      <h1>卡片后台</h1>
+      <p>在这里新增、编辑、删除卡片。保存后前台学习页会立即使用新内容。</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn" href="/index.html">返回学习页</a>
+      <button id="refreshBtn" type="button" class="btn ghost">刷新</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel list-panel">
+      <div class="toolbar">
+        <input id="searchInput" type="search" placeholder="搜索 term/category/关键词">
+        <button id="newBtn" type="button">新增卡片</button>
+      </div>
+      <p id="countText" class="muted">-</p>
+      <div id="cardList" class="card-list"></div>
+    </section>
+
+    <section class="panel form-panel">
+      <h2 id="formTitle">编辑卡片</h2>
+      <p id="statusText" class="muted">-</p>
+
+      <form id="cardForm">
+        <label>
+          ID（可留空自动生成）
+          <input id="idInput" name="id" type="text" placeholder="例如: idempotency">
+        </label>
+
+        <label>
+          概念名 term *
+          <input id="termInput" name="term" type="text" required>
+        </label>
+
+        <label>
+          分类 category *
+          <input id="categoryInput" name="category" type="text" required>
+        </label>
+
+        <label>
+          定义 core *
+          <textarea id="coreInput" name="core" rows="3" required></textarea>
+        </label>
+
+        <label>
+          边界 boundary *
+          <textarea id="boundaryInput" name="boundary" rows="3" required></textarea>
+        </label>
+
+        <label>
+          识别信号 signal *
+          <textarea id="signalInput" name="signal" rows="3" required></textarea>
+        </label>
+
+        <label>
+          落地动作 action *
+          <textarea id="actionInput" name="action" rows="3" required></textarea>
+        </label>
+
+        <label>
+          别名 aliases（逗号分隔）
+          <input id="aliasesInput" name="aliases" type="text" placeholder="例如: 幂等,idempotent,replay-safe">
+        </label>
+
+        <div class="form-actions">
+          <button id="saveBtn" type="submit">保存</button>
+          <button id="deleteBtn" type="button" class="danger" disabled>删除</button>
+          <button id="resetBtn" type="button" class="ghost">清空</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="./src/admin.ts" type="module"></script>
+</body>
+
+</html>

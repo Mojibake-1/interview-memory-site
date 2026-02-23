@@ -1,0 +1,82 @@
+[
+  {
+    "id": "selenium_webdriver",
+    "term": "WebDriver 基础",
+    "category": "Selenium / UI 自动化",
+    "core": "WebDriver 是浏览器自动化控制层，负责驱动页面打开、元素操作和状态读取。",
+    "boundary": "把 UI 自动化当“脚本点点点”而不建稳定抽象，维护成本会持续攀升。",
+    "signal": "需要验证真实用户路径（登录、下单、提交流程）时，WebDriver 才有价值。",
+    "action": "统一初始化 driver、超时和窗口配置；测试结束确保 `quit()` 释放进程。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_locators",
+    "term": "定位器策略 CSS/XPath/ID",
+    "category": "Selenium / UI 自动化",
+    "core": "定位器策略决定用例稳定性，首选语义稳定的 id/data-testid，其次 CSS，最后才是脆弱 XPath。",
+    "boundary": "依赖层级很深的 XPath，页面小改就全量失效。",
+    "signal": "脚本经常报“找不到元素”时，问题通常不在点击逻辑而在定位器设计。",
+    "action": "优先推动前端提供 `data-testid`；为关键元素建立集中式 locator 常量表。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_explicit_wait",
+    "term": "显式等待 WebDriverWait",
+    "category": "Selenium / UI 自动化",
+    "core": "显式等待按条件等待元素状态，能显著降低因异步渲染导致的假失败。",
+    "boundary": "固定 `sleep` 既慢又不稳定，无法适应网络波动。",
+    "signal": "偶发失败集中在页面加载和弹窗出现阶段时，应替换为显式等待。",
+    "action": "使用 `WebDriverWait(driver, 10).until(...)` 等待“可见/可点击/文本出现”等条件。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_implicit_wait",
+    "term": "隐式等待与风险",
+    "category": "Selenium / UI 自动化",
+    "core": "隐式等待是全局查找超时设置，适合兜底，但过度依赖会掩盖性能与同步问题。",
+    "boundary": "把隐式等待设太高会让每次失败都拖很久，诊断效率极低。",
+    "signal": "测试运行时间异常增长时，要检查是否存在过大的 implicit wait。",
+    "action": "隐式等待保持短值（如 1-2 秒），关键场景改用显式等待精确控制。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_screenshots",
+    "term": "失败截图策略",
+    "category": "Selenium / UI 自动化",
+    "core": "失败截图把“测试失败”变成可视证据，便于快速判断是 UI 变化还是脚本问题。",
+    "boundary": "只保留报错堆栈不留截图，会增加跨团队沟通成本。",
+    "signal": "CI 上复现困难的 UI 失败，第一手资料通常就是失败瞬间截图。",
+    "action": "在异常钩子中自动 `save_screenshot`，文件名包含用例名和时间戳并上传 artifact。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_page_object",
+    "term": "Page Object 模式",
+    "category": "Selenium / UI 自动化",
+    "core": "Page Object 把页面结构和操作封装为对象，减少用例层重复选择器和点击逻辑。",
+    "boundary": "把断言和业务流程全塞进 Page Object 会让职责边界模糊。",
+    "signal": "当多个测试反复操作同一页面且改动频繁时，应引入 POM。",
+    "action": "页面类只暴露“意图级方法”（如 `login_as`），断言放在测试层保持可读性。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_headless",
+    "term": "无头浏览器运行",
+    "category": "Selenium / UI 自动化",
+    "core": "无头模式适合 CI 环境自动执行，节省资源并便于容器化运行。",
+    "boundary": "本地调试也强制 headless 会丢失可视观察能力。",
+    "signal": "流水线环境无图形界面时，必须验证 headless 兼容性。",
+    "action": "CI 使用 `--headless=new`；本地复现失败时切回有头模式并录屏。",
+    "aliases": []
+  },
+  {
+    "id": "selenium_test_pyramid",
+    "term": "测试金字塔与 UI 测试定位",
+    "category": "Selenium / UI 自动化",
+    "core": "测试金字塔强调 UI 用例只覆盖关键路径，大量逻辑应由单元和接口测试承担。",
+    "boundary": "把所有测试都堆在 UI 层会慢且脆，反馈周期不可接受。",
+    "signal": "UI 套件越来越慢、失败越来越随机时，说明金字塔倒置了。",
+    "action": "保留少量端到端烟测，把规则校验下沉到 API/单测；按风险分层安排执行频率。",
+    "aliases": []
+  }
+]

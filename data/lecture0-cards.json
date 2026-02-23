@@ -1,0 +1,314 @@
+{
+  "deckId": "cs50p-lecture0",
+  "title": "CS50P L0",
+  "subtitle": "按视频逻辑整理的记忆卡片（共 18 节）",
+  "updatedAt": "2026-02-19",
+  "cards": [
+    {
+      "id": "l0-01",
+      "order": 1,
+      "section": "编程环境与工具",
+      "sectionEn": "Prerequisites & Tools",
+      "core": "写代码要使用文本编辑器而不是排版软件。VS Code 这类工具提供语法高亮、终端和开发辅助，适合编程工作流。",
+      "question": "为什么不能用 Microsoft Word 这类软件写代码？",
+      "quote": "代码不需要加粗、段落排版这些文档能力，关键是纯文本与开发工具支持。",
+      "quoteTime": "10:15",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=615",
+      "expandedAnswer": "Word 的目标是“排版文档”，它会引入格式和自动替换行为，比如智能引号、隐藏格式符，这些都会干扰代码。编程文件本质是纯文本，解释器只关心精确字符。文本编辑器的价值在于减少错误和提升反馈速度：语法提示、括号匹配、终端集成、项目搜索，这些都直接提高学习与调试效率。",
+      "keyPoints": [
+        "代码文件应保持纯文本",
+        "开发工具能降低语法错误率",
+        "选对工具会放大学习效率"
+      ]
+    },
+    {
+      "id": "l0-02",
+      "order": 2,
+      "section": "第一个程序与 print 函数",
+      "sectionEn": "Hello World & print",
+      "core": "`print()` 是 Python 内置函数，用于把内容输出到屏幕。Python 解释器会逐行解释代码并执行。",
+      "question": "计算机只认识 0 和 1，它如何理解 `print(\"hello, world\")`？",
+      "quote": "解释器会把人类可读代码按顺序解释，并转成机器最终可执行的操作。",
+      "quoteTime": "04:06",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=246",
+      "expandedAnswer": "你写的 Python 是高级抽象，CPU 不直接理解。解释器先做词法/语法分析，再在运行时执行相应指令，底层由系统和处理器完成机器级执行。对初学者最重要的是：代码按顺序执行，解释器就是“翻译 + 执行器”，它把你写下的意图一步步落实。",
+      "keyPoints": [
+        "Python 代码是高级语言描述",
+        "解释器负责翻译并执行",
+        "默认执行顺序是自上而下"
+      ]
+    },
+    {
+      "id": "l0-03",
+      "order": 3,
+      "section": "函数、参数与副作用",
+      "sectionEn": "Functions, Arguments, Side Effects",
+      "core": "函数接收参数并执行动作。`print` 的关键特征是产生可观察结果（屏幕输出），这属于副作用。",
+      "question": "在 `print` 场景下，“副作用”到底是什么意思？",
+      "quote": "函数不只会计算返回值，还可能改变外部世界，比如把内容显示在屏幕上。",
+      "quoteTime": "07:00",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=420",
+      "expandedAnswer": "副作用指函数执行后，除了返回值外，还对程序外部状态产生影响，例如打印、写文件、发网络请求。`print` 返回值几乎没用（通常是 `None`），但它的意义在于“显示”。区分“返回值”和“副作用”有助于你写出更可测试、可复用的代码。",
+      "keyPoints": [
+        "副作用是对外部状态的影响",
+        "print 的价值在于输出而非返回值",
+        "返回值与副作用要分开思考"
+      ]
+    },
+    {
+      "id": "l0-04",
+      "order": 4,
+      "section": "Bug 与调试",
+      "sectionEn": "Bugs & Debugging",
+      "core": "语法错误、逻辑错误都很正常。编程的核心能力之一就是定位并修复 bug。",
+      "question": "初学阶段应该如何看待 bug，才不会被打击？",
+      "quote": "错误是学习中的常态，它们是待解决的问题，不是能力失败的证明。",
+      "quoteTime": "07:43",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=463",
+      "expandedAnswer": "Bug 不是“我不适合编程”的证据，而是“反馈信号”。正确心态是：先复现，再缩小范围，再看报错信息，最后验证修复。长期来看，调试能力比一次写对更重要，因为真实工作里大部分时间都在读日志、查原因、修边界。",
+      "keyPoints": [
+        "bug 是学习反馈而非失败标签",
+        "先复现、再定位、后修复",
+        "调试能力是工程核心竞争力"
+      ]
+    },
+    {
+      "id": "l0-05",
+      "order": 5,
+      "section": "输入与变量",
+      "sectionEn": "Input & Variables",
+      "core": "`input()` 读取用户输入，变量用于保存值。`=` 在 Python 里表示赋值，不表示数学上的“相等关系”。",
+      "question": "Python 的 `=` 与数学等号有什么本质区别？",
+      "quote": "`=` 表示把右边结果赋给左边变量，是从右到左的绑定动作。",
+      "quoteTime": "16:49",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=1009",
+      "expandedAnswer": "数学里“=”描述恒等关系；Python 里 `=` 是命令：把一个对象绑定到变量名。比如 `x = x + 1` 在数学里不成立，在编程里却合法，因为意思是“读取旧 x，计算后写回新 x”。判断是否相等要用 `==`，这是两个完全不同的语义层。",
+      "keyPoints": [
+        "`=` 是赋值，不是逻辑判断",
+        "赋值方向是右值到左变量",
+        "判断相等应使用 `==`"
+      ]
+    },
+    {
+      "id": "l0-06",
+      "order": 6,
+      "section": "注释与伪代码",
+      "sectionEn": "Comments & Pseudocode",
+      "core": "注释是给人看的说明，解释器会忽略。伪代码用于在写真实语法前拆解任务步骤。",
+      "question": "既然最终都要写代码，伪代码的战略价值是什么？",
+      "quote": "伪代码能提前搭程序骨架，把大问题拆成可执行的小步骤。",
+      "quoteTime": "22:33",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=1353",
+      "expandedAnswer": "很多卡壳不是语法不会，而是思路混乱。伪代码先把“要做什么”说清，再翻译成语法，能显著降低认知负担。它还可以当沟通媒介：团队先对逻辑达成一致，再进入实现细节，避免在代码层面反复返工。",
+      "keyPoints": [
+        "先想清逻辑，再写语法",
+        "伪代码降低复杂问题难度",
+        "它也是团队沟通的中间层"
+      ]
+    },
+    {
+      "id": "l0-07",
+      "order": 7,
+      "section": "字符串操作与 Print 参数",
+      "sectionEn": "Strings & Parameters",
+      "core": "`print` 可接收多个参数。位置参数按顺序匹配；命名参数如 `sep`、`end` 通过名字指定行为。",
+      "question": "位置参数和命名参数在使用上有什么关键区别？",
+      "quote": "位置参数靠顺序匹配；命名参数是可选配置，按名字传更清晰。",
+      "quoteTime": "40:15",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=2415",
+      "expandedAnswer": "位置参数适合“必须且顺序明确”的输入，写法短但顺序错就会错位。命名参数强调可读性和可维护性，尤其在参数多时更安全。`print('a', 'b', sep='-', end='!')` 这类写法说明：先给核心内容，再用命名参数微调输出格式。",
+      "keyPoints": [
+        "位置参数依赖顺序",
+        "命名参数依赖参数名",
+        "参数多时优先命名参数提升可读性"
+      ]
+    },
+    {
+      "id": "l0-08",
+      "order": 8,
+      "section": "转义字符",
+      "sectionEn": "Escape Characters",
+      "core": "字符串内部若要放同类型引号，需要用反斜杠 `\\` 转义，告诉解释器该字符是字面值。",
+      "question": "字符串里出现同样的引号，解释器怎么知道不是字符串结束？",
+      "quote": "在内部引号前加反斜杠，解释器就把它当普通字符而非结束符。",
+      "quoteTime": "42:39",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=2559",
+      "expandedAnswer": "解释器把引号视为字符串边界符，除非你明确“转义”。`\\\"` 的意思是“这里要一个真正的双引号字符”。同类问题还有换行 `\\\\n`、制表符 `\\\\t`。实践里你也可改用单引号包裹双引号内容，减少转义噪音。",
+      "keyPoints": [
+        "转义用于区分控制符与字面字符",
+        "`\\` 是最常见的转义前缀",
+        "合理选引号能减少转义复杂度"
+      ]
+    },
+    {
+      "id": "l0-09",
+      "order": 9,
+      "section": "格式化字符串",
+      "sectionEn": "f-strings",
+      "core": "f-string 允许在字符串模板中直接嵌入变量与表达式，可读性高且不易出错。",
+      "question": "为什么 f-string 通常比 `+` 拼接或逗号输出更优雅？",
+      "quote": "它用一段模板就表达了输出结构，通常更直观、错误更少。",
+      "quoteTime": "44:50",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=2690",
+      "expandedAnswer": "拼接写法会把“内容”与“连接符”混在一起，读起来费脑。f-string 把目标句子完整保留，只在变量位置开孔，代码和最终输出几乎一一对应。后续需要数值格式化时还能直接加格式说明（如 `:.2f`），一致性更强。",
+      "keyPoints": [
+        "f-string 是模板化表达",
+        "阅读成本低于拼接写法",
+        "可直接承载格式规则"
+      ]
+    },
+    {
+      "id": "l0-10",
+      "order": 10,
+      "section": "字符串方法",
+      "sectionEn": "String Methods",
+      "core": "方法是“挂在对象上的函数”，调用形式是 `对象.方法()`，如 `name.strip()`。",
+      "question": "普通函数和方法在调用语法上有何区别？",
+      "quote": "方法通过“对象名 + 点 + 方法名”调用，功能依赖于对象类型。",
+      "quoteTime": "47:51",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=2871",
+      "expandedAnswer": "`len(name)` 是函数风格；`name.strip()` 是方法风格。方法把“数据”和“可用操作”绑定在一起，语义上更贴近“这个对象能做什么”。字符串方法常返回新字符串而非修改原值，所以链式调用 `name.strip().title()` 很常见。",
+      "keyPoints": [
+        "函数是 `f(x)`，方法是 `x.f()`",
+        "方法依赖对象类型",
+        "字符串方法多返回新值"
+      ]
+    },
+    {
+      "id": "l0-11",
+      "order": 11,
+      "section": "整数与交互模式",
+      "sectionEn": "Integers & Interactive Mode",
+      "core": "Python 交互模式（REPL）输入一行执行一行，适合快速验证语法、运算和小实验。",
+      "question": "交互模式和写 `.py` 文件运行的差异是什么？",
+      "quote": "在解释器里每输入一行几乎立刻得到结果，这就是它的交互性。",
+      "quoteTime": "01:01:45",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=3705",
+      "expandedAnswer": "REPL 优势是反馈快，适合探索和试错；缺点是内容不易组织和复用。脚本文件优势是可保存、可版本管理、可重复运行，也更适合多人协作。学习时建议“REPL 试验 + 文件沉淀”配合使用。",
+      "keyPoints": [
+        "REPL 适合快速实验",
+        "脚本文件适合长期维护",
+        "两者组合能兼顾速度与工程化"
+      ]
+    },
+    {
+      "id": "l0-12",
+      "order": 12,
+      "section": "类型转换与嵌套",
+      "sectionEn": "Type Conversion & Nesting",
+      "core": "`input()` 永远返回字符串。要做数值计算，需用 `int()` 或 `float()` 显式转换。",
+      "question": "为什么输入的是数字，看起来仍被当成文本？如何修复？",
+      "quote": "键盘输入默认是字符串；`int()` 等函数负责把它转换为数值类型。",
+      "quoteTime": "01:06:07",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=3967",
+      "expandedAnswer": "输入阶段解释器只拿到字符序列，它无法默认假设“0012”是整数还是别的标识。显式转换就是告诉程序你期望的数据语义。实务上还要补异常处理（如 `try/except`），因为用户可能输入 `abc`，直接转换会报错。",
+      "keyPoints": [
+        "输入源头是字符流",
+        "类型转换是语义声明",
+        "转换前后要考虑非法输入"
+      ]
+    },
+    {
+      "id": "l0-13",
+      "order": 13,
+      "section": "函数嵌套的执行顺序",
+      "sectionEn": "Execution of Nested Functions",
+      "core": "嵌套调用按“从内到外”求值，最内层函数先执行，结果传给外层函数。",
+      "question": "像 `int(input(...))` 这种嵌套调用，执行顺序如何判断？",
+      "quote": "先看最内层括号，再逐层向外扩展。",
+      "quoteTime": "01:09:10",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=4150",
+      "expandedAnswer": "括号定义了明确优先级：先执行 `input`，得到字符串，再交给 `int`。这和数学表达式先算括号同源。理解这一点能帮助你读懂复杂表达式，并在必要时通过拆行提升可读性。",
+      "keyPoints": [
+        "求值优先看最内层括号",
+        "外层函数消费内层结果",
+        "可读性差时应拆成多行"
+      ]
+    },
+    {
+      "id": "l0-14",
+      "order": 14,
+      "section": "浮点数与精度",
+      "sectionEn": "Floats & Precision",
+      "core": "浮点数在计算机中是有限位二进制表示，很多十进制小数无法被精确存储。",
+      "question": "为什么浮点数无法无限精确地表示数字？",
+      "quote": "内存有限，表示位数有限，很多数字只能近似并在某处舍入。",
+      "quoteTime": "01:22:17",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=4937",
+      "expandedAnswer": "`0.1` 在二进制里往往是无限循环小数，机器只能截断成近似值。于是计算会出现 `0.1 + 0.2` 这类看似“反直觉”的结果。工程上常用格式化输出控制展示，或在金融场景使用 `decimal` 保证更高精度。",
+      "keyPoints": [
+        "浮点误差来自二进制近似",
+        "显示结果与内部存储不完全一致",
+        "高精度场景要选更合适类型"
+      ]
+    },
+    {
+      "id": "l0-15",
+      "order": 15,
+      "section": "数值格式化",
+      "sectionEn": "Number Formatting",
+      "core": "可以用 f-string 格式说明直接控制展示形式，如保留小数位、加千分位。",
+      "question": "不调用 `round` 时，如何用 f-string 控制小数位数？",
+      "quote": "在 f-string 里用类似 `:.2f` 的格式标记即可指定显示位数。",
+      "quoteTime": "01:25:20",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=5120",
+      "expandedAnswer": "`f'{z:.2f}'` 是“输出层格式化”，它改变展示而不一定改变变量本身。`f'{z:,}'` 可加千分位，适合金额和统计值。你可以把 `round` 理解为“得到新数值”，把格式化理解为“控制呈现方式”。",
+      "keyPoints": [
+        "`:.2f` 控制小数显示位数",
+        "格式化强调展示，不等于改原值",
+        "`:,` 适合可读性更高的数字输出"
+      ]
+    },
+    {
+      "id": "l0-16",
+      "order": 16,
+      "section": "自定义函数",
+      "sectionEn": "Defining Functions",
+      "core": "用 `def` 封装重复逻辑。冒号后进入代码块，缩进决定函数体范围。",
+      "question": "`def` 后的冒号和缩进在语义上分别代表什么？",
+      "quote": "冒号表示接下来是代码块；缩进的每一行都属于这个函数定义。",
+      "quoteTime": "01:29:09",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=5349",
+      "expandedAnswer": "Python 用缩进表达结构，而不是花括号。`def hello():` 只是声明入口，真正函数内容是下一层缩进的语句集合。缩进不一致会直接触发语法错误，所以“结构先行”是 Python 写作的基础纪律。",
+      "keyPoints": [
+        "冒号开启代码块语境",
+        "缩进定义函数边界",
+        "一致缩进是 Python 语法硬规则"
+      ]
+    },
+    {
+      "id": "l0-17",
+      "order": 17,
+      "section": "作用域与 Main 函数",
+      "sectionEn": "Scope & Main",
+      "core": "变量只在其定义的作用域内可见。`main` 里定义的变量不会自动暴露给其他函数。",
+      "question": "为什么 `main` 里定义的 `name` 不能直接在 `hello` 里用？",
+      "quote": "作用域决定变量生效边界，变量只在定义它的上下文里存在。",
+      "quoteTime": "01:40:16",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=6016",
+      "expandedAnswer": "每次函数调用都会创建自己的局部命名空间。`main` 的局部变量对 `hello` 不可见，除非作为参数传入，或通过返回值显式传递数据。这个限制其实是优点：减少隐式依赖，让函数更独立、更可测试。",
+      "keyPoints": [
+        "局部变量只在本函数可见",
+        "跨函数传值要靠参数/返回值",
+        "明确作用域能降低耦合"
+      ]
+    },
+    {
+      "id": "l0-18",
+      "order": 18,
+      "section": "返回值",
+      "sectionEn": "Return Values",
+      "core": "`print` 是展示，`return` 是把结果交还调用方。可组合的函数通常依赖返回值而不是直接打印。",
+      "question": "写 `square` 函数时，为什么更推荐 `return` 而不是在函数内部 `print`？",
+      "quote": "返回值可以被其他函数继续使用，打印结果通常只能看见却难以复用。",
+      "quoteTime": "01:44:04",
+      "quoteUrl": "http://www.youtube.com/watch?v=JP7ITIXGpHk&t=6244",
+      "expandedAnswer": "`return` 让函数成为“可组合积木”，你可以把结果继续参与计算、测试、存储或传给别的函数。若函数内部直接 `print`，逻辑就和输出耦合，复用性会下降。工程中常见模式是：函数只返回数据，显示交给调用方决定。",
+      "keyPoints": [
+        "`return` 传递数据，`print` 只做展示",
+        "可组合代码优先返回值",
+        "输出与计算分离更利于维护"
+      ]
+    }
+  ]
+}

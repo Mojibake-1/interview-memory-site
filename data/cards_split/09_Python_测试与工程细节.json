@@ -1,0 +1,58 @@
+[
+  {
+    "id": "python_decorator_basics",
+    "term": "装饰器（Decorator）",
+    "category": "Python 测试与工程细节",
+    "core": "装饰器用于在不改原函数主体的前提下增加横切能力，如日志、鉴权、重试。",
+    "boundary": "装饰器里夹杂业务逻辑会让调用链难以理解。",
+    "signal": "同一前后处理逻辑在多个函数重复出现时，装饰器是更稳的抽象方式。",
+    "action": "先实现无参装饰器，再扩展带参数版本；保留原函数签名和文档信息。",
+    "aliases": [
+      "decorator",
+      "@decorator",
+      "函数包装"
+    ]
+  },
+  {
+    "id": "functools_wraps",
+    "term": "functools.wraps",
+    "category": "Python 测试与工程细节",
+    "core": "`functools.wraps` 用于保留被装饰函数的元数据，保证调试、文档和测试工具行为正常。",
+    "boundary": "不加 wraps 会让函数名、注释、签名丢失，影响追踪和反射。",
+    "signal": "当装饰后的函数在日志里只显示 `wrapper` 时，通常是漏了 wraps。",
+    "action": "在 wrapper 上加 `@wraps(func)`；对依赖签名的框架（如 FastAPI）必须强制使用。",
+    "aliases": [
+      "@wraps",
+      "元信息保留",
+      "functools"
+    ]
+  },
+  {
+    "id": "pytest_mark_parametrize",
+    "term": "pytest 参数化（@pytest.mark.parametrize）",
+    "category": "Python 测试与工程细节",
+    "core": "参数化测试让同一断言逻辑覆盖多组输入，快速提升边界场景覆盖率。",
+    "boundary": "把复杂测试都塞进参数表会降低可读性。",
+    "signal": "当你发现多条测试只差输入输出样本时，应该收敛为参数化。",
+    "action": "使用 `@pytest.mark.parametrize(\"input,expected\", cases)`；失败信息里包含样本标签。",
+    "aliases": [
+      "parametrize",
+      "pytest.mark",
+      "数据驱动测试"
+    ]
+  },
+  {
+    "id": "pytest_fixture_scope",
+    "term": "pytest fixture 与作用域",
+    "category": "Python 测试与工程细节",
+    "core": "fixture scope 决定测试资源复用粒度，直接影响测试速度和隔离性。",
+    "boundary": "作用域设置过大容易引入跨用例污染。",
+    "signal": "测试变慢或互相影响时，先检查 fixture 的创建时机和清理策略。",
+    "action": "默认 `function` 保隔离；确有性能瓶颈再升到 `module/session`，并补 teardown。",
+    "aliases": [
+      "fixture",
+      "scope",
+      "setup teardown"
+    ]
+  }
+]

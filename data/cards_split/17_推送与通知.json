@@ -1,0 +1,72 @@
+[
+  {
+    "id": "telegram_bot_api",
+    "term": "Telegram Bot API 基础",
+    "category": "推送与通知",
+    "core": "Telegram Bot API 提供标准化消息交互能力，是快速搭建通知机器人最常用入口。",
+    "boundary": "把机器人当群发工具而不做权限控制，会引发误发和滥用。",
+    "signal": "当你需要把任务状态推送到即时通讯工具时，Telegram API 可快速落地。",
+    "action": "先用 `getMe` 验证 token，再用测试 chat_id 发送一条最小消息确认链路通。",
+    "aliases": []
+  },
+  {
+    "id": "telegram_send_message",
+    "term": "sendMessage 接口",
+    "category": "推送与通知",
+    "core": "`sendMessage` 是最基础发送接口，关键在于 chat_id 正确、格式可读、失败可重试。",
+    "boundary": "消息模板随意拼接会导致关键信息缺失，值班人员难以判断优先级。",
+    "signal": "告警、日报、任务完成通知等文本场景优先使用 sendMessage。",
+    "action": "统一模板包含标题、摘要、链接、时间；发送失败按 429/5xx 区分退避策略。",
+    "aliases": []
+  },
+  {
+    "id": "telegram_bot_token",
+    "term": "Bot Token 管理",
+    "category": "推送与通知",
+    "core": "Bot Token 等同机器人控制权，管理原则应与生产密钥一致严格。",
+    "boundary": "把 token 放进代码仓库或聊天记录，会被自动扫描并滥用。",
+    "signal": "机器人首次上线和成员扩充阶段最容易发生 token 泄露。",
+    "action": "token 存储在密钥管理系统，泄露后立即 rotate 并审查近 7 天调用日志。",
+    "aliases": []
+  },
+  {
+    "id": "telegram_group_dm",
+    "term": "群组与私信差异",
+    "category": "推送与通知",
+    "core": "群组与私信的 chat_id、权限模型和消息噪声特征不同，发送策略应分开设计。",
+    "boundary": "把高频告警直接推送大群，容易造成信息淹没和告警疲劳。",
+    "signal": "设计通知分层（个人值班 vs 团队广播）时，需先区分群聊和私聊通道。",
+    "action": "高优先级直达值班私聊，汇总类信息发群组；在消息中注明级别与处理人。",
+    "aliases": []
+  },
+  {
+    "id": "email_smtplib",
+    "term": "Python smtplib 发邮件",
+    "category": "推送与通知",
+    "core": "smtplib 适合正式通知和留档场景，可作为 IM 失败时的补充通道。",
+    "boundary": "只依赖单一通道，一旦被限流或网络阻断会失去告警能力。",
+    "signal": "需要对外部客户或管理层发送结构化报告时，邮件仍是主力渠道。",
+    "action": "封装统一发信函数，支持纯文本+HTML；发送后记录 message-id 便于追踪。",
+    "aliases": []
+  },
+  {
+    "id": "notify_message_template",
+    "term": "消息模板设计",
+    "category": "推送与通知",
+    "core": "消息模板统一后，接收方能在 3 秒内判断“发生了什么、多严重、要做什么”。",
+    "boundary": "通知内容冗长且无结构，会让值班人员错过关键动作。",
+    "signal": "多系统共用通知渠道时，模板标准化是降低认知负担的关键。",
+    "action": "模板固定字段：级别、系统、事件、影响、建议动作、链接；避免自由发挥。",
+    "aliases": []
+  },
+  {
+    "id": "notify_throttle",
+    "term": "通知频率控制",
+    "category": "推送与通知",
+    "core": "通知节流通过聚合、去重和冷却窗口控制消息洪峰，保护响应效率。",
+    "boundary": "每条错误都即时报送会导致告警风暴，最终无人处理。",
+    "signal": "同类告警短时间爆发时，必须启用节流策略。",
+    "action": "设置去重键和冷却时间；窗口内只发首条+汇总，窗口结束补发统计。",
+    "aliases": []
+  }
+]

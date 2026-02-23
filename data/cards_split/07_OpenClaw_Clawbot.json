@@ -1,0 +1,138 @@
+[
+  {
+    "id": "openclaw_gateway",
+    "term": "Gateway（控制平面）",
+    "category": "OpenClaw / Clawbot",
+    "core": "Gateway 是控制平面的入口，负责统一鉴权、路由、限流和请求编排，决定系统能否稳定承接多渠道流量。",
+    "boundary": "把网关仅当转发层会遗漏策略控制，后续在每个服务重复实现安全和流控逻辑。",
+    "signal": "当接入来源增多（Web、IM、API）且行为不一致时，优先收敛到 Gateway 统一治理。",
+    "action": "先定义统一请求 envelope（trace_id、tenant、auth）；在网关层落鉴权与限流，再下发到 agent。",
+    "aliases": [
+      "gateway"
+    ]
+  },
+  {
+    "id": "openclaw_channels",
+    "term": "Channels（渠道入口）",
+    "category": "OpenClaw / Clawbot",
+    "core": "Channels 是外部入口适配层，核心任务是把不同平台消息标准化为内部统一事件。",
+    "boundary": "直接在业务逻辑里写平台分支，会让每次新增渠道都改核心代码。",
+    "signal": "同一指令在不同渠道表现不一致、消息字段映射混乱时，要先重构 channel adapter。",
+    "action": "为每个渠道实现 `normalize -> validate -> emit` 三步，并保留原始 payload 便于回放。",
+    "aliases": [
+      "channel",
+      "telegram"
+    ]
+  },
+  {
+    "id": "openclaw_skills",
+    "term": "Skills（技能）",
+    "category": "OpenClaw / Clawbot",
+    "core": "Skills 是可组合能力单元，强调边界清晰、输入输出稳定，便于按任务动态编排。",
+    "boundary": "把所有逻辑塞进单个大技能会降低复用率，也让权限控制变粗糙。",
+    "signal": "当同类任务反复出现且处理步骤稳定时，应抽象成技能而不是复制 prompt。",
+    "action": "每个 skill 明确：触发条件、参数 schema、副作用、失败返回；先做无状态版本再扩展。",
+    "aliases": [
+      "skills"
+    ]
+  },
+  {
+    "id": "openclaw_agent",
+    "term": "Agent",
+    "category": "OpenClaw / Clawbot",
+    "core": "Agent 负责决策和执行闭环：理解意图、选择技能、调用工具、整理结果并反馈。",
+    "boundary": "只让 agent 生成文本而不接入执行链路，会停留在“会说不会做”。",
+    "signal": "当任务需要多步推理与外部操作联动时，应由 agent 统筹而不是脚本硬编码。",
+    "action": "把 agent loop 固化为 `plan -> act -> observe -> revise`，并记录每步决策日志。",
+    "aliases": [
+      "agent"
+    ]
+  },
+  {
+    "id": "openclaw_onboard",
+    "term": "onboard",
+    "category": "OpenClaw / Clawbot",
+    "core": "onboard 的目标是让新环境快速达到“可用、可测、可回滚”，不是只完成安装。",
+    "boundary": "只发安装文档不做验收清单，通常会卡在权限、依赖和环境变量。",
+    "signal": "新成员或新业务线首次接入时，onboard 质量决定首周交付速度。",
+    "action": "准备 one-command 启动脚本 + 验收 checklist（健康检查、示例任务、日志可见、告警可达）。",
+    "aliases": [
+      "onboard"
+    ]
+  },
+  {
+    "id": "openclaw_doctor",
+    "term": "doctor",
+    "category": "OpenClaw / Clawbot",
+    "core": "doctor 是自检入口，用于快速暴露依赖缺失、配置错误和权限问题，缩短故障定位路径。",
+    "boundary": "出问题后再手工排查每一层会把恢复时间拉长。",
+    "signal": "部署后无法正常响应、或“别人能跑我不能跑”时，先跑 doctor。",
+    "action": "doctor 输出按严重级别分组：必修复/建议修复；失败项附可执行修复命令。",
+    "aliases": [
+      "doctor",
+      "自检"
+    ]
+  },
+  {
+    "id": "openclaw_status",
+    "term": "status",
+    "category": "OpenClaw / Clawbot",
+    "core": "status 用于展示系统实时健康状态，包括服务可用性、任务队列、错误率和延迟。",
+    "boundary": "只看进程在不在，而不看成功率和积压量，会错判“看似正常”的隐性故障。",
+    "signal": "运维值班、发布后观测、故障恢复确认都需要 status 做统一入口。",
+    "action": "定义红黄绿阈值并持续上报；status 页面至少包含最近 5 分钟错误率和关键依赖状态。",
+    "aliases": [
+      "status"
+    ]
+  },
+  {
+    "id": "openclaw_dashboard",
+    "term": "dashboard",
+    "category": "OpenClaw / Clawbot",
+    "core": "dashboard 把运行指标、执行记录和异常趋势可视化，帮助团队从“救火”转向“预防”。",
+    "boundary": "只堆图不定义决策阈值，面板再漂亮也无法指导行动。",
+    "signal": "当问题重复出现却难以复盘时，通常是缺乏可用的观测看板。",
+    "action": "先做三块：吞吐、成功率、延迟分位；每块配对应处理动作和责任人。",
+    "aliases": [
+      "dashboard"
+    ]
+  },
+  {
+    "id": "openclaw_dm_pairing",
+    "term": "DM pairing / allowlist",
+    "category": "OpenClaw / Clawbot",
+    "core": "DM pairing / allowlist 用于限制机器人可触达对象，防止误触发扩散和权限越界。",
+    "boundary": "默认放开全量对话会把测试流量与生产流量混在一起，风险不可控。",
+    "signal": "机器人刚上线或能力迭代阶段，必须先在 allowlist 小范围灰度。",
+    "action": "先配白名单账号进行验证；确认稳定后逐步放量，并记录每次放量范围。",
+    "aliases": [
+      "allowlist",
+      "pairing"
+    ]
+  },
+  {
+    "id": "openclaw_sandbox",
+    "term": "Sandboxing",
+    "category": "OpenClaw / Clawbot",
+    "core": "Sandboxing 的本质是把执行能力限制在可控边界内，降低命令执行和数据访问风险。",
+    "boundary": "把沙箱当性能选项而非安全基线，会在异常输入下暴露宿主机。",
+    "signal": "涉及文件系统、shell、网络调用的技能上线前，必须评估沙箱策略。",
+    "action": "默认最小权限：只读文件、受限网络、资源配额；高权限操作走显式审批。",
+    "aliases": [
+      "sandbox"
+    ]
+  },
+  {
+    "id": "openclaw_risk_boundary",
+    "term": "本地 Agent 风险边界",
+    "category": "OpenClaw / Clawbot",
+    "core": "本地 Agent 风险边界定义“能做什么、不能做什么、失败时怎么兜底”，是可上线前提。",
+    "boundary": "只强调效率不定义边界，最终会把单点错误放大成系统事故。",
+    "signal": "当 agent 开始接触真实账户、生产数据或外部系统时，边界文档必须先落地。",
+    "action": "建立风险分级矩阵：读/写/执行三类权限；每类定义审批、审计和回滚机制。",
+    "aliases": [
+      "风险",
+      "本地 agent"
+    ]
+  }
+]

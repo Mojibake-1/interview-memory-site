@@ -1,0 +1,234 @@
+:root {
+  --bg-1: #eef3ea;
+  --bg-2: #e5ece8;
+  --ink: #152620;
+  --muted: #4e665f;
+  --line: #bfd1c7;
+  --mint: #2a8a78;
+  --mint-strong: #1f7061;
+  --red: #b34545;
+  --card: #fffef9;
+  --shadow: 0 12px 34px rgba(21, 38, 32, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 88% 10%, rgba(42, 138, 120, 0.22) 0, transparent 30%),
+    radial-gradient(circle at 10% 90%, rgba(179, 69, 69, 0.16) 0, transparent 35%),
+    linear-gradient(140deg, var(--bg-1), var(--bg-2));
+}
+
+.hero {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 30px 20px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.kicker {
+  margin: 0 0 6px;
+  letter-spacing: 0.11em;
+  color: var(--mint);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.hero p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn,
+button {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--ink);
+  padding: 8px 12px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover,
+button:hover {
+  border-color: var(--mint);
+  color: var(--mint-strong);
+}
+
+button.ghost,
+.btn.ghost {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+button.danger {
+  border-color: rgba(179, 69, 69, 0.45);
+  color: var(--red);
+}
+
+button.danger:hover {
+  border-color: var(--red);
+}
+
+.layout {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 6px 20px 26px;
+  display: grid;
+  grid-template-columns: 420px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.panel {
+  background: linear-gradient(165deg, rgba(255, 255, 255, 0.9), var(--card));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+input,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 68px;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(42, 138, 120, 0.24);
+  border-color: var(--mint);
+}
+
+.muted {
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.card-list {
+  max-height: calc(100vh - 260px);
+  overflow: auto;
+  display: grid;
+  gap: 7px;
+  padding-right: 4px;
+}
+
+.card-item {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.card-item:hover {
+  border-color: var(--mint);
+}
+
+.card-item.active {
+  border-color: #c25a2e;
+  box-shadow: 0 0 0 2px rgba(194, 90, 46, 0.16);
+}
+
+.card-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.card-meta {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.form-panel h2 {
+  margin: 0;
+}
+
+form {
+  display: grid;
+  gap: 10px;
+}
+
+label {
+  display: grid;
+  gap: 5px;
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (max-width: 1000px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .card-list {
+    max-height: 280px;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .btn,
+  .hero-actions button {
+    width: 100%;
+    text-align: center;
+  }
+}

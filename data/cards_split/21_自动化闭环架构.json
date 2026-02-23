@@ -1,0 +1,212 @@
+[
+  {
+    "id": "trigger",
+    "term": "触发器（Trigger）",
+    "category": "自动化闭环架构",
+    "core": "Trigger 定义流程何时启动，是自动化系统节奏控制的起点。",
+    "boundary": "触发条件模糊会导致漏触发或重复触发。",
+    "signal": "任务需要稳定周期或事件驱动时，首先设计 trigger 策略。",
+    "action": "明确触发来源、频率、去重键；触发日志必须可审计。",
+    "aliases": [
+      "trigger",
+      "schedule",
+      "webhook"
+    ]
+  },
+  {
+    "id": "collector",
+    "term": "采集器（Collector）",
+    "category": "自动化闭环架构",
+    "core": "Collector 负责可靠采集原始数据，目标是完整性和可追溯性。",
+    "boundary": "采集阶段直接做重业务加工会放大耦合。",
+    "signal": "外部数据源不稳定时，collector 质量决定后续是否有数据可用。",
+    "action": "采集和加工分离；采集结果先落原始快照并记录来源元信息。",
+    "aliases": [
+      "collector",
+      "采集"
+    ]
+  },
+  {
+    "id": "parser",
+    "term": "解析器（Parser）",
+    "category": "自动化闭环架构",
+    "core": "Parser 把原始数据转为结构化字段，是后续去重、分类、报表的基础。",
+    "boundary": "解析规则散落在多处会造成行为不一致。",
+    "signal": "字段提取错误率上升时，优先检查 parser 规则版本。",
+    "action": "为解析规则建立单测样例库；变更后先回放历史样本验证。",
+    "aliases": [
+      "parser",
+      "解析"
+    ]
+  },
+  {
+    "id": "dedup",
+    "term": "去重模块（Dedup）",
+    "category": "自动化闭环架构",
+    "core": "Dedup 通过业务主键或内容指纹消除重复记录，避免重复处理和重复通知。",
+    "boundary": "仅凭时间窗口去重会漏掉跨窗口重复。",
+    "signal": "出现同一事件多次推送时，说明去重键设计不充分。",
+    "action": "定义稳定去重键（source_id/hash）；写入前先查重并记录命中率。",
+    "aliases": [
+      "去重",
+      "dedup"
+    ]
+  },
+  {
+    "id": "summarizer",
+    "term": "摘要器（Summarizer）",
+    "category": "自动化闭环架构",
+    "core": "Summarizer 把冗长信息压缩为可决策摘要，重点是保留结论与风险。",
+    "boundary": "只追求短文本会丢失关键上下文。",
+    "signal": "输入信息密度高、接收方决策时间短时，摘要能力价值最大。",
+    "action": "输出固定结构：结论、依据、风险、建议动作；长度和字段做自动校验。",
+    "aliases": [
+      "摘要",
+      "summarizer"
+    ]
+  },
+  {
+    "id": "classifier",
+    "term": "分类器（Classifier）",
+    "category": "自动化闭环架构",
+    "core": "Classifier 对事件分级归类，帮助系统按优先级分配处理资源。",
+    "boundary": "分类标签定义含糊会导致路由和告警策略失准。",
+    "signal": "任务量增长后，需要自动分流到不同处理队列。",
+    "action": "先定义标签字典和判定规则，保留人工纠正入口并回流训练样本。",
+    "aliases": [
+      "分类",
+      "标签"
+    ]
+  },
+  {
+    "id": "reporter",
+    "term": "报告器（Reporter）",
+    "category": "自动化闭环架构",
+    "core": "Reporter 负责把处理结果组织成面向人或系统的可消费报告。",
+    "boundary": "报告只堆数据不提结论，读者难以行动。",
+    "signal": "周期汇报或跨团队同步场景中，reporter 决定信息传达效率。",
+    "action": "报告模板固定“摘要-明细-异常-下一步”，支持导出链接和版本记录。",
+    "aliases": [
+      "report",
+      "日报"
+    ]
+  },
+  {
+    "id": "notifier",
+    "term": "通知器（Notifier）",
+    "category": "自动化闭环架构",
+    "core": "Notifier 把关键信号按渠道和优先级送达正确的人，确保事件被及时感知。",
+    "boundary": "通知策略不分级会造成噪音和告警疲劳。",
+    "signal": "系统已具备检测能力但响应仍慢时，通常是通知链路设计问题。",
+    "action": "按严重级别映射不同通道和频率；通知内容附操作入口。",
+    "aliases": [
+      "notify",
+      "推送"
+    ]
+  },
+  {
+    "id": "scheduler",
+    "term": "调度器（Scheduler）",
+    "category": "自动化闭环架构",
+    "core": "Scheduler 管理任务执行顺序和频率，是稳定吞吐和资源利用的关键组件。",
+    "boundary": "无调度策略的并发执行会造成资源争抢和雪崩。",
+    "signal": "任务数量增长、执行时长不均时，需要调度策略兜底。",
+    "action": "为任务设置优先级、并发上限和超时；积压超过阈值自动告警。",
+    "aliases": [
+      "调度",
+      "cron",
+      "schedule"
+    ]
+  },
+  {
+    "id": "alerting",
+    "term": "告警链路（Alerting）",
+    "category": "自动化闭环架构",
+    "core": "告警链路把异常转换为可执行动作，核心是准确、及时、可追踪。",
+    "boundary": "阈值过敏会制造噪声，阈值过宽会漏报。",
+    "signal": "值班响应慢或误报多时，应先优化 alerting 规则。",
+    "action": "按故障级别配置不同阈值和升级路径；告警必须包含定位线索。",
+    "aliases": [
+      "alert",
+      "告警"
+    ]
+  },
+  {
+    "id": "idempotency",
+    "term": "幂等性（Idempotency）",
+    "category": "自动化闭环架构",
+    "core": "幂等性保证同一请求重复执行结果一致，是重试和容灾的基础。",
+    "boundary": "没有幂等键就重试，容易产生重复扣费或重复通知。",
+    "signal": "系统涉及重试、消息重投或网络抖动时，幂等必须前置设计。",
+    "action": "为写操作引入幂等键并持久化状态；重复请求直接返回首次结果。",
+    "aliases": [
+      "幂等",
+      "idempotent"
+    ]
+  },
+  {
+    "id": "retry_backoff",
+    "term": "重试与退避（Retry + Backoff）",
+    "category": "自动化闭环架构",
+    "core": "重试与退避用于提升短暂故障下的成功率，同时避免集中重试压垮下游。",
+    "boundary": "固定间隔重试容易形成请求风暴。",
+    "signal": "第三方 API 偶发超时或 5xx 时，退避重试是有效手段。",
+    "action": "使用指数退避 + 随机抖动，设置最大重试次数和总超时预算。",
+    "aliases": [
+      "retry",
+      "backoff"
+    ]
+  },
+  {
+    "id": "timeout",
+    "term": "超时控制（Timeout）",
+    "category": "自动化闭环架构",
+    "core": "超时控制用于给每步操作设上限，防止单点阻塞拖垮全链路。",
+    "boundary": "默认无超时会导致任务长期挂起且难以恢复。",
+    "signal": "队列积压和任务卡死常与超时配置缺失相关。",
+    "action": "按阶段设置连接/读取/任务总超时；超时后记录上下文并走补偿。",
+    "aliases": [
+      "timeout",
+      "超时"
+    ]
+  },
+  {
+    "id": "rate_limit",
+    "term": "限速（Rate Limit）",
+    "category": "自动化闭环架构",
+    "core": "限速通过控制请求速率保护本系统和下游服务，平衡吞吐与稳定。",
+    "boundary": "不设限速在流量尖峰时容易触发对方封禁。",
+    "signal": "接口频繁返回 429 或资源突增时，需要立即启用限速。",
+    "action": "按租户或任务类型配置令牌桶；超限请求排队或降级。",
+    "aliases": [
+      "限频",
+      "rate limit"
+    ]
+  },
+  {
+    "id": "config_driven",
+    "term": "配置化（Config-driven）",
+    "category": "自动化闭环架构",
+    "core": "配置化让行为参数可调整而无需改代码，提升迭代速度和运营灵活性。",
+    "boundary": "把规则硬编码在逻辑里，每次改策略都要发版。",
+    "signal": "规则变动频繁、不同客户差异明显时，配置化优先。",
+    "action": "把阈值、路由、模板抽成配置文件；配置变更走校验和灰度发布。",
+    "aliases": [
+      "配置化",
+      "config"
+    ]
+  },
+  {
+    "id": "source_adapter",
+    "term": "数据源适配器（Source Adapter）",
+    "category": "自动化闭环架构",
+    "core": "数据源适配器把外部差异封装在边界层，核心流程只处理统一内部模型。",
+    "boundary": "在核心逻辑里写大量 source if/else 会迅速失控。",
+    "signal": "新增数据源成本越来越高时，说明缺少 adapter 抽象。",
+    "action": "定义统一接口（fetch/normalize/healthcheck），每个源单独实现并可独立测试。",
+    "aliases": [
+      "adapter",
+      "source"
+    ]
+  }
+]
