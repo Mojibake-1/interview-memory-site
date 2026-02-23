@@ -6,7 +6,7 @@
   "description": "Interview concept memory site — TypeScript frontend + Go backend",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && rm -rf dist/data && mkdir -p dist && cp -R data dist/",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "start": "npm run build && go build -o interview_site main.go && ./interview_site",
